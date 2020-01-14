@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+
+    <!-- 配置Spring整合shiro -->
+    <!-- 配置安全管理器 -->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <!-- 自定义realm域对象 -->
+        <property name="realm" ref="authRealm" />
+    </bean>
+
+    <!-- 编写realm类 -->
+    <bean id="authRealm" class="util.shiro.AuthRealm" />
+
+    <!-- Spring框架整合Shiro框架 -->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <!-- 安全管理器 -->
+        <property name="securityManager" ref="securityManager" />
+        <!-- 登陆页面 -->
+        <property name="loginUrl" value="/theme/pc/login/index.jsp" />
+        <!-- 认证成功跳转页面 -->
+        <!-- <property name="successUrl" value="/index.jsp" /> -->
+        <!-- 无权限跳转页面 -->
+        <property name="unauthorizedUrl" value="/theme/pc/error/401.jsp" />
+        <!-- 定义访问规则 -->
+        <property name="filterChainDefinitions">
+            <value>
+                <!-- anon:不用认证, authc:需认证 -->
+                /theme/pc/login/index.jsp = anon
+                /anon/** = anon
+                /public/** = anon
+                /**/*.jsp = authc
+                /**/*.do = authc
+                /** = authc
+            </value>
+        </property>
+    </bean>
+
+    <!-- 保证实现了Shiro内部lifecycle函数的bean执行 -->
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+
+    <!-- 生成代理，通过代理进行控制 -->
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" depends-on="lifecycleBeanPostProcessor">
+        <property name="proxyTargetClass" value="true" />
+    </bean>
+
+    <!-- 安全管理器 -->
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="securityManager" />
+    </bean>
+    <!-- 异常处理（无权限） -->
+    <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="exceptionMappings">
+            <props>
+                <prop key="org.apache.shiro.authz.UnauthorizedException">
+                    /theme/pc/error/401.jsp
+                </prop>
+                <prop key="org.apache.shiro.authz.UnauthenticatedException">
+                    redirect:/theme/pc/login/index.jsp
+                </prop>
+            </props>
+        </property>
+        <property name="defaultErrorView" value="/theme/pc/error/error.jsp" />
+        <property name="exceptionAttribute" value="ex" />
+    </bean>
+</beans>

@@ -10,13 +10,13 @@
 <head>
     <title>这里是模板页面</title>
 
-    <link rel="stylesheet" href="/public/jquery-easyui-1.7.0/themes/default/easyui.css"/>
+    <link rel="stylesheet" href="/public/jquery/easyui-1.7.0/themes/default/easyui.css"/>
     <%--<link rel="stylesheet" href="/public/jquery-easyui-1.7.0/themes/black/easyui.css"/>--%>
-    <link rel="stylesheet" href="/public/jquery-easyui-1.7.0/themes/icon.css"/>
+    <link rel="stylesheet" href="/public/jquery/easyui-1.7.0/themes/icon.css"/>
     <link rel="stylesheet" href="/theme/pc/main/res/index.css"/>
 
-    <script type="text/javascript" src="/public/jquery-easyui-1.7.0/jquery.min.js"></script>
-    <script type="text/javascript" src="/public/jquery-easyui-1.7.0/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/public/jquery/easyui-1.7.0/jquery.min.js"></script>
+    <script type="text/javascript" src="/public/jquery/easyui-1.7.0/jquery.easyui.min.js"></script>
     <script type="text/javascript" src="/theme/pc/main/res/index.js"></script>
 </head>
 <body class="easyui-layout">
