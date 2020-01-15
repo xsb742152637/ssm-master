@@ -82,7 +82,7 @@ public class LoginServlet extends HttpServlet {
         }
 
         response.getWriter().print(objectMapper.writeValueAsString(lm));
-        if (lm.error == false) {
+        if (!lm.error) {
             if ("true".equalsIgnoreCase(request.getParameter("autoRedirect"))) {
                 String successUrl = request.getParameter("successUrl");
                 if (StringUtils.isBlank(successUrl) || successUrl.trim().length() == 0) {

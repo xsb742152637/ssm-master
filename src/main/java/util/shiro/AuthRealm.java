@@ -8,6 +8,7 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
+import util.context.Context;
 
 public class AuthRealm extends AuthorizingRealm {
 
@@ -36,8 +37,10 @@ public class AuthRealm extends AuthorizingRealm {
 
         try{
             CoreMemberInfoEntity entity = service.findOne(username,pwd);
-            if(entity != null)
+            if(entity != null){
+                Context.setMember(entity);
                 return new SimpleAuthenticationInfo(token.getPrincipal(), token.getCredentials(), AuthRealm.class.getName());
+            }
         }catch (Exception e){
             e.printStackTrace();
         }
