@@ -16,6 +16,8 @@
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <!-- 自定义realm域对象 -->
         <property name="realm" ref="authRealm" />
+        <!--给shiro添加缓存机制-->
+        <property name="cacheManager" ref="shiroCacheManager"></property>
     </bean>
 
     <!-- 编写realm类 -->
@@ -35,12 +37,13 @@
         <property name="filterChainDefinitions">
             <value>
                 <!-- anon:不用认证, authc:需认证 -->
-                /theme/pc/login/index.jsp = anon
-                /anon/** = anon
-                /public/** = anon
-                /**/*.jsp = authc
-                /**/*.do = authc
-                /** = authc
+                /** = anon
+                <!--/theme/pc/login/index.jsp = anon-->
+                <!--/anon/** = anon-->
+                <!--/public/** = anon-->
+                <!--/**/*.jsp = authc-->
+                <!--/**/*.do = authc-->
+                <!--/** = authc-->
             </value>
         </property>
     </bean>
@@ -69,7 +72,15 @@
                 </prop>
             </props>
         </property>
-        <property name="defaultErrorView" value="/theme/pc/error/error.jsp" />
+        <property name="defaultErrorView" value="500" />
         <property name="exceptionAttribute" value="ex" />
+    </bean>
+
+
+    <!-- shiro整合echcache的缓存配置 -->
+    <!-- 配置Shiro的平台缓存管理 -->
+    <bean id="shiroCacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+        <!-- 注入ehcache的对象 -->
+        <property name="cacheManager" ref="ehCacheManager"/>
     </bean>
 </beans>

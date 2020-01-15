@@ -1,6 +1,6 @@
 package util.context;
 
-import model.memberinfo.entity.CoreMemberInfoEntity;
+import model.core.memberInfo.entity.CoreMemberInfoEntity;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;

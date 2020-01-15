@@ -26,6 +26,7 @@
 
     <script type="text/javascript" src="/public/jquery/easyui-1.7.0/jquery.min.js"></script>
     <script type="text/javascript" src="/public/jquery/easyui-1.7.0/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/public/util/eiis.foundation.js"></script>
     <script type="text/javascript" src="/theme/pc/main/res/index.js"></script>
 
     <master:ContentPlaceHolder id="head"/>
@@ -39,44 +40,45 @@
         </div>
     </div>
     <div class="my-panel-left" data-options="region:'west',collapsible:false,title:'<div><div>菜单</div><div class=\'panel-tool\'><a href=\'javascript:;\' class=\'layout-button-left\'></a></div></div>'" style="border-left: none;border-bottom: none;">
-        <div class="easyui-sidemenu my-menu" data-options="border:false,multiple:false,data:data"></div>
+        <div class="easyui-sidemenu my-menu" data-options="border:false,multiple:false,data:[]"></div>
     </div>
     <div class="my-panel-center" data-options="region:'center'" style="border-right: none;border-bottom: none;">
         <master:ContentPlaceHolder id="body"/>
     </div>
 
     <script type="text/javascript">
-        var data = [{
-            text: '消费单',
-            iconCls: 'icon-sum',
-            state: 'open',
-            children: [{
-                text: 'Option1'
-            },{
-                text: 'Option2'
-            },{
-                text: 'Option3',
-                children: [{
-                    text: 'Option31'
-                },{
-                    text: 'Option32'
-                }]
-            }]
-        },{
-            text: 'Item2',
-            iconCls: 'icon-more',
-            children: [{
-                text: 'Option4'
-            },{
-                text: 'Option5'
-            },{
-                text: 'Option6'
-            }]
-        }];
+//        var data = [{
+//            text: '消费单',
+//            iconCls: 'icon-sum',
+//            state: 'open',
+//            children: [{
+//                text: 'Option1'
+//            },{
+//                text: 'Option2'
+//            },{
+//                text: 'Option3',
+//                children: [{
+//                    text: 'Option31'
+//                },{
+//                    text: 'Option32'
+//                }]
+//            }]
+//        },{
+//            text: 'Item2',
+//            iconCls: 'icon-more',
+//            children: [{
+//                text: 'Option4'
+//            },{
+//                text: 'Option5'
+//            },{
+//                text: 'Option6'
+//            }]
+//        }];
 
         var leftMaxWeight = 200;
         var leftMinWeight = 60;
         $(function(){
+            loadMenuTree();
             $('.my-panel-left').panel('resize', {width: leftMaxWeight});
             $('body').layout('resize');
             $(".my-panel-left").parent().find(".panel-header .panel-tool").on("click",function(){
@@ -89,6 +91,27 @@
             });
         });
 
+        function loadMenuTree(){
+            $.ajax({
+                url: "/core/menuTree/getMenuTree.do",
+                dataType: 'json',
+                type: "POST",
+                success: function (data) {
+                    console.log(data);
+                    $('.my-menu').sidemenu({
+                        data: data,
+                        onSelect: function(item){
+                            console.log("选择");
+                            console.log(item);
+                            window.location.href = item.url;
+                        }
+                    });
+                },
+                error: function (jqXHR) {
+                    console.log(jqXHR);
+                }
+            });
+        }
         function loginout(){
             $.ajax({
                 url: "/anon/logoutServlet",

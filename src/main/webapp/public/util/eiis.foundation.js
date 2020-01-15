@@ -45,6 +45,21 @@ Function.createDelegate = function (instance, method) {
 Function.emptyFunction = Function.emptyMethod = function () {
 }
 
+
+//判断两个数组是否相等
+Function.isEquals = function (arr1, arr2) {
+    var flag = true;
+    if (arr1.length !== arr2.length) {
+        flag = false
+    } else {
+        arr1.forEach(function(item){
+            if (arr2.indexOf(item) === -1) {
+                flag = false
+            }
+        })
+    }
+    return flag;
+}
 String.Empty = "";
 
 /**
@@ -761,6 +776,14 @@ Date.parseDate = function (dateString, formatString) {
 
 };
 
+Date.parseObj = function (obj) {
+    var date = obj.date;
+    var mon = obj.month+1;
+    var year = obj.year+1900;
+    var str = year+"-"+mon+"-"+date+" "+obj.hours+":"+obj.minutes+":"+obj.seconds;
+    return Date.parseDate(str,"yyyy-M-d H:m:s");
+}
+
 /**
  * 实现日期相加
  * @param date:日期
@@ -912,7 +935,64 @@ StringBuilder.prototype = {
         return ret;
     }
 }
-
+/*四舍五入问题*/
+Number.prototype.toFixed = function(s){
+    if(s<0) s=0;
+    var s1 = s+1;
+    var that = this,changenum,index;
+    // 负数
+    if(this < 0)that = -that;
+    changenum = that.toString();
+    changenum = changenum.replace("E",'e');
+    if(changenum.indexOf('e')>0){
+        var k1 = changenum.split('e')[0];
+        var k2 = parseInt(changenum.split('e')[1]);
+        if(k1.indexOf(".")<0){
+            k1 +='.';
+        }
+        if(k2>0){
+            for(var i=0;i<k2+1;i++){
+                k1+='0';
+            }
+            changenum = k1.split(".")[0]+k1.split(".")[1].substr(0,k2)+'.'+k1.split(".")[1].substr(k2);
+        }else if(k2<0){
+            k2 = 0-k2;
+            for(var i=0;i<k2;i++){
+                k1='0'+k1;
+            }
+            var a1 = k1.split(".")[0];
+            var a2 = k1.split(".")[1];
+            changenum = a1.substr(0,a1.length-k2)+'.'+a1.substr(a1.length-k2,k2)+a2;
+        }
+    }
+    if(changenum.indexOf(".")<0){
+        changenum +='.';
+    }
+    for (var i = 0; i < s+1; i++) {
+        changenum = changenum + "0";
+    }
+    var z_l = changenum.indexOf(".");
+    changenum = changenum.replace('.','');
+    changenum = changenum.substr(0,z_l+s)+'.'+changenum.substr(z_l+s,1);
+    var a = parseFloat(changenum)+0.5;
+    var b = parseInt(a).toString();
+    var str;
+    if(s==0){
+        str = b;
+    }else{
+        if( b.length<z_l+s){
+            for(i=b.length;i<z_l+s;i++){
+                b = '0'+b;
+            }
+        }
+        str = b.substring(0,b.length-s)+'.'+b.substring(b.length-s);
+    }
+    if(this<0 && parseFloat(str)!=0){
+        return "-"+str;
+    }else{
+        return str;
+    }
+}
 /**
  * 给js增加ArrayList集合对象
  */
@@ -1142,3 +1222,4 @@ var HashMap = function () {
     };
 }
 //})();
+

@@ -1,6 +1,6 @@
-package model.memberinfo.dao;
+package model.core.memberInfo.dao;
 
-import model.memberinfo.entity.CoreMemberInfoEntity;
+import model.core.memberInfo.entity.CoreMemberInfoEntity;
 import org.apache.ibatis.annotations.Param;
 
 public interface CoreMemberInfoDao{

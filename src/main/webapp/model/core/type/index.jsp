@@ -5,18 +5,31 @@
   Time: 13:44
   To change this template use File | Settings | File Templates.
 --%>
+<%@ taglib prefix="master" uri="util.masterPage" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>我是type</title>
-    <link rel="stylesheet" href="index.css"/>
 
-    <script type="text/javascript" src="/public/jquery-easyui-1.7.0/jquery.min.js"></script>
-    <script type="text/javascript" src="index.js"></script>
-</head>
-<body>
-    <div class="tt">
-        我是type啊
-    </div>
-</body>
-</html>
+<%
+    String menuCode = "type";
+//    if(true){
+//        TypeSelectEntity pse = AppTypeDetailService.getInstance().getTypeSelect(menuCode,"");
+//        List<AppTypeDetailEntity> doingList = pse.getDoingList();
+//        request.getRequestDispatcher(doingList.get(0).getDetailValue()).forward(request,response);
+//        return;
+//    }
+//    CoreMenuTreeInfoEntity menuTree = Context.getMenuTree(menuCode);
+//    String title = menuTree.getTitle();
+    String title = "type";
+%>
+<master:ContentPage>
+    <master:Content contentPlaceHolderId="title"><%=title%></master:Content>
+    <master:Content contentPlaceHolderId="head">
+        <style>
+            h4{
+                color: blue;
+            }
+        </style>
+    </master:Content>
+    <master:Content contentPlaceHolderId="body">
+        <h4>这里是type</h4>
+    </master:Content>
+</master:ContentPage>

@@ -1,4 +1,4 @@
-package model.memberinfo.entity;
+package model.core.memberInfo.entity;
 
 import javax.persistence.*;
 import java.sql.Blob;

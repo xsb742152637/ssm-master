@@ -1,8 +1,8 @@
-package model.memberinfo.service.impl;
+package model.core.memberInfo.service.impl;
 
-import model.memberinfo.dao.CoreMemberInfoDao;
-import model.memberinfo.entity.CoreMemberInfoEntity;
-import model.memberinfo.service.CoreMemberInfoService;
+import model.core.memberInfo.dao.CoreMemberInfoDao;
+import model.core.memberInfo.entity.CoreMemberInfoEntity;
+import model.core.memberInfo.service.CoreMemberInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

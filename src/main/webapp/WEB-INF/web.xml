@@ -11,16 +11,18 @@
     <welcome-file>/theme/pc/main/index.jsp</welcome-file>
   </welcome-file-list>
 
-
-  <!--过滤-->
-  <filter>
-    <filter-name>context-init</filter-name>
-    <filter-class>util.filter.ContextInitFilter</filter-class>
-  </filter>
-  <filter-mapping>
-    <filter-name>context-init</filter-name>
-    <url-pattern>*</url-pattern>
-  </filter-mapping>
+  <error-page>
+    <error-code>401</error-code>
+    <location>/theme/pc/error/401.jsp</location>
+  </error-page>
+  <error-page>
+    <error-code>404</error-code>
+    <location>/theme/pc/error/404.jsp</location>
+  </error-page>
+  <error-page>
+    <error-code>500</error-code>
+    <location>/theme/pc/error/500.jsp</location>
+  </error-page>
 
   <!-- Shiro核心控制器，表示由spring管理生命周期 -->
   <filter>
@@ -34,6 +36,16 @@
   <filter-mapping>
     <filter-name>shiroFilter</filter-name>
     <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <!--过滤-->
+  <filter>
+    <filter-name>context-init</filter-name>
+    <filter-class>util.filter.ContextInitFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>context-init</filter-name>
+    <url-pattern>*</url-pattern>
   </filter-mapping>
 
   <!-- 如果是用mvn命令生成的xml，需要修改servlet版本为3.1 -->

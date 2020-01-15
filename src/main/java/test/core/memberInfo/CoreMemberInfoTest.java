@@ -1,7 +1,7 @@
-package test.core.memberinfo;
+package test.core.memberInfo;
 
-import model.memberinfo.entity.CoreMemberInfoEntity;
-import model.memberinfo.service.CoreMemberInfoService;
+import model.core.memberInfo.entity.CoreMemberInfoEntity;
+import model.core.memberInfo.service.CoreMemberInfoService;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import test.BaseTest;

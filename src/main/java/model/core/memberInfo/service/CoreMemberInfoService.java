@@ -1,6 +1,6 @@
-package model.memberinfo.service;
+package model.core.memberInfo.service;
 
-import model.memberinfo.entity.CoreMemberInfoEntity;
+import model.core.memberInfo.entity.CoreMemberInfoEntity;
 
 public interface CoreMemberInfoService {
     /**

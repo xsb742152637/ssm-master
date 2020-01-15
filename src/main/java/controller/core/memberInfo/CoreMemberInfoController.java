@@ -1,7 +1,7 @@
-package controller.core.memberinfo;
+package controller.core.memberInfo;
 
-import model.memberinfo.entity.CoreMemberInfoEntity;
-import model.memberinfo.service.CoreMemberInfoService;
+import model.core.memberInfo.entity.CoreMemberInfoEntity;
+import model.core.memberInfo.service.CoreMemberInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Controller
-@RequestMapping("/core/memberinfo")
+@RequestMapping("/core/memberInfo")
 public class CoreMemberInfoController extends GenericController {
     @Autowired
     private CoreMemberInfoService mainService;
@@ -23,6 +23,6 @@ public class CoreMemberInfoController extends GenericController {
         CoreMemberInfoEntity entity = mainService.findOne(account,password);
         System.out.println("CoreMemberInfoController: " + entity.getMemberName());
         logger.debug("查询成员");
-        return returnString(entity);
+        return returnStringByMap(entity);
     }
 }

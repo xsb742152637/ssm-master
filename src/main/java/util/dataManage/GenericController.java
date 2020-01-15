@@ -1,5 +1,6 @@
 package util.dataManage;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -55,8 +56,11 @@ public class GenericController {
         return result;
     }
 
-    public static String returnString(Object obj) {
+    public static String returnStringByMap(Object obj) {
         return JSONObject.fromObject(obj).toString();
+    }
+    public static String returnStringByList(Object obj) {
+        return JSONArray.fromObject(obj).toString();
     }
 
     //操作成功的返回
