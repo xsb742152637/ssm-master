@@ -26,8 +26,10 @@ public class AuthRealm extends AuthorizingRealm {
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         if ("谢世兵".equals(member.getMemberName())) {
             //获取所有权限集合，循环添加
-            info.addStringPermission("/core/*");
+            //info.addStringPermission("/core/*");
+            info.addStringPermission("user:add");
             //获取所有角色集合，循环添加
+            info.addRole("admin");
             info.addRole("经理");
         } else {
             //根据用户去查找用户所有的权限，循环添加
@@ -53,7 +55,7 @@ public class AuthRealm extends AuthorizingRealm {
                 throw new LockedAccountException();
             }else{
                 Context.setMember(entity);
-                return new SimpleAuthenticationInfo(token.getPrincipal(), token.getCredentials(), AuthRealm.class.getName());
+                return new SimpleAuthenticationInfo(entity, token.getCredentials(), AuthRealm.class.getName());
             }
         }catch (Exception e){
             e.printStackTrace();

@@ -1,5 +1,6 @@
 package util.filter;
 
+import org.apache.shiro.SecurityUtils;
 import util.context.Context;
 
 import javax.servlet.*;
@@ -30,13 +31,14 @@ public class ContextInitFilter implements Filter {
             if(httpServletRequest.getMethod().equalsIgnoreCase("OPTIONS")){
                 return;
             }
-
             Context.createContext(httpServletRequest,(HttpServletResponse) response);
-            if(Context.getMember() == null){
-                //System.out.println("请登录");
+            if (SecurityUtils.getSubject().isAuthenticated()) {//已登录
+                //判断登录是否超时
+
             }else{
-                //System.out.println("当前登录成员: " + Context.getMember().getMemberName());
+                System.out.println("请登录");
             }
+
             chain.doFilter(httpServletRequest, httpServletResponse);
         }catch (Exception e){
             e.printStackTrace();

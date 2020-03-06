@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ taglib prefix="master" uri="util.masterPage" %>
+<%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     String memberName = "";
@@ -35,8 +36,11 @@
 <body class="easyui-layout">
     <div class="my-panel-top" data-options="region:'north',border:false,collapsible:false" style="height:50px;">
         <div style="text-align: right">
-            <span><%=memberName%></span>
-            <button onclick="loginout()">退出</button>
+            <shiro:user>
+                欢迎[<shiro:principal property="memberName"/>]登录，<button onclick="loginout()">退出</button>
+            </shiro:user>
+            <%--<span><%=memberName%></span>--%>
+
         </div>
     </div>
     <div class="my-panel-left" data-options="region:'west',collapsible:false,title:'<div><div>菜单</div><div class=\'panel-tool\'><a href=\'javascript:;\' class=\'layout-button-left\'></a></div></div>'" style="border-left: none;border-bottom: none;">

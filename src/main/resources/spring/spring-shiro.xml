@@ -33,17 +33,25 @@
         <!-- <property name="successUrl" value="/index.jsp" /> -->
         <!-- 无权限跳转页面 -->
         <property name="unauthorizedUrl" value="/theme/pc/error/401.jsp" />
+        <property name="filters">
+            <map>
+                <!-- 将自定义 的FormAuthenticationFilter注入shiroFilter中-->
+                <entry key="defaultPermission">
+                    <bean class="util.shiro.permission.DefaultPermissionFilter"/>
+                </entry>
+            </map>
+        </property>
         <!-- 定义访问规则 -->
         <property name="filterChainDefinitions">
             <value>
                 <!-- anon:不用认证, authc:需认证 -->
-                /** = anon
-                <!--/theme/pc/login/index.jsp = anon-->
-                <!--/anon/** = anon-->
-                <!--/public/** = anon-->
-                <!--/**/*.jsp = authc-->
-                <!--/**/*.do = authc-->
-                <!--/** = authc-->
+                <!--/** = anon-->
+                /theme/pc/login/index.jsp = anon
+                /anon/** = anon
+                /public/** = anon
+                /**/*.jsp = authc,defaultPermission
+                /**/*.do = authc,defaultPermission
+                /** = authc
             </value>
         </property>
     </bean>
