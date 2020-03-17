@@ -1,4 +1,4 @@
-package util;
+package util.message;
 
 import java.awt.*;
 
