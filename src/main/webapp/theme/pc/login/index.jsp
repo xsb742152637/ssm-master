@@ -12,7 +12,6 @@
     }
 
     String successUrl = "/theme/pc/index.jsp";
-    System.out.println("aaa");
 %>
 <html>
 <head>

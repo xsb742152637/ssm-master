@@ -17,4 +17,7 @@
         where a.IS_SHOW=1
         order by a.OUTLINE_LEVEL,a.MENU_LEVEL
     </select>
+    <select id="findOneByCode" resultType="CoreMenuTreeInfoEntity" parameterType="String">
+        select a.* from core_menu_tree_info a join core_menu_url_info b on a.URL_ID=b.URL_ID where b.CODE=#{code}
+    </select>
 </mapper>

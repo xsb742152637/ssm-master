@@ -1,10 +1,11 @@
 package model.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.sf.json.JSONObject;
+import model.core.memberInfo.service.CoreMemberInfoService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -14,6 +15,8 @@ import java.io.IOException;
 
 
 public class LoginServlet extends HttpServlet {
+    @Autowired
+    private CoreMemberInfoService service;
 
     static class LoginMessage {
         public String mes;
@@ -90,7 +93,6 @@ public class LoginServlet extends HttpServlet {
                     successUrl = "/theme/pc/index.jsp";
                 }
                 response.sendRedirect(successUrl);
-                System.out.println("跳转");
             }
 
         }

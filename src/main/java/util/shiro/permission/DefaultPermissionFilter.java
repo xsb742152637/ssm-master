@@ -22,21 +22,25 @@ public class DefaultPermissionFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         // TODO Auto-generated method stub
+        try{
+            //得到当前请求的路径
+            ShiroHttpServletRequest shiroHttpServletRequest = (ShiroHttpServletRequest) request;
+            String url = shiroHttpServletRequest.getRequestURI();
 
-        //得到当前请求的路径
-        ShiroHttpServletRequest shiroHttpServletRequest = (ShiroHttpServletRequest) request;
-        String url = shiroHttpServletRequest.getRequestURI();
+            System.out.println("验证请求:" + url);
+            //判断当前请求是否有权限,待完善
+            boolean hasPermission = true;
 
-        System.out.println("验证请求:" + url);
-        //判断当前请求是否有权限,待完善
-        boolean hasPermission = true;
-
-        if (hasPermission) {
-            request.getRequestDispatcher(url).forward(request, response);
-        } else {
-            request.getRequestDispatcher("/theme/pc/error/401.jsp").forward(request, response);
-            //WebUtils.toHttp(response).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            if (hasPermission) {
+                request.getRequestDispatcher(url).forward(request, response);
+            } else {
+                request.getRequestDispatcher("/theme/pc/error/401.jsp").forward(request, response);
+                //WebUtils.toHttp(response).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
+
     }
 
     @Override

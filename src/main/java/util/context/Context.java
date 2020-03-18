@@ -1,6 +1,11 @@
 package util.context;
 
 import model.core.memberInfo.entity.CoreMemberInfoEntity;
+import model.core.menuTree.entity.CoreMenuTreeInfoEntity;
+import model.core.menuTree.service.CoreMenuTreeService;
+import model.core.menuTree.service.impl.CoreMenuTreeServiceImpl;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -10,81 +15,89 @@ import java.lang.reflect.Modifier;
 import java.nio.charset.Charset;
 
 public class Context {
-    private static HttpServletRequest request;
-    private static HttpServletResponse response;
+    private HttpServletRequest request;
+    private HttpServletResponse response;
 
     private Context(HttpServletRequest request,HttpServletResponse response){
         this.request = request;
         this.response = response;
     }
 
-    public static Context createContext(HttpServletRequest request, HttpServletResponse response){
-        return new Context(request,response);
+    //
+    private static final ThreadLocal<Context> actionContext = new ThreadLocal<Context>();
+    public static Context getCurrent() {
+        return (Context) actionContext.get();
+    }
+
+    public static Context createContext(HttpServletRequest request, HttpServletResponse response) {
+        Context c = new Context(request, response);
+        actionContext.set(c);
+        return c;
     }
 
     //-------------------成员相关------------------------------
-    private static CoreMemberInfoEntity member = null;//当前登录用户
-    private static String MEMBER_SESSION_KEY = "member";
-    public static CoreMemberInfoEntity getMember(){
-//        if(member == null)
-//            member = (CoreMemberInfoEntity) getSession(MEMBER_SESSION_KEY);
-        return member;
+    private  CoreMemberInfoEntity member = null;//当前登录用户
+    public CoreMemberInfoEntity getMember(){
+        if(member == null){
+            if (SecurityUtils.getSubject().isAuthenticated()) {
+                try {
+                    this.member = (CoreMemberInfoEntity) SecurityUtils.getSubject().getPrincipal();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return this.member;
     }
-    public static void setMember(CoreMemberInfoEntity mem){
-        member = mem;
-//        setSession(MEMBER_SESSION_KEY,member);
-    }
-
 
     //-------------------菜单相关------------------------------
 
-//    private static CoreMenuTreeInfoEntity app = null;//当前访问页面
-//    private static String APP_SESSION_KEY = "app";
-//    public static CoreMenuTreeInfoEntity getMenuTree(String code){
-////        if(app == null){
-////            app = (CoreMenuTreeInfoEntity) getSession(APP_SESSION_KEY);
-////        }
-//        if(app == null){
-//            app = CoreMenuTreeService.getInstance().findOneByCode(code);
-//        }if(app == null){
-//            CoreMenuTreeInfoEntity entity = new CoreMenuTreeInfoEntity();
-//            entity.setTitle("");
-//            entity.setMenuId("");
-//            entity.setIcon("");
-//            entity.setUrlId("");
-//            return entity;
-//        }else{
-////            setSession(APP_SESSION_KEY,app);
-//        }
-//        return app;
-//    }
-//    public static void setMenuTree(CoreMenuTreeInfoEntity entity){
-//        app = entity;
-//    }
+    private CoreMenuTreeInfoEntity menu = null;//当前访问页面
+    public CoreMenuTreeInfoEntity getMenuTree(){
+        return this.menu;
+    }
+    public static CoreMenuTreeInfoEntity getMenuTree(String code){
+        return getMenuTree(code,true);
+    }
+    public static CoreMenuTreeInfoEntity getMenuTree(String code,boolean isCurrent){
+        CoreMenuTreeInfoEntity menu = null;
+        if(menu == null){
+            menu = CoreMenuTreeServiceImpl.getInstance().findOneByCode(code);
+        }if(menu == null){
+            CoreMenuTreeInfoEntity entity = new CoreMenuTreeInfoEntity();
+            entity.setTitle("");
+            entity.setMenuId("");
+            entity.setIcon("");
+            entity.setUrlId("");
+            return entity;
+        }
+        if(isCurrent)
+            Context.getCurrent().setMenuTree(menu);
+        return menu;
+    }
+    public void setMenuTree(CoreMenuTreeInfoEntity menu){
+        this.menu = menu;
+    }
 
     //-------------------session相关------------------------------
 
-    public static Object getSession(String key) {
-        if(request != null){
-            return request.getSession().getAttribute(key);
-        }
-        return null;
-    }
-    public static void setSession(String key,Object o){
-        if(request != null){
-            request.getSession().setAttribute(key,o);
-        }
+    public static Session getSession() {
+        return SecurityUtils.getSubject().getSession();
     }
 
-    public static HttpServletRequest getRequest() {
-        return request;
+
+    public HttpServletRequest getRequest() {
+        return this.request;
     }
 
-    public static HttpServletResponse getResponse() {
-        return response;
+    public HttpServletResponse getResponse() {
+        return this.response;
     }
 
-    private static boolean isPC(String agent) {
+    public boolean isPhone(){
+        return !isPC(getRequest().getHeader("user-agent"));
+    }
+    private boolean isPC(String agent) {
 
         String[] keywords = new String[]{
                 "Windows NT",
@@ -100,21 +113,6 @@ public class Context {
         return false;
 
     }
-    public static boolean isPhone(){
-        return !isPC(getRequest().getHeader("user-agent"));
-    }
-
-
-    private static ServletContext _servletContext = null;
-
-    static void setServletContext(ServletContext servletContext) {
-        _servletContext = servletContext;
-    }
-
-    public static ServletContext getServletContext() {
-        return _servletContext;
-    }
-
 
     private static Charset _charset = null;
 
@@ -165,7 +163,7 @@ public class Context {
         return _charset;
     }
 
-    public static String getRequestPath(){
+    public String getRequestPath(){
         return getRequest().getRequestURI();
     }
 }

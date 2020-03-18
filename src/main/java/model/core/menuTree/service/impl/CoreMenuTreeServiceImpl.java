@@ -1,18 +1,29 @@
 package model.core.menuTree.service.impl;
 
 import model.core.menuTree.dao.CoreMenuTreeDao;
+import model.core.menuTree.entity.CoreMenuTreeInfoEntity;
 import model.core.menuTree.service.CoreMenuTreeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import util.context.ApplicationContext;
 import util.dataManage.GenericService;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class CoreMenuTreeServiceImpl extends GenericService implements CoreMenuTreeService {
     @Autowired
     private CoreMenuTreeDao dao;
+    /**
+     * 获取实例
+     */
+    public static CoreMenuTreeServiceImpl getInstance() {
+        return ApplicationContext.getCurrent().getBean(CoreMenuTreeServiceImpl.class);
+    }
+
 
     //@Cacheable(value = "cacheManager", key = "'CoreMenuTreeServiceImpl.getMenuTree'")
     @Override
@@ -54,4 +65,16 @@ public class CoreMenuTreeServiceImpl extends GenericService implements CoreMenuT
         return listR;
     }
 
+    @Override
+    public CoreMenuTreeInfoEntity findOneByCode(String code){
+        List<CoreMenuTreeInfoEntity> list = dao.findOneByCode(code);
+        if(list != null && list.size() > 0){
+            if(list.size() > 1)
+                System.out.println("菜单code："+code+"重复了。");
+            return list.get(0);
+        }else{
+            System.out.println("菜单code："+code+"没有找到。");
+            return null;
+        }
+    }
 }

@@ -1,4 +1,5 @@
-<%--
+<%@ page import="model.core.menuTree.entity.CoreMenuTreeInfoEntity" %>
+<%@ page import="util.context.Context" %><%--
   Created by IntelliJ IDEA.
   User: Administrator
   Date: 2020/1/1
@@ -15,7 +16,7 @@
 //        request.getRequestDispatcher(doingList.get(0).getDetailValue()).forward(request,response);
 //        return;
 //    }
-//    CoreMenuTreeInfoEntity menuTree = Context.getMenuTree(menuCode);
+//    CoreMenuTreeInfoEntity menuTree = Context.getCurrent().getMenuTree(menuCode);
 //    String title = menuTree.getTitle();
     String title = "首页";
 %>

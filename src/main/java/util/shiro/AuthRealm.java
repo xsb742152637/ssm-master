@@ -24,19 +24,19 @@ public class AuthRealm extends AuthorizingRealm {
         ////指示当前用户能访问的资源
         //授权类
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-        if ("谢世兵".equals(member.getMemberName())) {
+        //if ("谢世兵".equals(member.getMemberName())) {
             //获取所有权限集合，循环添加
             //info.addStringPermission("/core/*");
             info.addStringPermission("user:add");
             //获取所有角色集合，循环添加
             info.addRole("admin");
             info.addRole("经理");
-        } else {
+        //} else {
             //根据用户去查找用户所有的权限，循环添加
             // authorizationInfo.addStringPermission("customer:add");
             //根据用户去查找用户所用有的角色，循环添加
             //authorizationInfo.addRole("创始人");
-        }
+        //}
         return info;
     }
 
@@ -54,7 +54,6 @@ public class AuthRealm extends AuthorizingRealm {
             }else if(entity.getIsFrozen()){// 帐号未启用(或账号被锁定)
                 throw new LockedAccountException();
             }else{
-                Context.setMember(entity);
                 return new SimpleAuthenticationInfo(entity, token.getCredentials(), AuthRealm.class.getName());
             }
         }catch (Exception e){

@@ -9,10 +9,7 @@
 <%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    String memberName = "";
-    if(Context.getMember() != null){
-        memberName = Context.getMember().getMemberName();
-    }
+
 %>
 <html>
 <head>
