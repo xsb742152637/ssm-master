@@ -24,6 +24,11 @@
     <location>/theme/pc/error/500.jsp</location>
   </error-page>
 
+  <!-- 防止spring内存溢出监听器，比如quartz -->
+  <listener>
+    <listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+  </listener>
+
   <!-- Shiro核心控制器，表示由spring管理生命周期 -->
   <filter>
     <filter-name>shiroFilter</filter-name>

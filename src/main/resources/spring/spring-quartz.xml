@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <!-- 触发器调度工厂 -->
+    <bean id="schedulerFactory" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <!-- 任务触发器1 -->
+                <bean class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+                    <property name="jobDetail">
+                        <bean id="myJobDetail2" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+                            <!-- 任务执行对象中对应的执行方法 -->
+                            <property name="staticMethod" value="util.quartz.MyQuartzTask.doCronTaskFive"></property>
+                            <!-- 任务是否可并发执行，默认为不并发(false) -->
+                            <property name="concurrent" value="true"></property>
+                        </bean>
+                    </property>
+                    <!-- quartz任务执行表达式 ,每隔三十分钟执行一次任务-->
+                    <property name="cronExpression" value="0 0/30 * * * ?"></property>
+                </bean>
+            </list>
+        </property>
+        <property name="taskExecutor"> <!-- 线程执行器配置，用于任务注册 -->
+            <bean class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+                <property name="corePoolSize" value="10"/>
+                <property name="maxPoolSize" value="100"/>
+                <property name="queueCapacity" value="500"/>
+            </bean>
+        </property>
+    </bean>
+</beans>

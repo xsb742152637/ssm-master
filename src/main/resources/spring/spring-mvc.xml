@@ -60,6 +60,7 @@
 
     <import resource="classpath:spring/spring-shiro.xml"/>
     <import resource="classpath:spring/spring-mybatis.xml"/>
+    <import resource="classpath:spring/spring-quartz.xml"/>
 
     <!-- 产生shiro核心控制器的方式，使用cglib生成代理 -->
     <aop:aspectj-autoproxy proxy-target-class="true"/>

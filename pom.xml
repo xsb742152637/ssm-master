@@ -277,6 +277,14 @@
     </dependency>
     <!-- json相关 end -->
 
+
+    <!--定时任务相关 start-->
+    <dependency>
+      <groupId>org.quartz-scheduler</groupId>
+      <artifactId>quartz</artifactId>
+      <version>2.2.1</version>
+    </dependency>
+    <!--定时任务相关 end-->
   </dependencies>
 
   <build>
