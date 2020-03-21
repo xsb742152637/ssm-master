@@ -17,6 +17,7 @@
         <master:ContentPlaceHolder id="title"/>
     </title>
 
+    <link rel="stylesheet" href="/public/colors/default.css"/>
     <link rel="stylesheet" href="/public/jquery/easyui-1.7.0/themes/default/easyui.css"/>
     <%--<link rel="stylesheet" href="/public/jquery-easyui-1.7.0/themes/black/easyui.css"/>--%>
     <link rel="stylesheet" href="/public/jquery/easyui-1.7.0/themes/icon.css"/>

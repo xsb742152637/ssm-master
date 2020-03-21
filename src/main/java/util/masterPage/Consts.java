@@ -5,7 +5,7 @@ package util.masterPage;
  */
 public class Consts {
     //母版页路径
-    static final String INDEX_JSP="/theme/pc/main/index.jsp";
+    public static final String INDEX_JSP="/theme/pc/main/index.jsp";
     static final String PAGE_ATTRIBUTE="PAGE_ATTRIBUTE";
     static final String WRITE_PAGE_ID="WRITE_PAGE_ID";
 }

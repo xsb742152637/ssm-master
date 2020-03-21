@@ -2,6 +2,7 @@ package util.filter;
 
 import org.apache.shiro.SecurityUtils;
 import util.context.Context;
+import util.masterPage.Consts;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -32,6 +33,13 @@ public class ContextInitFilter implements Filter {
                 return;
             }
             Context.createContext(httpServletRequest,(HttpServletResponse) response);
+            String url = ((HttpServletRequest) request).getRequestURI();
+            if("/".equals(url)){
+                System.out.println("aaa");
+                ((HttpServletResponse) response).sendRedirect(Consts.INDEX_JSP);//重定向
+                return;
+            }
+            System.out.println(url);
             if (SecurityUtils.getSubject().isAuthenticated()) {//已登录
                 //判断登录是否超时
 

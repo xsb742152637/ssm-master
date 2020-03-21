@@ -1,0 +1,89 @@
+/*
+颜色命名规则
+    第一段：color / background-color 的首字母
+    第二段：master(主题色) / sup1(互补色) / sup2(互补色) / warn(提醒色) / grey(灰色) 的首字母
+    第三段：1 > 7 的数字，各色由弱到强
+*/
+
+
+
+/*主题色*/
+.c-m-1{  color: #e9eaf3;  }
+.c-m-2{  color: #d3d5e6;  }
+.c-m-3{  color: #bfc1d9;  }
+.c-m-4{  color: #acaecc;  }
+.c-m-5{  color: #8f93bf;  }
+.c-m-6{  color: #5c6199;  }
+.c-m-7{  color: #343973;  }
+.b-m-1{  background-color: #e9eaf3;  }
+.b-m-2{  background-color: #d3d5e6;  }
+.b-m-3{  background-color: #bfc1d9;  }
+.b-m-4{  background-color: #acaecc;  }
+.b-m-5{  background-color: #8f93bf;  }
+.b-m-6{  background-color: #5c6199;  }
+.b-m-7{  background-color: #343973;  }
+
+
+/*互补色1*/
+.c-s1-1{  color: #f3efe9;  }
+.c-s1-2{  color: #e6e0d3;  }
+.c-s1-3{  color: #d9d0bf;  }
+.c-s1-4{  color: #ccc1ac;  }
+.c-s1-5{  color: #bfaf8f;  }
+.c-s1-6{  color: #99855c;  }
+.c-s1-7{  color: #735e34;  }
+.b-s1-1{  background-color: #f3efe9;  }
+.b-s1-2{  background-color: #e6e0d3;  }
+.b-s1-3{  background-color: #d9d0bf;  }
+.b-s1-4{  background-color: #ccc1ac;  }
+.b-s1-5{  background-color: #bfaf8f;  }
+.b-s1-6{  background-color: #99855c;  }
+.b-s1-7{  background-color: #735e34;  }
+
+
+/*互补色2*/
+.c-s2-1{  color: #f1f3e9;  }
+.c-s2-2{  color: #e3e6d3;  }
+.c-s2-3{  color: #d5d9bf;  }
+.c-s2-4{  color: #c7ccac;  }
+.c-s2-5{  color: #b7bf8f;  }
+.c-s2-6{  color: #8f995c;  }
+.c-s2-7{  color: #687334;  }
+.b-s2-1{  background-color: #f1f3e9;  }
+.b-s2-2{  background-color: #e3e6d3;  }
+.b-s2-3{  background-color: #d5d9bf;  }
+.b-s2-4{  background-color: #c7ccac;  }
+.b-s2-5{  background-color: #b7bf8f;  }
+.b-s2-6{  background-color: #8f995c;  }
+.b-s2-7{  background-color: #687334;  }
+
+
+/*提醒色*/
+.c-w-1{  color: #e9eff3;  }
+.c-w-2{  color: #d3dee6;  }
+.c-w-3{  color: #bfced9;  }
+.c-w-4{  color: #acbfcc;  }
+.c-w-5{  color: #8fabbf;  }
+.c-w-6{  color: #5c7f99;  }
+.c-w-7{  color: #345873;  }
+.b-w-1{  background-color: #e9eff3;  }
+.b-w-2{  background-color: #d3dee6;  }
+.b-w-3{  background-color: #bfced9;  }
+.b-w-4{  background-color: #acbfcc;  }
+.b-w-5{  background-color: #8fabbf;  }
+.b-w-6{  background-color: #5c7f99;  }
+.b-w-7{  background-color: #345873;  }
+
+/*灰色*/
+.c-g-1{
+    color: #fafafa;
+}
+.c-g-2{
+    color: #999999;
+}
+.c-g-3{
+    color: #424242;
+}
+.c-g-4{
+    color: #000000;
+}
