@@ -19,7 +19,7 @@ public class LoginServlet extends HttpServlet {
     private CoreMemberInfoService service;
 
     static class LoginMessage {
-        public String mes;
+        public String msg;
         public boolean error;
     }
 
@@ -58,10 +58,10 @@ public class LoginServlet extends HttpServlet {
         String password = request.getParameter("password");
         lm.error = true;
         if (StringUtils.isBlank(username) || StringUtils.isBlank(password)) {
-            lm.mes = "用户名或密码不能为空.";
+            lm.msg = "用户名或密码不能为空.";
         } else {
             if ( SecurityUtils.getSubject().isAuthenticated() && SecurityUtils.getSubject().getPrincipal().equals(username)) {
-                lm.mes = "当前会话已经是验证通过了的.";
+                lm.msg = "当前会话已经是验证通过了的.";
                 lm.error = false;
             } else {
                 UsernamePasswordToken token = new UsernamePasswordToken(username, password);
@@ -71,16 +71,16 @@ public class LoginServlet extends HttpServlet {
                     lm.error = false;
                 } catch (AuthenticationException e) {
                     if(e instanceof IncorrectCredentialsException || e instanceof UnknownAccountException){
-                        lm.mes = "账号或密码不正确.";
+                        lm.msg = "账号或密码不正确.";
                     } else if (e instanceof LockedAccountException) {
-                        lm.mes = "账号已被冻结.";
+                        lm.msg = "账号已被冻结.";
                     } else {
-                        lm.mes = e.getMessage();
+                        lm.msg = e.getMessage();
                         response.sendRedirect("/theme/pc/login/index.jsp");
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    lm.mes = e.getMessage();
+                    lm.msg = e.getMessage();
                 }
             }
         }

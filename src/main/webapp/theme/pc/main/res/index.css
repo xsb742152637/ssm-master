@@ -1,3 +1,33 @@
+
+.my-panel-top{
+    height:50px;
+    background-color: #343973;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    padding: 0px 20px;
+}
+.my-panel-top .main-top-left{
+    width: 100px;
+    height: 100%;
+}
+.my-panel-top .main-top-left img{
+    width: 100%;
+    height: 100%;
+}
+.my-panel-top .main-top-center{
+    flex: 1;
+}
+.my-panel-top .main-top-right{
+    cursor: default;
+
+}
+.my-panel-top .main-top-right>div{
+    display: initial;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
 .my-panel-left{
-    overflow: hidden;
+    overflow-x: hidden;
 }

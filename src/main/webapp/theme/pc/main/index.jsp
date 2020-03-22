@@ -19,7 +19,6 @@
 
     <link rel="stylesheet" href="/public/colors/default.css"/>
     <link rel="stylesheet" href="/public/jquery/easyui-1.7.0/themes/default/easyui.css"/>
-    <%--<link rel="stylesheet" href="/public/jquery-easyui-1.7.0/themes/black/easyui.css"/>--%>
     <link rel="stylesheet" href="/public/jquery/easyui-1.7.0/themes/icon.css"/>
     <link rel="stylesheet" href="/theme/pc/main/res/index.css"/>
 
@@ -32,10 +31,14 @@
 
 </head>
 <body class="easyui-layout">
-    <div class="my-panel-top" data-options="region:'north',border:false,collapsible:false" style="height:50px;">
-        <div style="text-align: right">
+    <div class="my-panel-top" data-options="region:'north',border:false,collapsible:false">
+        <div class="main-top-left">
+            <img  src="/theme/pc/main/res/pcLogo3.png"/>
+        </div>
+        <div class="main-top-center"></div>
+        <div class="main-top-right">
             <shiro:user>
-                欢迎[<shiro:principal property="memberName"/>]登录，<button onclick="loginout()">退出</button>
+                <shiro:principal property="memberName"/>，<div onclick="loginout()">退出</div>
             </shiro:user>
             <%--<span><%=memberName%></span>--%>
 
@@ -108,6 +111,7 @@
                             window.location.href = item.url;
                         }
                     });
+                    $('.my-menu>div>div>div:first').remove();
                 },
                 error: function (jqXHR) {
                     console.log(jqXHR);

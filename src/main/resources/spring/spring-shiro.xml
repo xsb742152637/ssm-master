@@ -46,7 +46,7 @@
             <value>
                 <!-- anon:不用认证, authc:需认证 -->
                 <!--/** = anon-->
-                /theme/pc/login/index.jsp = anon
+                /theme/pc/login/** = anon
                 /anon/** = anon
                 /public/** = anon
                 /**/*.jsp = authc,defaultPermission

@@ -17,52 +17,52 @@
 <head>
     <title>登录</title>
     <link rel="stylesheet" href="/public/colors/default.css"/>
-    <script rel="stylesheet" src="/public/jquery/easyui-1.7.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="/public/jquery/easyui-1.7.0/themes/default/easyui.css"/>
+    <link rel="stylesheet" href="/public/jquery/easyui-1.7.0/themes/icon.css"/>
+    <link rel="stylesheet" href="/theme/pc/login/res/index.css"/>
+
+    <script type="text/javascript" src="/public/jquery/easyui-1.7.0/jquery.min.js"></script>
+    <script type="text/javascript" src="/public/jquery/easyui-1.7.0/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/public/util/eiis.foundation.js"></script>
+    <script type="text/javascript" src="/theme/pc/login/res/index.js"></script>
 </head>
 <body>
-<%--<form id="login_form" action="/anon/loginservlet" method="post" onsubmit="return check()">--%>
-用户名：<input  type="text" name="username" value="xc"/><br><br>
-密&nbsp;&nbsp;&nbsp;&nbsp;码：<input  type="password" name="password" value="111"/><br><br><br>
-<button onclick="login()" >登录</button>
+    <div class="qt">
+
+    </div>
+    <div class="zfx">
+        <div class="zfx-w">
+            <div class="zfx-n zfx-n1"></div>
+            <div class="zfx-n zfx-n2"></div>
+
+            <div class="zfx-n3">
+                <div>
+                    <div class="n3-left">用户名：</div>
+                    <div class="n3-right"><input  type="text" name="username" placeholder="请输入用户名"/></div>
+                </div>
+                <div>
+                    <div class="n3-left">密码：</div>
+                    <div class="n3-right"><input  type="password" name="password" placeholder="请输入密码"/></div>
+                </div>
+                <div>
+                    <div class="n3-left"></div>
+                    <div class="n3-right">
+                        <input  type="checkbox" name="savePas" id="savePas" />
+                        <label for="savePas" style="cursor: pointer;">记住密码</label>
+                    </div>
+                </div>
+                <div>
+                    <div class="n3-left"></div>
+                    <div class="n3-right">
+                        <div class="but" onclick="login()" >登录</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script type="text/javascript">
         var successUrl = "<%=successUrl%>";
-        $(function(){
-
-        });
-        function login(){
-            var username = $("input[name='username']").val();
-            var password = $("input[name='password']").val();
-
-            var flg = false;
-            if(username == ""){
-                alert("请输入用户名");
-                flg = true;
-            }else if(password == ""){
-                alert("请输入密码");
-                flg = true;
-            }
-            if(flg) {
-                return;
-            }
-            $.ajax({
-                url: "/anon/loginservlet",
-                dataType: 'json',
-                type: "POST",
-                data: {username: username,password: password},
-                error: function (jqXHR) {
-                    console.log(jqXHR);
-                },
-                success: function (data) {
-                    console.log(data);
-                    if (data.error) {
-                        alert(data.msg);
-                    } else {
-                        window.location.href = successUrl;
-                    }
-                }
-            });
-        }
     </script>
 </body>
 </html>
