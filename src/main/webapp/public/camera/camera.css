@@ -1,0 +1,22 @@
+
+.camera_div .camera_tool{
+    display: flex;
+    margin: 10px;
+}
+.camera_div .camera_tool .save_loc,.camera_div .camera_tool .save_server{
+    padding: 6px 12px;
+    border: 1px solid #ddd;
+    margin-right: 15px;
+    cursor: pointer;
+}
+.camera_div .camera_tool .save_loc{
+
+}
+.camera_div .camera_tool .save_server{
+
+}
+.camera_div video{
+    border: 1px solid #ddd;
+    padding: 10px;
+    background-color: #000;
+}

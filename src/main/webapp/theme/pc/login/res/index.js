@@ -1,6 +1,6 @@
 $(function(){
     set_val();
-    // xz();
+    xz();
 });
 
 function set_val(){

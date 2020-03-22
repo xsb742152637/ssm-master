@@ -29,8 +29,23 @@
                 color: blue;
             }
         </style>
+
+        <script src="/public/camera/camera.js" type="text/javascript"></script>
     </master:Content>
     <master:Content contentPlaceHolderId="body">
         <h4>这里是首页</h4>
+        <div id="camera">
+            <div id="contentHolder">
+
+            </div>
+            <div id="btn_snap">拍照</div>
+        </div>
+        <script type="text/javascript">
+            $(function(){
+                var a = new Camera({id: "contentHolder"});
+            });
+
+        </script>
+
     </master:Content>
 </master:ContentPage>
