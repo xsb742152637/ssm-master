@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.nio.charset.Charset;
+import java.util.UUID;
 
 public class Context {
     private HttpServletRequest request;
@@ -85,6 +86,15 @@ public class Context {
         return SecurityUtils.getSubject().getSession();
     }
 
+    /**
+     * 获得当前上下文的编号，实际为用户会话的编号。
+     *
+     * @return
+     */
+    public UUID getSessionId() {
+        return UUID.fromString(SecurityUtils.getSubject().getSession().getId().toString());
+        //return this.getSession().getId();
+    }
 
     public HttpServletRequest getRequest() {
         return this.request;

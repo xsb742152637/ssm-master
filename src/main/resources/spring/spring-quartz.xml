@@ -8,6 +8,25 @@
     <bean id="schedulerFactory" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
         <property name="triggers">
             <list>
+                <!-- 清理临时文件 -->
+                <bean class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+                    <property name="jobDetail">
+                        <bean class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+                            <property name="staticMethod" value="util.io.WebPathUtils.cleanTempFolder"/>
+                            <property name="concurrent" value="false"/>
+                            <property name="arguments">
+                                <array>
+                                    <bean class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+                                        <property name="staticField" value="java.util.Calendar.MONTH"/>
+                                    </bean>
+                                    <value type="int">-3</value>
+                                </array>
+                            </property>
+                        </bean>
+                    </property>
+                    <property name="cronExpression" value="0 30 0 * * ?"/>
+                </bean>
+
                 <!-- 任务触发器1 -->
                 <bean class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
                     <property name="jobDetail">
