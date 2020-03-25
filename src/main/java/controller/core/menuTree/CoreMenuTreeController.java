@@ -20,7 +20,7 @@ public class CoreMenuTreeController extends GenericController {
     private CoreMenuTreeService mainService;
 
     //注解式：通过在执行的Java方法上放置相应的注解完成：
-    @RequiresRoles("admin")
+    //@RequiresRoles("admin")
     @RequestMapping("getMenuTree")
     @ResponseBody
     public String getMenuTree(HttpServletRequest request, HttpServletResponse response)throws Exception{
