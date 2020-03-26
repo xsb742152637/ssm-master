@@ -9,16 +9,15 @@
 <%@ taglib prefix="master" uri="util.masterPage" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    String menuCode = "index";
+    String menuCode = request.getParameter("menuCode");
 //    if(true){
 //        TypeSelectEntity pse = AppTypeDetailService.getInstance().getTypeSelect(menuCode,"");
 //        List<AppTypeDetailEntity> doingList = pse.getDoingList();
 //        request.getRequestDispatcher(doingList.get(0).getDetailValue()).forward(request,response);
 //        return;
 //    }
-//    CoreMenuTreeInfoEntity menuTree = Context.getCurrent().getMenuTree(menuCode);
-//    String title = menuTree.getTitle();
-    String title = "首页";
+    CoreMenuTreeInfoEntity menuTree = Context.getCurrent().getMenuTree(menuCode);
+    String title = menuTree.getTitle();
 %>
 
 <master:ContentPage>
@@ -42,7 +41,7 @@
         </div>
         <script type="text/javascript">
             $(function(){
-                var a = new Camera({id: "contentHolder"});
+//                var a = new Camera({id: "contentHolder"});
             });
 
         </script>

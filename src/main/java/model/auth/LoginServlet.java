@@ -6,6 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import util.context.Context;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -90,7 +91,7 @@ public class LoginServlet extends HttpServlet {
             if ("true".equalsIgnoreCase(request.getParameter("autoRedirect"))) {
                 String successUrl = request.getParameter("successUrl");
                 if (StringUtils.isBlank(successUrl) || successUrl.trim().length() == 0) {
-                    successUrl = "/theme/pc/index.jsp";
+                    successUrl = Context.SUCCESS_URL;
                 }
                 response.sendRedirect(successUrl);
             }

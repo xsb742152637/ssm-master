@@ -1,4 +1,5 @@
-<%@ page import="org.apache.shiro.SecurityUtils" %><%--
+<%@ page import="org.apache.shiro.SecurityUtils" %>
+<%@ page import="util.context.Context" %><%--
   Created by IntelliJ IDEA.
   User: xiucai
   Date: 2020/1/13
@@ -8,10 +9,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     if (SecurityUtils.getSubject().isAuthenticated()) {
-        response.sendRedirect("/theme/pc/index.jsp");
+        response.sendRedirect(Context.SUCCESS_URL);
     }
 
-    String successUrl = "/theme/pc/index.jsp";
 %>
 <html>
 <head>
@@ -69,7 +69,7 @@
     </div>
 
     <script type="text/javascript">
-        var successUrl = "<%=successUrl%>";
+        var successUrl = "<%=Context.SUCCESS_URL%>";
     </script>
 </body>
 </html>

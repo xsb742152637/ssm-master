@@ -32,16 +32,20 @@ public class ContextInitFilter implements Filter {
             if(httpServletRequest.getMethod().equalsIgnoreCase("OPTIONS")){
                 return;
             }
-            Context.createContext(httpServletRequest,(HttpServletResponse) response);
             String url = ((HttpServletRequest) request).getRequestURI();
 
-            System.out.println(url);
-            if (SecurityUtils.getSubject().isAuthenticated()) {//已登录
-                //判断登录是否超时
+            System.out.println("filter：" + url);
+            try{
+                if (SecurityUtils.getSubject().isAuthenticated()) {//已登录
+                    //判断登录是否超时
 
-            }else{
-                System.out.println("请登录");
+                }else{
+                    System.out.println("请登录");
+                }
+            }catch (Exception e){
+                e.printStackTrace();
             }
+
 
             chain.doFilter(httpServletRequest, httpServletResponse);
         }catch (Exception e){

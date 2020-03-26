@@ -1,4 +1,5 @@
-<%--
+<%@ page import="model.core.menuTree.entity.CoreMenuTreeInfoEntity" %>
+<%@ page import="util.context.Context" %><%--
   Created by IntelliJ IDEA.
   User: Administrator
   Date: 2020/1/1
@@ -10,16 +11,15 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%
-    String menuCode = "type";
+    String menuCode = request.getParameter("menuCode");
 //    if(true){
 //        TypeSelectEntity pse = AppTypeDetailService.getInstance().getTypeSelect(menuCode,"");
 //        List<AppTypeDetailEntity> doingList = pse.getDoingList();
 //        request.getRequestDispatcher(doingList.get(0).getDetailValue()).forward(request,response);
 //        return;
 //    }
-//    CoreMenuTreeInfoEntity menuTree = Context.getMenuTree(menuCode);
-//    String title = menuTree.getTitle();
-    String title = "type";
+    CoreMenuTreeInfoEntity menuTree = Context.getMenuTree(menuCode);
+    String title = menuTree.getTitle();
 %>
 <master:ContentPage>
     <master:Content contentPlaceHolderId="title"><%=title%></master:Content>

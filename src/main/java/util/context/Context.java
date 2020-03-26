@@ -16,6 +16,7 @@ import java.nio.charset.Charset;
 import java.util.UUID;
 
 public class Context {
+    public final static String SUCCESS_URL = "/theme/pc/index.jsp?menuCode=main";
     private HttpServletRequest request;
     private HttpServletResponse response;
 

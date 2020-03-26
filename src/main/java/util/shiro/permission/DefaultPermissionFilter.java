@@ -5,6 +5,8 @@ import org.apache.shiro.web.util.WebUtils;
 import util.context.Context;
 
 import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Paths;
@@ -31,6 +33,7 @@ public class DefaultPermissionFilter implements Filter {
             //判断当前请求是否有权限,待完善
             boolean hasPermission = true;
 
+            Context.createContext((HttpServletRequest) request,(HttpServletResponse) response);
             if (hasPermission) {
                 request.getRequestDispatcher(url).forward(request, response);
             } else {

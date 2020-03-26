@@ -10,6 +10,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
 
+    System.out.println("aaaaa");
 %>
 <html>
 <head>
@@ -25,10 +26,8 @@
     <script type="text/javascript" src="/public/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="/public/layui/src/layui.js"></script>
     <script type="text/javascript" src="/public/util/eiis.foundation.js"></script>
-    <script type="text/javascript" src="/theme/pc/main/res/index.js"></script>
 
     <master:ContentPlaceHolder id="head"/>
-
 </head>
 <body class="layui-layout-body">
     <!-- 让IE8/9支持媒体查询，从而兼容栅格。需要放在body标签内 -->
@@ -61,7 +60,12 @@
                             <dd><a href="">安全设置</a></dd>
                         </dl>
                     </li>
-                    <li class="layui-nav-item"><a href="" onclick="loginout()">退出</a></li>
+                    <li class="layui-nav-item">
+                        <a href="" onclick="loginout()" style="color: #FF5722">
+                            <i class="layui-icon layui-icon-logout"></i>
+                            退出
+                        </a>
+                    </li>
                 </ul>
             </div>
 
@@ -74,19 +78,7 @@
                         </cite>
                     </div>
                     <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-                    <ul class="layui-nav layui-nav-tree"  lay-shrink="all" lay-filter="layadmin-system-side-menu" id="LAY-system-side-menu">
-                        <%--<li class="layui-nav-item layui-nav-itemed">--%>
-                        <%--<a class="" href="javascript:;">所有商品</a>--%>
-                        <dl class="layui-nav-child">
-                            <dd><a href="javascript:;">列表一</a></dd>
-                            <dd><a href="javascript:;">列表二</a></dd>
-                            <dd><a href="javascript:;">列表三</a></dd>
-                            <dd><a href="">超链接</a></dd>
-                        </dl>
-                        <%--</li>--%>
-                        <%--<li class="layui-nav-item"><a href="">云市场</a></li>--%>
-                        <%--<li class="layui-nav-item"><a href="">发布商品</a></li>--%>
-                    </ul>
+                    <ul class="layui-nav layui-nav-tree"  lay-shrink="all" lay-filter="layadmin-system-side-menu" id="LAY-system-side-menu"></ul>
                 </div>
             </div>
 
@@ -102,7 +94,8 @@
 
     <script type="text/javascript">
         var thisMenuId = "<%=Context.getCurrent().getMenuTree() == null ? "" : Context.getCurrent().getMenuTree().getMenuId()%>";
+        console.log(thisMenuId)
     </script>
-    <script src="res/index.js"></script>
+    <script type="text/javascript" src="/theme/pc/main/res/index.js"></script>
 </body>
 </html>
