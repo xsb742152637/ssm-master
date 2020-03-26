@@ -38,23 +38,15 @@
     <div class="layadmin-tabspage-none">
         <div class="layui-layout layui-layout-admin">
             <div class="layui-header">
-                <%--<div class="layui-logo">--%>
-                <%--<img class="pc_logo" src="/theme/pc/main/res/pcLogo3.png"/>--%>
-                <%--</div>--%>
+
                 <!-- 头部区域（可配合layui已有的水平导航） -->
-                <%--<ul class="layui-nav layui-layout-left">--%>
-                <%--<li class="layui-nav-item"><a href="">控制台</a></li>--%>
-                <%--<li class="layui-nav-item"><a href="">商品管理</a></li>--%>
-                <%--<li class="layui-nav-item"><a href="">用户</a></li>--%>
-                <%--<li class="layui-nav-item">--%>
-                <%--<a href="javascript:;">其它系统</a>--%>
-                <%--<dl class="layui-nav-child">--%>
-                <%--<dd><a href="">邮件管理</a></dd>--%>
-                <%--<dd><a href="">消息管理</a></dd>--%>
-                <%--<dd><a href="">授权管理</a></dd>--%>
-                <%--</dl>--%>
-                <%--</li>--%>
-                <%--</ul>--%>
+                <ul class="layui-nav layui-layout-left">
+                    <li class="layui-nav-item layadmin-flexible" lay-unselect="">
+                        <a href="javascript:;" layadmin-event="flexible" title="侧边伸缩">
+                            <i class="layui-icon layui-icon-shrink-right" id="LAY_app_flexible"></i>
+                        </a>
+                    </li>
+                </ul>
                 <ul class="layui-nav layui-layout-right">
                     <li class="layui-nav-item">
                         <a href="javascript:;">
@@ -76,10 +68,13 @@
             <div class="layui-side layui-side-menu">
                 <div class="layui-side-scroll">
                     <div class="layui-logo">
-                        <img class="pc_logo" src="/theme/pc/main/res/pcLogo3.png"/>
+                        <span class="logo-text" style="display: none">G&nbsp;H</span>
+                        <cite>
+                            <img class="pc_logo" src="/theme/pc/main/res/pcLogo3.png"/>
+                        </cite>
                     </div>
                     <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-                    <ul class="layui-nav layui-nav-tree"  lay-shrink="all" lay-filter="my-menu">
+                    <ul class="layui-nav layui-nav-tree"  lay-shrink="all" lay-filter="layadmin-system-side-menu" id="LAY-system-side-menu">
                         <%--<li class="layui-nav-item layui-nav-itemed">--%>
                         <%--<a class="" href="javascript:;">所有商品</a>--%>
                         <dl class="layui-nav-child">
@@ -107,65 +102,7 @@
 
     <script type="text/javascript">
         var thisMenuId = "<%=Context.getCurrent().getMenuTree() == null ? "" : Context.getCurrent().getMenuTree().getMenuId()%>";
-        //JavaScript代码区域
-        layui.use(['element'], function(){
-            var $ = layui.jquery;
-            var element = layui.element;
-
-            $.ajax({
-                url: "/core/menuTree/getMenuTree.do",
-                dataType: 'json',
-                type: "POST",
-                success: function (data) {
-                    if(data != null && data.length > 0){
-                        var parentE = $('ul[lay-filter="my-menu"]');
-                        var a = 0;
-                        _loadMenuTree(parentE,data,a);
-
-                    }
-                    console.log(data);
-
-                    element.render('nav');
-                },
-                error: function (jqXHR) {
-                    console.log(jqXHR);
-                }
-            });
-
-            element.on('nav(my-menu)',function(){
-               console.log('点击了')
-            });
-
-        });
-
-        function _loadMenuTree(parentE,data,a){
-            for(var i = 0 ; i < data.length ; i++){
-                var d = data[i];
-                var li = $('<li></li>').addClass('layui-nav-item' + (a == 0 ? ' layui-nav-itemed' : '') + (d.menuId == thisMenuId ? ' layui-this' : ''));
-                li.append($('<a/>').attr('href',String.isNullOrWhiteSpace(d.url) ? 'javascript:;' : d.url).text(d.title));
-                a++;
-                if(d.children != null && d.children.length > 0){
-                    var dl = $("<dl/>").addClass("layui-nav-child");
-                    _loadMenuTree(dl,d.children);
-                    dl.appendTo(li);
-                }
-                li.appendTo(parentE);
-            }
-        }
-
-        function loginout(){
-            $.ajax({
-                url: "/anon/logoutServlet",
-                dataType: 'text',
-                type: "POST",
-                success: function (data) {
-                    window.location.reload();
-                },
-                error: function (jqXHR) {
-                    console.log(jqXHR);
-                }
-            });
-        }
     </script>
+    <script src="res/index.js"></script>
 </body>
 </html>
