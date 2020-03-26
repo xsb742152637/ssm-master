@@ -1,9 +1,9 @@
-$(function(){
-    set_val();
-    xz();
-});
+layui.use('form', function(){
+    var $ = layui.jquery;
+    var form = layui.form;
 
-function set_val(){
+    xz();
+
     var dlInfo = window.localStorage.getItem('dlInfo');
     if(dlInfo != null){
         dlInfo = JSON.parse(dlInfo);
@@ -11,48 +11,37 @@ function set_val(){
         $("input[name='password']").val(dlInfo.password);
         $("input[name='savePas']").prop("checked",dlInfo.savePas);
     }
-}
-function login(){
-    var username = $("input[name='username']").val();
-    var password = $("input[name='password']").val();
-    var savePas = $("input[name='savePas']").is(":checked");
-
-    var flg = false;
-    if(username == ""){
-        $.messager.alert('消息','请输入用户名','info');
-        flg = true;
-    }else if(password == ""){
-        $.messager.alert('消息','请输入密码','info');
-        flg = true;
-    }
-    if(flg) {
-        return;
-    }
-    $.ajax({
-        url: "/anon/loginservlet",
-        dataType: 'json',
-        type: "POST",
-        data: {username: username,password: password},
-        error: function (jqXHR) {
-            console.log(jqXHR);
-        },
-        success: function (data) {
-            console.log(data);
-            if (data.error) {
-                $.messager.alert('消息',data.msg,'info');
-            } else {
-                if(!savePas){
-                    password = "";
+    layui.form.render();//重新渲染form表单
+    //监听提交
+    form.on('submit(formDemo)', function(data){
+        console.log(data);
+        $.ajax({
+            url: "/anon/loginservlet",
+            dataType: 'json',
+            type: "POST",
+            data: data.field,
+            error: function (jqXHR) {
+                console.log(jqXHR);
+            },
+            success: function (rs) {
+                console.log(rs);
+                if (rs.error) {
+                    layer.msg(rs.msg);
+                } else {
+                    if(String.isNullOrWhiteSpace(data.field.savePas) || !Boolean.parse(data.field.savePas)){
+                        data.field.password = "";
+                    }
+                    // window.localStorage.removeItem('dlInfo');
+                    window.localStorage.setItem('dlInfo', JSON.stringify(data.field));
+                    window.location.href = successUrl;
                 }
-               // window.localStorage.removeItem('dlInfo');
-                window.localStorage.setItem('dlInfo', JSON.stringify({username: username,password: password,savePas: savePas}));
-                window.location.href = successUrl;
             }
-        }
+        });
+        return false;
     });
-}
+});
 
-function xz(){
+var xz = function(){
     var s = 0;
     var m = 100;
     var fx = true;

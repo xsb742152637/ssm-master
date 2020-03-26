@@ -16,13 +16,12 @@
 <html>
 <head>
     <title>登录</title>
+    <link rel="stylesheet" href="/public/layui/dist/css/layui.css"/>
     <link rel="stylesheet" href="/public/colors/default.css"/>
-    <link rel="stylesheet" href="/public/jquery/easyui-1.7.0/themes/default/easyui.css"/>
-    <link rel="stylesheet" href="/public/jquery/easyui-1.7.0/themes/icon.css"/>
     <link rel="stylesheet" href="/theme/pc/login/res/index.css"/>
 
-    <script type="text/javascript" src="/public/jquery/easyui-1.7.0/jquery.min.js"></script>
-    <script type="text/javascript" src="/public/jquery/easyui-1.7.0/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/public/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/public/layui/src/layui.js"></script>
     <script type="text/javascript" src="/public/util/eiis.foundation.js"></script>
     <script type="text/javascript" src="/theme/pc/login/res/index.js"></script>
 </head>
@@ -36,27 +35,35 @@
             <div class="zfx-n zfx-n2"></div>
 
             <div class="zfx-n3">
-                <div>
-                    <div class="n3-left">用户名：</div>
-                    <div class="n3-right"><input  type="text" name="username" placeholder="请输入用户名"/></div>
-                </div>
-                <div>
-                    <div class="n3-left">密码：</div>
-                    <div class="n3-right"><input  type="password" name="password" placeholder="请输入密码"/></div>
-                </div>
-                <div>
-                    <div class="n3-left"></div>
-                    <div class="n3-right">
-                        <input  type="checkbox" name="savePas" id="savePas" />
-                        <label for="savePas" style="cursor: pointer;">记住密码</label>
+                <from class="layui-form">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">用户名：</label>
+                        <div class="layui-input-block">
+                            <!-- lay-verify="required" 表示验证类型为必填 -->
+                            <!-- autocomplete="off" 表示表单不使用缓存信息 -->
+                            <input type="text" name="username" required  lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+                        </div>
                     </div>
-                </div>
-                <div>
-                    <div class="n3-left"></div>
-                    <div class="n3-right">
-                        <div class="but" onclick="login()" >登录</div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">密码：</label>
+                        <div class="layui-input-block">
+                            <input type="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+                        </div>
                     </div>
-                </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">记住密码：</label>
+                        <div class="layui-input-block">
+                            <!-- lay-skin="primary" 表示用原始风格 -->
+                            <input type="checkbox" name="savePas" value="true" lay-skin="primary">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" lay-submit lay-filter="formDemo">登录</button>
+                        </div>
+                    </div>
+                </from>
+
             </div>
         </div>
     </div>

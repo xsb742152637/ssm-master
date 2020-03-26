@@ -17,120 +17,92 @@
         <master:ContentPlaceHolder id="title"/>
     </title>
 
+    <link rel="stylesheet" href="/public/layui/dist/css/layui.css"/>
+    <link rel="stylesheet" href="/public/layui/src/css/admin.css"/>
     <link rel="stylesheet" href="/public/colors/default.css"/>
-    <link rel="stylesheet" href="/public/jquery/easyui-1.7.0/themes/default/easyui.css"/>
-    <link rel="stylesheet" href="/public/jquery/easyui-1.7.0/themes/icon.css"/>
     <link rel="stylesheet" href="/theme/pc/main/res/index.css"/>
 
-    <script type="text/javascript" src="/public/jquery/easyui-1.7.0/jquery.min.js"></script>
-    <script type="text/javascript" src="/public/jquery/easyui-1.7.0/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/public/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/public/layui/src/layui.js"></script>
     <script type="text/javascript" src="/public/util/eiis.foundation.js"></script>
     <script type="text/javascript" src="/theme/pc/main/res/index.js"></script>
 
     <master:ContentPlaceHolder id="head"/>
 
 </head>
-<body class="easyui-layout">
-    <div class="my-panel-top" data-options="region:'north',border:false,collapsible:false">
-        <div class="main-top-left">
-            <img  src="/theme/pc/main/res/pcLogo3.png"/>
-        </div>
-        <div class="main-top-center"></div>
-        <div class="main-top-right">
-            <shiro:user>
-                <shiro:principal property="memberName"/>，<div onclick="loginout()">退出</div>
-            </shiro:user>
-            <%--<span><%=memberName%></span>--%>
+<body class="layui-layout-body">
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格。需要放在body标签内 -->
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
 
+    <div class="layadmin-tabspage-none">
+        <div class="layui-layout layui-layout-admin">
+            <div class="layui-header">
+
+                <!-- 头部区域（可配合layui已有的水平导航） -->
+                <ul class="layui-nav layui-layout-left">
+                    <li class="layui-nav-item layadmin-flexible" lay-unselect="">
+                        <a href="javascript:;" layadmin-event="flexible" title="侧边伸缩">
+                            <i class="layui-icon layui-icon-shrink-right" id="LAY_app_flexible"></i>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="layui-nav layui-layout-right">
+                    <li class="layui-nav-item">
+                        <a href="javascript:;">
+                            <%--<img src="http://t.cn/RCzsdCq" class="layui-nav-img">--%>
+                            <i class="layui-icon layui-icon-username"></i>
+                            <shiro:user>
+                                <shiro:principal property="memberName"/>
+                            </shiro:user>
+                        </a>
+                        <dl class="layui-nav-child">
+                            <dd><a href="">基本资料</a></dd>
+                            <dd><a href="">安全设置</a></dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item"><a href="" onclick="loginout()">退出</a></li>
+                </ul>
+            </div>
+
+            <div class="layui-side layui-side-menu">
+                <div class="layui-side-scroll">
+                    <div class="layui-logo">
+                        <span class="logo-text" style="display: none">G&nbsp;H</span>
+                        <cite>
+                            <img class="pc_logo" src="/theme/pc/main/res/pcLogo3.png"/>
+                        </cite>
+                    </div>
+                    <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+                    <ul class="layui-nav layui-nav-tree"  lay-shrink="all" lay-filter="layadmin-system-side-menu" id="LAY-system-side-menu">
+                        <%--<li class="layui-nav-item layui-nav-itemed">--%>
+                        <%--<a class="" href="javascript:;">所有商品</a>--%>
+                        <dl class="layui-nav-child">
+                            <dd><a href="javascript:;">列表一</a></dd>
+                            <dd><a href="javascript:;">列表二</a></dd>
+                            <dd><a href="javascript:;">列表三</a></dd>
+                            <dd><a href="">超链接</a></dd>
+                        </dl>
+                        <%--</li>--%>
+                        <%--<li class="layui-nav-item"><a href="">云市场</a></li>--%>
+                        <%--<li class="layui-nav-item"><a href="">发布商品</a></li>--%>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="layui-body">
+                <!-- 内容主体区域 -->
+                <div style="padding: 15px;">
+                    <master:ContentPlaceHolder id="body"/>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="my-panel-left" data-options="region:'west',collapsible:false,title:'<div><div>菜单</div><div class=\'panel-tool\'><a href=\'javascript:;\' class=\'layout-button-left\'></a></div></div>'" style="border-left: none;border-bottom: none;">
-        <div class="easyui-sidemenu my-menu" data-options="border:false,multiple:false,data:[]"></div>
-    </div>
-    <div class="my-panel-center" data-options="region:'center'" style="border-right: none;border-bottom: none;">
-        <master:ContentPlaceHolder id="body"/>
-    </div>
+
 
     <script type="text/javascript">
-//        var data = [{
-//            text: '消费单',
-//            iconCls: 'icon-sum',
-//            state: 'open',
-//            children: [{
-//                text: 'Option1'
-//            },{
-//                text: 'Option2'
-//            },{
-//                text: 'Option3',
-//                children: [{
-//                    text: 'Option31'
-//                },{
-//                    text: 'Option32'
-//                }]
-//            }]
-//        },{
-//            text: 'Item2',
-//            iconCls: 'icon-more',
-//            children: [{
-//                text: 'Option4'
-//            },{
-//                text: 'Option5'
-//            },{
-//                text: 'Option6'
-//            }]
-//        }];
-
-        var leftMaxWeight = 200;
-        var leftMinWeight = 60;
-        $(function(){
-            loadMenuTree();
-            $('.my-panel-left').panel('resize', {width: leftMaxWeight});
-            $('body').layout('resize');
-            $(".my-panel-left").parent().find(".panel-header .panel-tool").on("click",function(){
-                var opts = $('.my-menu').sidemenu('options');
-                $('.my-menu').sidemenu(opts.collapsed ? 'expand' : 'collapse');
-                opts = $('.my-menu').sidemenu('options');
-                $('.my-menu').sidemenu('resize', {width: opts.collapsed ? leftMinWeight : leftMaxWeight});
-                $('.my-panel-left').panel('resize', {width: opts.collapsed ? leftMinWeight : leftMaxWeight});
-                $('body').layout('resize');
-            });
-        });
-
-        function loadMenuTree(){
-            $.ajax({
-                url: "/core/menuTree/getMenuTree.do",
-                dataType: 'json',
-                type: "POST",
-                success: function (data) {
-                    console.log(data);
-                    $('.my-menu').sidemenu({
-                        data: data,
-                        onSelect: function(item){
-                            console.log("选择");
-                            console.log(item);
-                            window.location.href = item.url;
-                        }
-                    });
-                    $('.my-menu>div>div>div:first').remove();
-                },
-                error: function (jqXHR) {
-                    console.log(jqXHR);
-                }
-            });
-        }
-        function loginout(){
-            $.ajax({
-                url: "/anon/logoutServlet",
-                dataType: 'text',
-                type: "POST",
-                success: function (data) {
-                    window.location.reload();
-                },
-                error: function (jqXHR) {
-                    console.log(jqXHR);
-                }
-            });
-        }
+        var thisMenuId = "<%=Context.getCurrent().getMenuTree() == null ? "" : Context.getCurrent().getMenuTree().getMenuId()%>";
     </script>
+    <script src="res/index.js"></script>
 </body>
 </html>

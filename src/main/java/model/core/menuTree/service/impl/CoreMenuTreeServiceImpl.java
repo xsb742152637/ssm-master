@@ -37,9 +37,8 @@ public class CoreMenuTreeServiceImpl extends GenericService implements CoreMenuT
         //2.2 最终返回的树形结构
         List<Map<String,Object>> listR = new ArrayList<>();
         for(Map<String,Object> map : list){
-//            if("root".equals(map.get("menuId").toString()))
-//                continue;
-            map.put("text",map.get("title"));
+            if("root".equals(map.get("menuId").toString()))
+                continue;
             String outlineLevel = map.get("outlineLevel").toString();
             String parentLevel = outlineLevel.contains(".") ? outlineLevel.substring(0,outlineLevel.lastIndexOf(".")) : "";
 
