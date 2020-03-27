@@ -11,7 +11,7 @@ layui.use(['tree','layer','form'], function(){
             success: function (data) {
                 if (data != null && data.length > 0) {
                     //渲染
-                    var inst1 = tree.render({
+                    let inst1 = tree.render({
                         id: 'myTree',
                         elem: '#my-tree',  //绑定元素
                         accordion: true,//开启手风琴模式
@@ -19,7 +19,7 @@ layui.use(['tree','layer','form'], function(){
                         data: data,
                         click: function(e) { //节点选中状态改变事件监听，全选框有自己的监听事件
                             //节点选中效果
-                            var active = "layui-bg-green layui-active";
+                            let active = "layui-bg-green layui-active";
                             $("#my-tree .layui-tree-entry").removeClass(active);
                             $(e.elem).find(".layui-tree-entry:first").addClass(active);
 

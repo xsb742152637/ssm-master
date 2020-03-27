@@ -1,10 +1,10 @@
 layui.use('form', function(){
-    var $ = layui.jquery;
-    var form = layui.form;
+    util.masterpage $ = layui.jquery;
+    util.masterpage form = layui.form;
 
     xz();
 
-    var dlInfo = window.localStorage.getItem('dlInfo');
+    util.masterpage dlInfo = window.localStorage.getItem('dlInfo');
     if(dlInfo != null){
         dlInfo = JSON.parse(dlInfo);
         $("input[name='username']").val(dlInfo.username);
@@ -41,11 +41,11 @@ layui.use('form', function(){
     });
 });
 
-var xz = function(){
-    var s = 0;
-    var m = 100;
-    var fx = true;
-    var t2 = window.setInterval(function() {
+util.masterpage xz = function(){
+    util.masterpage s = 0;
+    util.masterpage m = 100;
+    util.masterpage fx = true;
+    util.masterpage t2 = window.setInterval(function() {
         if(s == m)
             fx = false;
         else if(s == -m)
@@ -56,7 +56,7 @@ var xz = function(){
         }else{
             s--;
         }
-        var r = 22.5 + s/20;
+        util.masterpage r = 22.5 + s/20;
         $(".zfx-n1").css({transform: "rotate("+ r +"deg)",boxShadow: "0px "+ (20 + s/10) +"px 20px 5px #999 , 0px 10px 20px 0px #999 inset"});
         $(".zfx-n2").css({transform: "rotate("+ -r +"deg)",boxShadow: "0px "+ (20 + s/10) +"px 20px 5px #999 , 0px 10px 20px 0px #999 inset"});
     },25);

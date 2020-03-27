@@ -1,7 +1,7 @@
 layui.use(['element','layer'], function(){
-    var $ = layui.jquery;
-    var element = layui.element;
-    var layer = layui.layer;
+    let $ = layui.jquery;
+    let element = layui.element;
+    let layer = layui.layer;
 
     //加载菜单
     !function() {
@@ -12,7 +12,7 @@ layui.use(['element','layer'], function(){
             type: "POST",
             success: function (data) {
                 if (data != null && data.length > 0) {
-                    var parentE = $('ul[lay-filter="layadmin-system-side-menu"]');
+                    let parentE = $('ul[lay-filter="layadmin-system-side-menu"]');
                     parentE.empty();
                     _loadMenuTree(parentE, data,true);
                 }
@@ -34,26 +34,26 @@ layui.use(['element','layer'], function(){
     });
 
     //组装菜单
-    var _loadMenuTree = function(parentE,data,isOne){
-        var isHave = false;
-        for(var i = 0 ; i < data.length ; i++){
-            var d = data[i];
+    let _loadMenuTree = function(parentE,data,isOne){
+        let isHave = false;
+        for(let i = 0 ; i < data.length ; i++){
+            let d = data[i];
             if(d.menuId == thisMenuId)
                 isHave = true;
 
-            var li;
+            let li;
             if(isOne){
                 li = $('<li/>').addClass('layui-nav-item' + (d.menuId == thisMenuId ? ' layui-this' : ''));
             }else{
                 li = $('<dd/>').addClass((d.menuId == thisMenuId ? ' layui-this' : ''));
             }
-            var aa = $('<a/>').attr('href',String.isNullOrWhiteSpace(d.url) ? 'javascript:;' : (d.url + '?menuCode=' + d.code)).attr("lay-tips",d.title).attr("lay-direction","1");
+            let aa = $('<a/>').attr('href',String.isNullOrWhiteSpace(d.url) ? 'javascript:;' : (d.url + '?menuCode=' + d.code)).attr("lay-tips",d.title).attr("lay-direction","1");
             aa.append($("<i/>").addClass("layui-icon " + (String.isNullOrWhiteSpace(d.icon) ? 'layui-icon-file' : d.icon)));
             aa.append($("<cite/>").text(d.title));
             li.append(aa);
             if(d.children != null && d.children.length > 0){
-                var dl = $("<dl/>").addClass("layui-nav-child");
-                var c_isHave = _loadMenuTree(dl,d.children,false);
+                let dl = $("<dl/>").addClass("layui-nav-child");
+                let c_isHave = _loadMenuTree(dl,d.children,false);
                 if(c_isHave){
                     isHave = c_isHave;
                     li.addClass('layui-nav-itemed');
@@ -67,10 +67,10 @@ layui.use(['element','layer'], function(){
 
 
     //左侧菜单收缩与展开
-    var menu_set = function(){
+    let menu_set = function(){
         $("#LAY_app_flexible").on("click",function(){
-            var c = "layadmin-side-shrink";
-            var t = $(".layadmin-tabspage-none");
+            let c = "layadmin-side-shrink";
+            let t = $(".layadmin-tabspage-none");
             if(t.hasClass(c)){//菜单展开
                 t.removeClass(c);
                 $(this).attr("class","layui-icon layui-icon-shrink-right");
@@ -80,9 +80,9 @@ layui.use(['element','layer'], function(){
                 $(this).attr("class","layui-icon layui-icon-spread-left");
                 $(".logo-text").show();
                 //
-                var tip_index = 0;
+                let tip_index = 0;
                 $('#LAY-system-side-menu li').off('mouseenter').off('mouseleave').on('mouseenter', function(){
-                    var that = this;
+                    let that = this;
                     tip_index = layer.tips($($(that).find('a')[0]).text(), that, {time: 0});
                 }).on('mouseleave', function(){
                     layer.close(tip_index);

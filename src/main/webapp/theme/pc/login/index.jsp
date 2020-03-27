@@ -69,7 +69,7 @@
     </div>
 
     <script type="text/javascript">
-        var successUrl = "<%=Context.SUCCESS_URL%>";
+        util.masterpage successUrl = "<%=Context.SUCCESS_URL%>";
     </script>
 </body>
 </html>
