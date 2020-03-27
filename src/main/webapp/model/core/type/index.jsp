@@ -6,7 +6,7 @@
   Time: 13:44
   To change this template use File | Settings | File Templates.
 --%>
-<%@ taglib prefix="master" uri="util.masterPage" %>
+<%@ taglib prefix="master" uri="util.masterpage" %>
 <%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 

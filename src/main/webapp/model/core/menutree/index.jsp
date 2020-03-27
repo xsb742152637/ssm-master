@@ -1,6 +1,6 @@
 <%@ page import="model.core.menutree.entity.CoreMenuTreeInfoEntity" %>
 <%@ page import="util.context.Context" %>
-<%@ taglib prefix="master" uri="util.masterPage" %>
+<%@ taglib prefix="master" uri="util.masterpage" %>
 <%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%--

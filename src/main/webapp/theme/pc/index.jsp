@@ -6,7 +6,7 @@
   Time: 13:52
   To change this template use File | Settings | File Templates.
 --%>
-<%@ taglib prefix="master" uri="util.masterPage" %>
+<%@ taglib prefix="master" uri="util.masterpage" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     String menuCode = request.getParameter("menuCode");
