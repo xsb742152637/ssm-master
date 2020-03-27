@@ -93,7 +93,7 @@
 
 
     <script type="text/javascript">
-        util.masterpage thisMenuId = "<%=Context.getCurrent().getMenuTree() == null ? "" : Context.getCurrent().getMenuTree().getMenuId()%>";
+        const thisMenuId = "<%=Context.getCurrent().getMenuTree() == null ? "" : Context.getCurrent().getMenuTree().getMenuId()%>";
         console.log(thisMenuId)
     </script>
     <script type="text/javascript" src="/theme/pc/main/res/index.js"></script>

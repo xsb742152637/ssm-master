@@ -162,6 +162,9 @@ layui.define('form', function(exports){
     });
 
     that.events();
+
+    //加载完成产生的回调
+    options.loadSuccess && options.loadSuccess();
   };
   
   //渲染表单
@@ -273,7 +276,9 @@ layui.define('form', function(exports){
       
       //操作节点
       options.edit && that.operate(entryDiv, item);
-      
+
+      //绑定数据
+      entryDiv.data("data",item);
     });
   };
 
@@ -833,7 +838,6 @@ layui.define('form', function(exports){
   tree.reload = function(id, options){
     var that = thisModule.that[id];
     that.reload(options);
-    
     return thisModule.call(that);
   };
   

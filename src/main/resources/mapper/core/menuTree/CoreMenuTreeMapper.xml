@@ -12,7 +12,7 @@
 
     <!-- 目的：为dao接口方法提供sql语句配置 -->
     <select id="getMenuTree" resultType="java.util.HashMap" parameterType="java.lang.Boolean">
-        select a.MENU_ID,a.MENU_LEVEL,a.OUTLINE_LEVEL,a.TITLE,a.ICON,ui.CODE,ui.URL_ID,ui.URL,ui.PARAMETER
+        select a.MENU_ID,a.MENU_LEVEL,a.OUTLINE_LEVEL,a.TITLE,a.ICON,a.IS_SHOW,ui.CODE,ui.URL_ID,ui.URL,ui.PARAMETER
         from core_menu_tree_info a left join core_menu_url_info ui on a.URL_ID=ui.URL_ID
         <!--<if test="_parameter  != null" >-->
         <if test="isShow != null" >

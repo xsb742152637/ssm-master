@@ -43,7 +43,7 @@
                         <button type="button" class="layui-btn layui-btn-sm layui-btn-danger btn-del"><i class="layui-icon layui-icon-delete"></i>删除当前菜单</button>
                     </div>
                     <div class="layui-card-body">
-                        <from class="tree-form">
+                        <from class="layui-form">
 <%--                            <input type="hidden" name="type"/>--%>
 <%--                            <input type="hidden" name="menuId"/>--%>
                             <div class="layui-form-item">
@@ -52,7 +52,7 @@
                                     <!-- lay-verify="required" 表示验证类型为必填 -->
                                     <!-- lay-search 表示开启搜索 -->
                                     <select name="urlId" lay-verify="required" required lay-search>
-                                        <option value="" style="display: none;">请选择一个应用</option>
+                                        <option value="" >请选择一个应用</option>
                                         <option value="010">北京</option>
                                         <option value="021">上海</option>
                                         <option value="0571">杭州</option>

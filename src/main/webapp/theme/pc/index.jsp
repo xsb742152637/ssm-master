@@ -41,7 +41,7 @@
         </div>
         <script type="text/javascript">
             $(function(){
-//                util.masterpage a = new Camera({id: "contentHolder"});
+//                const a = new Camera({id: "contentHolder"});
             });
 
         </script>

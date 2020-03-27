@@ -17,6 +17,15 @@ layui.use(['tree','layer','form'], function(){
                         accordion: true,//开启手风琴模式
                         onlyIconControl: true,//是否仅允许节点左侧图标控制展开收缩
                         data: data,
+                        loadSuccess: function(){
+                            $('#my-tree .layui-tree-set').each(function(){
+                               let data = $(this).data('data');
+                               //停用的标签暗字显示
+                               if(data != null && !data.isShow){
+                                   $(this).find('.layui-tree-txt').addClass('layui-tree-color2');
+                               }
+                            });
+                        },
                         click: function(e) { //节点选中状态改变事件监听，全选框有自己的监听事件
                             //节点选中效果
                             let active = "layui-bg-green layui-active";
@@ -48,7 +57,7 @@ layui.use(['tree','layer','form'], function(){
     $('.btn-add').on('click',function(){
         if(!_check)
             return;
-        $('.tree-form input[name="type"]').val('add');
+        $('.layui-form input[name="type"]').val('add');
     });
 
     //删除当前菜单
@@ -62,11 +71,13 @@ layui.use(['tree','layer','form'], function(){
     let tree_edit = function(){
         if(!_check)
             return;
-        $('.tree-form input,.tree-form select').each(function(){
+        $('.layui-form input,.layui-form select').each(function(){
             let name = $(this).attr('name');
             $(this).val(selData[name]);
         });
-        $('.tree-form input[name="type"]').val('edit');
+        $('.layui-form input[name="type"]').val('edit');
+        $('.layui-form input[name="isShow"]').prop('checked',selData.isShow);
+        form.render();
         console.log(selData);
     };
 
