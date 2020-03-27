@@ -82,7 +82,8 @@ public class CheckLoginServlet extends HttpServlet {
         response.setHeader("Access-Control-Allow-Origin", "*");
         PrintWriter out = response.getWriter();
 
-        out.println(JSONObject.fromObject(lm));//返回jsonp格式数据
+        //返回jsonp格式数据
+        out.println(JSONObject.fromObject(lm));
         out.flush();
         out.close();
     }

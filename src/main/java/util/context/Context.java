@@ -1,13 +1,11 @@
 package util.context;
 
-import model.core.memberInfo.entity.CoreMemberInfoEntity;
-import model.core.menuTree.entity.CoreMenuTreeInfoEntity;
-import model.core.menuTree.service.CoreMenuTreeService;
-import model.core.menuTree.service.impl.CoreMenuTreeServiceImpl;
+import model.core.memberinfo.entity.CoreMemberInfoEntity;
+import model.core.menutree.entity.CoreMenuTreeInfoEntity;
+import model.core.menutree.service.impl.CoreMenuTreeServiceImpl;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Field;
@@ -26,19 +24,19 @@ public class Context {
     }
 
     //
-    private static final ThreadLocal<Context> actionContext = new ThreadLocal<Context>();
+    private static final ThreadLocal<Context> ACTION_CONTEXT = new ThreadLocal<Context>();
     public static Context getCurrent() {
-        return (Context) actionContext.get();
+        return (Context) ACTION_CONTEXT.get();
     }
 
     public static Context createContext(HttpServletRequest request, HttpServletResponse response) {
         Context c = new Context(request, response);
-        actionContext.set(c);
+        ACTION_CONTEXT.set(c);
         return c;
     }
 
     //-------------------成员相关------------------------------
-    private  CoreMemberInfoEntity member = null;//当前登录用户
+    private  CoreMemberInfoEntity member = null;
     public CoreMemberInfoEntity getMember(){
         if(member == null){
             if (SecurityUtils.getSubject().isAuthenticated()) {
@@ -54,7 +52,7 @@ public class Context {
 
     //-------------------菜单相关------------------------------
 
-    private CoreMenuTreeInfoEntity menu = null;//当前访问页面
+    private CoreMenuTreeInfoEntity menu = null;
     public CoreMenuTreeInfoEntity getMenuTree(){
         return this.menu;
     }
@@ -73,8 +71,9 @@ public class Context {
             entity.setUrlId("");
             return entity;
         }
-        if(isCurrent)
+        if(isCurrent) {
             Context.getCurrent().setMenuTree(menu);
+        }
         return menu;
     }
     public void setMenuTree(CoreMenuTreeInfoEntity menu){

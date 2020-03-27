@@ -18,23 +18,24 @@ import java.util.*;
  * Date: 2020/3/23 16:50
  */
 public class WebPathUtils {
-    private static Path _rootPath = null;
-    static final String _relativePathSeparator = "/";
-    private static String _realPathSeparator = "\\";
-    final private static String _tempFolderName = "temp";
+    private static Path rootPath = null;
+    static final String RELATIVE_PATH_SEPARATOR = "/";
+    private static String REAL_PATH_SEPARATOR = "\\";
+    final private static String TEMP_FOLDER_NAME = "temp";
     static private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 
     static {
-        _realPathSeparator = FileSystems.getDefault().getSeparator();
+        REAL_PATH_SEPARATOR = FileSystems.getDefault().getSeparator();
     }
 
     //得到项目附件根目录
     public static Path getAttachRootPath(){
-        if(_rootPath == null){
+        if(rootPath == null){
             //得到spring-mvc.xml文件中配置的附件目录
             String path = ApplicationContext.get("fileStorage");
-            if(StringUtils.isBlank(path))
+            if(StringUtils.isBlank(path)) {
                 path = "fileStorage";
+            }
 
             Path tempRootPath = Paths.get(path);
             //判断附件目录是否为绝对路径
@@ -46,25 +47,25 @@ public class WebPathUtils {
                     e.printStackTrace();
                 }
                 if(clasPath != null){
-                    _rootPath = clasPath.resolveSibling(tempRootPath);
+                    rootPath = clasPath.resolveSibling(tempRootPath);
                 }
             }else{
-                _rootPath = tempRootPath;
+                rootPath = tempRootPath;
             }
         }
-        return _rootPath;
+        return rootPath;
     }
 
     //路径合并：将数组more合并到路径字符串first(相对或绝对路径都无所谓)的后面
     public static String mergePath(String first, String... more) {
         Collection<String> names = new LinkedList<>();
-        Collections.addAll(names, StringUtils.split(StringUtils.replace(first, _realPathSeparator, _relativePathSeparator), _relativePathSeparator));
+        Collections.addAll(names, StringUtils.split(StringUtils.replace(first, REAL_PATH_SEPARATOR, RELATIVE_PATH_SEPARATOR), RELATIVE_PATH_SEPARATOR));
         for (String m : more) {
-            Collections.addAll(names, StringUtils.split(StringUtils.replace(m, _realPathSeparator, _relativePathSeparator), _relativePathSeparator));
+            Collections.addAll(names, StringUtils.split(StringUtils.replace(m, REAL_PATH_SEPARATOR, RELATIVE_PATH_SEPARATOR), RELATIVE_PATH_SEPARATOR));
         }
         return first.startsWith("\\\\") ?
-                ("\\\\" + StringUtils.join(names, _relativePathSeparator)) :
-                (_relativePathSeparator + StringUtils.join(names, _relativePathSeparator));
+                ("\\\\" + StringUtils.join(names, RELATIVE_PATH_SEPARATOR)) :
+                (RELATIVE_PATH_SEPARATOR + StringUtils.join(names, RELATIVE_PATH_SEPARATOR));
     }
 
     /**
@@ -74,9 +75,9 @@ public class WebPathUtils {
      */
     public static String getRelativePathByAbsolutePath(String absolutePath) {
         if (isAbsolutePath(absolutePath)) {
-            return _relativePathSeparator + StringUtils.replace(getAttachRootPath().relativize(Paths.get(absolutePath)).toString(), _realPathSeparator, _relativePathSeparator);
+            return RELATIVE_PATH_SEPARATOR + StringUtils.replace(getAttachRootPath().relativize(Paths.get(absolutePath)).toString(), REAL_PATH_SEPARATOR, RELATIVE_PATH_SEPARATOR);
         }
-        if (absolutePath.startsWith(_relativePathSeparator)) {
+        if (absolutePath.startsWith(RELATIVE_PATH_SEPARATOR)) {
             return absolutePath;
         }
         throw new IllegalArgumentException("错误的绝对路径.");
@@ -89,7 +90,7 @@ public class WebPathUtils {
      */
     public static String getAbsolutePathByRelativePath(String relativePath) {
         if (isRelativePath(relativePath)) {
-            return getAttachRootPath().resolve(relativePath.startsWith(_relativePathSeparator) ? relativePath.substring(1) : relativePath).toString();
+            return getAttachRootPath().resolve(relativePath.startsWith(RELATIVE_PATH_SEPARATOR) ? relativePath.substring(1) : relativePath).toString();
         }
         return relativePath;
     }
@@ -115,15 +116,15 @@ public class WebPathUtils {
         if (isAbsolutePath(path)) {
             return false;
         }
-        return path.startsWith(_relativePathSeparator);
+        return path.startsWith(RELATIVE_PATH_SEPARATOR);
     }
 
     static String createRelativePath(String... names) {
         StringBuilder sb = new StringBuilder();
-        sb.append(_relativePathSeparator);
+        sb.append(RELATIVE_PATH_SEPARATOR);
         for (String n : names) {
             sb.append(n.trim());
-            sb.append(_relativePathSeparator);
+            sb.append(RELATIVE_PATH_SEPARATOR);
         }
         return sb.toString();
     }
@@ -135,6 +136,7 @@ public class WebPathUtils {
      * @return 返回 yyyyMMdd 格式的字符串
      */
     public static String getDateFolder(Date date) {
+        //noinspection AlibabaAvoidCallStaticSimpleDateFormat
         return dateFormat.format(date);
     }
 
@@ -156,7 +158,7 @@ public class WebPathUtils {
      * @return 如果是一个临时路径返回true, 否则返回false
      */
     public static boolean isTempRelativePath(String tmpRelativePath) {
-        return StringUtils.startsWithIgnoreCase(tmpRelativePath, createRelativePath(_tempFolderName));
+        return StringUtils.startsWithIgnoreCase(tmpRelativePath, createRelativePath(TEMP_FOLDER_NAME));
     }
 
     /**
@@ -164,7 +166,7 @@ public class WebPathUtils {
      * @return 返回新的临时相对目录
      */
     public static String getNewTempRelativePath() {
-        return createRelativePath(_tempFolderName, getDateFolder(new Date()), UUID.randomUUID().toString());
+        return createRelativePath(TEMP_FOLDER_NAME, getDateFolder(new Date()), UUID.randomUUID().toString());
     }
 
     /**
@@ -184,17 +186,17 @@ public class WebPathUtils {
     }
 
     public static void cleanTempFolder() {
-        cleanTempFolder(Calendar.DAY_OF_MONTH, -1);//取当前日期的前一天.
+        //取当前日期的前一天.
+        cleanTempFolder(Calendar.DAY_OF_MONTH, -1);
     }
 
     public static void cleanTempFolder(int field, int amount) {
-        //String today = getDateFolder(cal.getTime());
         DateTime endDate = DateTime.now();
-        Calendar cal = Calendar.getInstance();//使用默认时区和语言环境获得一个日历。
+        //使用默认时区和语言环境获得一个日历。
+        Calendar cal = Calendar.getInstance();
         cal.add(field, amount);
-        //String yesterday = getDateFolder(cal.getTime());
         DateTime startDate = new DateTime(cal);
-        Path cleanTemp = Paths.get(getAbsolutePathByRelativePath(createRelativePath(_tempFolderName)));
+        Path cleanTemp = Paths.get(getAbsolutePathByRelativePath(createRelativePath(TEMP_FOLDER_NAME)));
         if (Files.exists(cleanTemp)) {
             try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(cleanTemp)) {
                 for (Path tmpPath : directoryStream) {
@@ -205,9 +207,7 @@ public class WebPathUtils {
                         } catch (ParseException e) {
                         }
                         if (targetDate != null) {
-                            if ((targetDate.isAfter(startDate) && targetDate.isBefore(endDate))
-                                    || targetDate.isEqual(startDate)
-                                    || targetDate.isEqual(endDate)) {
+                            if ((targetDate.isAfter(startDate) && targetDate.isBefore(endDate)) || targetDate.isEqual(startDate) || targetDate.isEqual(endDate)) {
                                 continue;
                             }
                         }

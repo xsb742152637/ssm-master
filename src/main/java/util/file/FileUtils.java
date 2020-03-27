@@ -8,7 +8,7 @@ import java.io.*;
 public class FileUtils {
     //图片转化成base64字符串
 
-    public static String GetImageStr(File imgFile) {//将图片文件转化为字节数组字符串，并对其进行Base64编码处理
+    public static String getImageStr(File imgFile) {//将图片文件转化为字节数组字符串，并对其进行Base64编码处理
         InputStream in = null;
         byte[] data = null;
         //读取图片字节数组
@@ -24,7 +24,8 @@ public class FileUtils {
 
         //对字节数组Base64编码
         BASE64Encoder encoder = new BASE64Encoder();
-        return encoder.encode(data);//返回Base64编码过的字节数组字符串
+        //返回Base64编码过的字节数组字符串
+        return encoder.encode(data);
 
     }
 

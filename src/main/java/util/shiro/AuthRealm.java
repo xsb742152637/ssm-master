@@ -1,14 +1,13 @@
 package util.shiro;
 
-import model.core.memberInfo.entity.CoreMemberInfoEntity;
-import model.core.memberInfo.service.CoreMemberInfoService;
+import model.core.memberinfo.entity.CoreMemberInfoEntity;
+import model.core.memberinfo.service.CoreMemberInfoService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
-import util.context.Context;
 
 public class AuthRealm extends AuthorizingRealm {
 
@@ -19,7 +18,7 @@ public class AuthRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection arg0) {
         System.out.println("授权方法");
         //获取当前登录的用户
-        CoreMemberInfoEntity member = (CoreMemberInfoEntity) arg0.getPrimaryPrincipal();//获得当前登陆的用户
+        CoreMemberInfoEntity member = (CoreMemberInfoEntity) arg0.getPrimaryPrincipal();
         //Set<Role> roles = user.getRoles();//当前用户拥有的角色，根据自己的entity
         ////指示当前用户能访问的资源
         //授权类
@@ -51,7 +50,8 @@ public class AuthRealm extends AuthorizingRealm {
             CoreMemberInfoEntity entity = service.findOne(username,pwd);
             if(entity == null){
                 throw new UnknownAccountException();
-            }else if(entity.getIsFrozen()){// 帐号未启用(或账号被锁定)
+            }else if(entity.getIsFrozen()){
+                // 帐号未启用(或账号被锁定)
                 throw new LockedAccountException();
             }else{
                 return new SimpleAuthenticationInfo(entity, token.getCredentials(), AuthRealm.class.getName());

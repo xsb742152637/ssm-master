@@ -1,10 +1,7 @@
-var tree,layer;
-layui.use(['tree','layer'], function(){
-    tree = layui.tree;
-    layer = layui.layer;
-    var selData = null;//菜单树选中的信息
+layui.use(['tree','layer','form'], function(){
+    let tree = layui.tree, layer = layui.layer, form = layui.form;
+    let selData = null;//菜单树选中的信息
 
-    layer.msg('玩命提示中',{time: 1000});
     //加载树
     !function(){
         $.ajax({
@@ -21,15 +18,13 @@ layui.use(['tree','layer'], function(){
                         onlyIconControl: true,//是否仅允许节点左侧图标控制展开收缩
                         data: data,
                         click: function(e) { //节点选中状态改变事件监听，全选框有自己的监听事件
-                            console.log("aaa"); //得到checkbox原始DOM对象
-                            console.log(data); //得到checkbox原始DOM对象
-
                             //节点选中效果
                             var active = "layui-bg-green layui-active";
                             $("#my-tree .layui-tree-entry").removeClass(active);
                             $(e.elem).find(".layui-tree-entry:first").addClass(active);
 
                             selData = tree.getSelected('myTree');
+                            tree_edit();
                         }
                     });
                 }
@@ -42,13 +37,44 @@ layui.use(['tree','layer'], function(){
     }();
 
     //按钮绑定事件
-    $(".move-btn").on('click',function(){
-        if(selData == null){
-            layer.msg('请先选中一个菜单节点');
+    $('.btn-move').on('',function(){
+        if(!_check)
             return;
-        }
-        var type = $(this).data("type");
+        let type = $(this).data('type');
         console.log(type);
     });
 
+    //新增下一级菜单
+    $('.btn-add').on('click',function(){
+        if(!_check)
+            return;
+        $('.tree-form input[name="type"]').val('add');
+    });
+
+    //删除当前菜单
+    $('.btn-del').on('click',function(){
+        if(!_check)
+            return;
+
+    });
+
+    //修改菜单
+    let tree_edit = function(){
+        if(!_check)
+            return;
+        $('.tree-form input,.tree-form select').each(function(){
+            let name = $(this).attr('name');
+            $(this).val(selData[name]);
+        });
+        $('.tree-form input[name="type"]').val('edit');
+        console.log(selData);
+    };
+
+    let _check = function(){
+        if(selData == null){
+            layer.msg('请先选中一个菜单节点');
+            return false;
+        }
+        return true;
+    }
 });

@@ -1,4 +1,4 @@
-<%@ page import="model.core.menuTree.entity.CoreMenuTreeInfoEntity" %>
+<%@ page import="model.core.menutree.entity.CoreMenuTreeInfoEntity" %>
 <%@ page import="util.context.Context" %>
 <%@ taglib prefix="master" uri="util.masterPage" %>
 <%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
@@ -27,8 +27,8 @@
                 <div class="layui-card">
                     <div class="layui-card-header">
                         <!-- 按钮栏 -->
-                        <button type="button" class="layui-btn layui-btn-sm move-btn" data-type="true"><i class="layui-icon layui-icon-up"></i>上移</button>
-                        <button type="button" class="layui-btn layui-btn-sm move-btn" data-type="false"><i class="layui-icon layui-icon-down"></i>下移</button>
+                        <button type="button" class="layui-btn layui-btn-sm btn-move" data-type="true"><i class="layui-icon layui-icon-up"></i>上移</button>
+                        <button type="button" class="layui-btn layui-btn-sm btn-move" data-type="false"><i class="layui-icon layui-icon-down"></i>下移</button>
                     </div>
                     <div class="layui-card-body">
                         <div id="my-tree"></div>
@@ -39,11 +39,13 @@
                 <div class="layui-card">
                     <div class="layui-card-header">
                         <!-- 按钮栏 -->
-                        <button type="button" class="layui-btn layui-btn-sm layui-btn-normal"><i class="layui-icon layui-icon-add-1"></i>新增下级菜单</button>
-                        <button type="button" class="layui-btn layui-btn-sm layui-btn-danger"><i class="layui-icon layui-icon-delete"></i>删除当前菜单</button>
+                        <button type="button" class="layui-btn layui-btn-sm layui-btn-normal btn-add"><i class="layui-icon layui-icon-add-1"></i>新增下级菜单</button>
+                        <button type="button" class="layui-btn layui-btn-sm layui-btn-danger btn-del"><i class="layui-icon layui-icon-delete"></i>删除当前菜单</button>
                     </div>
                     <div class="layui-card-body">
-                        <from class="layui-form">
+                        <from class="tree-form">
+<%--                            <input type="hidden" name="type"/>--%>
+<%--                            <input type="hidden" name="menuId"/>--%>
                             <div class="layui-form-item">
                                 <label class="layui-form-label">应用：</label>
                                 <div class="layui-input-block">

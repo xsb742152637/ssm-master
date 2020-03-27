@@ -16,6 +16,7 @@ import java.util.List;
  * User: xiucai
  * Date: 2020/3/23 17:22
  */
+@SuppressWarnings("ALL")
 public class Directorys {
     public Directorys() {
     }
@@ -29,11 +30,13 @@ public class Directorys {
             checkCopyMove(source, target, options);
             final Path finalTarget = Files.createDirectories(target);
             Files.walkFileTree(source, new SimpleFileVisitor<Path>() {
+                @Override
                 public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
                     Files.createDirectories(finalTarget.resolve(source.relativize(dir).toString()));
                     return FileVisitResult.CONTINUE;
                 }
 
+                @Override
                 public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
                     Files.copy(file, finalTarget.resolve(source.relativize(file).toString()), options);
                     return FileVisitResult.CONTINUE;
@@ -50,6 +53,7 @@ public class Directorys {
             throw new NotDirectoryException(path.toString());
         } else {
             Files.walkFileTree(path, new SimpleFileVisitor<Path>() {
+                @Override
                 public FileVisitResult postVisitDirectory(Path dir, IOException exec) throws IOException {
                     if (!Files.isWritable(dir)) {
                         throw new IOException("“" + dir.toString() + "”不可写.");
@@ -58,6 +62,7 @@ public class Directorys {
                     }
                 }
 
+                @Override
                 public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
                     if (!Files.isWritable(file)) {
                         throw new IOException("“" + file.toString() + "”不可写.");
@@ -67,11 +72,13 @@ public class Directorys {
                 }
             });
             Files.walkFileTree(path, new SimpleFileVisitor<Path>() {
+                @Override
                 public FileVisitResult postVisitDirectory(Path dir, IOException exec) throws IOException {
                     Files.delete(dir);
                     return FileVisitResult.CONTINUE;
                 }
 
+                @Override
                 public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
                     Files.delete(file);
                     return FileVisitResult.CONTINUE;
@@ -90,16 +97,19 @@ public class Directorys {
             checkCopyMove(source, target, options);
             final Path finalTarget = Files.createDirectories(target);
             Files.walkFileTree(source, new SimpleFileVisitor<Path>() {
+                @Override
                 public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
                     Files.createDirectories(finalTarget.resolve(source.relativize(dir).toString()));
                     return FileVisitResult.CONTINUE;
                 }
 
+                @Override
                 public FileVisitResult postVisitDirectory(Path dir, IOException exec) throws IOException {
                     Files.delete(dir);
                     return FileVisitResult.CONTINUE;
                 }
 
+                @Override
                 public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
                     Files.move(file, finalTarget.resolve(source.relativize(file).toString()), options);
                     return FileVisitResult.CONTINUE;
@@ -127,6 +137,7 @@ public class Directorys {
                 throw new IOException("“" + target + "”不可写.");
             } else {
                 Files.walkFileTree(source, new SimpleFileVisitor<Path>() {
+                    @Override
                     public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
                         if (!Files.isReadable(dir)) {
                             throw new IOException("“" + dir.toString() + "”不可读.");
@@ -140,6 +151,7 @@ public class Directorys {
                         }
                     }
 
+                    @Override
                     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
                         if (!Files.isReadable(file)) {
                             throw new IOException("“" + file.toString() + "”不可读.");
@@ -165,6 +177,7 @@ public class Directorys {
         } else {
             final long[] length = new long[]{0L};
             Files.walkFileTree(path, new SimpleFileVisitor<Path>() {
+                @Override
                 public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
                     length[0] += Files.size(file);
                     return FileVisitResult.CONTINUE;
@@ -201,6 +214,7 @@ public class Directorys {
             throw new NotDirectoryException(path.toString());
         } else {
             Files.walkFileTree(path, new SimpleFileVisitor<Path>() {
+                @Override
                 public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
                     if (dir.equals(path) && !andSelf) {
                         return FileVisitResult.CONTINUE;
@@ -215,6 +229,7 @@ public class Directorys {
                     }
                 }
 
+                @Override
                 public FileVisitResult postVisitDirectory(Path dir, IOException exec) throws IOException {
                     if (dir.equals(path) && !andSelf) {
                         return FileVisitResult.CONTINUE;
@@ -243,6 +258,7 @@ public class Directorys {
             throw new NotDirectoryException(path.toString());
         } else {
             Files.walkFileTree(path, new SimpleFileVisitor<Path>() {
+                @Override
                 public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
                     try {
                         Files.delete(dir);
@@ -253,6 +269,7 @@ public class Directorys {
                     return FileVisitResult.SKIP_SUBTREE;
                 }
 
+                @Override
                 public FileVisitResult postVisitDirectory(Path dir, IOException exec) throws IOException {
                     try {
                         Files.delete(dir);

@@ -38,7 +38,6 @@ public class DefaultPermissionFilter implements Filter {
                 request.getRequestDispatcher(url).forward(request, response);
             } else {
                 request.getRequestDispatcher("/theme/pc/error/401.jsp").forward(request, response);
-                //WebUtils.toHttp(response).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             }
         }catch (Exception e){
             e.printStackTrace();

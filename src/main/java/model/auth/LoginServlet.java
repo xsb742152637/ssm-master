@@ -1,7 +1,7 @@
 package model.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import model.core.memberInfo.service.CoreMemberInfoService;
+import model.core.memberinfo.service.CoreMemberInfoService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
@@ -39,7 +39,7 @@ public class LoginServlet extends HttpServlet {
         doPost(request, response);
     }
 
-    private final static ObjectMapper objectMapper = new ObjectMapper();
+    private final static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
     /**
      * Handles the HTTP
      * <code>POST</code> method.
@@ -86,7 +86,7 @@ public class LoginServlet extends HttpServlet {
             }
         }
 
-        response.getWriter().print(objectMapper.writeValueAsString(lm));
+        response.getWriter().print(OBJECT_MAPPER.writeValueAsString(lm));
         if (!lm.error) {
             if ("true".equalsIgnoreCase(request.getParameter("autoRedirect"))) {
                 String successUrl = request.getParameter("successUrl");

@@ -1,4 +1,4 @@
-<%@ page import="model.core.menuTree.entity.CoreMenuTreeInfoEntity" %>
+<%@ page import="model.core.menutree.entity.CoreMenuTreeInfoEntity" %>
 <%@ page import="util.context.Context" %><%--
   Created by IntelliJ IDEA.
   User: Administrator
