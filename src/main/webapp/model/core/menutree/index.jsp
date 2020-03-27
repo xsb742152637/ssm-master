@@ -19,6 +19,7 @@
     <master:Content contentPlaceHolderId="title"><%=title%></master:Content>
     <master:Content contentPlaceHolderId="head">
 
+        <link rel="stylesheet" href="/model/core/menutree/res/index.css"/>
     </master:Content>
     <master:Content contentPlaceHolderId="body">
         <div class="layui-row layui-col-space10">
@@ -26,8 +27,8 @@
                 <div class="layui-card">
                     <div class="layui-card-header">
                         <!-- 按钮栏 -->
-                        <button type="button" class="layui-btn"><i class="layui-icon layui-icon-up"></i>上移</button>
-                        <button type="button" class="layui-btn"><i class="layui-icon layui-icon-down"></i>下移</button>
+                        <button type="button" class="layui-btn layui-btn-sm move-btn" data-type="true"><i class="layui-icon layui-icon-up"></i>上移</button>
+                        <button type="button" class="layui-btn layui-btn-sm move-btn" data-type="false"><i class="layui-icon layui-icon-down"></i>下移</button>
                     </div>
                     <div class="layui-card-body">
                         <div id="my-tree"></div>
@@ -38,8 +39,8 @@
                 <div class="layui-card">
                     <div class="layui-card-header">
                         <!-- 按钮栏 -->
-                        <button type="button" class="layui-btn layui-btn-normal"><i class="layui-icon layui-icon-add-1"></i>新增下级菜单</button>
-                        <button type="button" class="layui-btn layui-btn-danger"><i class="layui-icon layui-icon-delete"></i>删除当前菜单</button>
+                        <button type="button" class="layui-btn layui-btn-sm layui-btn-normal"><i class="layui-icon layui-icon-add-1"></i>新增下级菜单</button>
+                        <button type="button" class="layui-btn layui-btn-sm layui-btn-danger"><i class="layui-icon layui-icon-delete"></i>删除当前菜单</button>
                     </div>
                     <div class="layui-card-body">
                         <from class="layui-form">

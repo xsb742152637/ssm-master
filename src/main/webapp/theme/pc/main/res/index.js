@@ -3,11 +3,6 @@ layui.use(['element','layer'], function(){
     var element = layui.element;
     var layer = layui.layer;
 
-    layer.config({
-        anim: 5, //默认动画风格
-        skin: 'layui-layer-molv'
-    });
-
     //加载菜单
     !function() {
         $.ajax({

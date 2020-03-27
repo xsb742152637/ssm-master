@@ -49,6 +49,9 @@ layui.define('form', function(exports){
       ,reload: function(options){
         that.reload.call(that, options);
       }
+      ,getSelected: function(){
+        return that.getSelected.call(that);
+      }
       ,getChecked: function(){
         return that.getChecked.call(that);
       }
@@ -313,7 +316,7 @@ layui.define('form', function(exports){
         };
       };
     });
-    
+
     //点击回调
     elemText.on('click', function(){
       var othis = $(this);
@@ -727,17 +730,44 @@ layui.define('form', function(exports){
   };
 
   //得到选中节点
+  Class.prototype.getSelected = function(){
+    var that = this
+    ,options = that.config
+    ,selData = null;
+    //遍历节点找到选中索引
+    var id = that.elem.find('.layui-active').parent().attr("data-id");
+
+    //遍历节点
+    var eachNodes = function(data){
+      layui.each(data, function(index, item){
+        if(item.id == id){
+            selData = item;
+            return true
+        }else{
+            if(item.children){
+                eachNodes(item.children);
+            }
+        }
+      });
+    };
+
+    eachNodes($.extend({}, options.data));
+
+    return selData;
+  };
+
+  //得到选中节点
   Class.prototype.getChecked = function(){
     var that = this
     ,options = that.config
     ,checkId = []
     ,checkData = [];
-    
+
     //遍历节点找到选中索引
     that.elem.find('.layui-form-checked').each(function(){
       checkId.push($(this).prev()[0].value);
     });
-    
+
     //遍历节点
     var eachNodes = function(data, checkNode){
       layui.each(data, function(index, item){
@@ -745,9 +775,9 @@ layui.define('form', function(exports){
           if(item.id == item2){
             var cloneItem = $.extend({}, item);
             delete cloneItem.children;
-            
+
             checkNode.push(cloneItem);
-            
+
             if(item.children){
               cloneItem.children = [];
               eachNodes(item.children, cloneItem.children);
@@ -759,7 +789,7 @@ layui.define('form', function(exports){
     };
 
     eachNodes($.extend({}, options.data), checkData);
-    
+
     return checkData;
   };
 
@@ -807,6 +837,11 @@ layui.define('form', function(exports){
     return thisModule.call(that);
   };
   
+  //获得选中的节点数据
+  tree.getSelected = function(id){
+    var that = thisModule.that[id];
+    return that.getSelected();
+  };
   //获得选中的节点数据
   tree.getChecked = function(id){
     var that = thisModule.that[id];

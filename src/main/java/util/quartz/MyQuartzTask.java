@@ -17,6 +17,6 @@ public class MyQuartzTask {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         System.out.println("doCronTaskFive《30分/次》正在运行..."+sdf.format(new Date()));
 
-        WindowsMessageUtil.sendMessage("自动提醒","当前时间：" + sdf.format(new Date()));
+//        WindowsMessageUtil.sendMessage("自动提醒","当前时间：" + sdf.format(new Date()));
     }
 }
