@@ -525,7 +525,12 @@ a cite{font-style: normal; *cursor:pointer;}
 .layui-bg-black{background-color: #393D49!important; color: #fff!important;} /*黑*/
 .layui-bg-gray{background-color: #eee!important; color: #666!important;} /*灰*/
 
-.layui-active div,.layui-active span,.layui-active i{color: #fff !important;}
+/*选中色*/
+.layui-active,.layui-active div,.layui-active span,.layui-active i{
+  background-color: #5FB878 !important;
+  color: #fff !important;
+}
+
 /* 边框 */
 .layui-quote-nm, 
 .layui-elem-field,
@@ -631,7 +636,7 @@ hr, .layui-timeline-item:before{background-color: #e6e6e6;}
 .layui-input-inline{display: inline-block; vertical-align: middle;}
 .layui-form-item .layui-input-inline{float: left; width: 190px; margin-right: 10px;}
 .layui-form-text .layui-input-inline{width: auto;}
-.layui-form-item .layui-input-block .layui-icon,.layui-form-item .layui-input-inline .layui-icon{position: absolute;right: 10px;top: 0px;}
+/*.layui-form-item .layui-input-block .layui-icon,.layui-form-item .layui-input-inline .layui-icon{position: absolute;right: 10px;top: 0px;}*/
 /* 分割块 */.layui-form-mid{position: relative; float: left; display: block; padding: 9px 0 !important; line-height: 20px; margin-right: 10px;}
 /* 警告域 */.layui-form-danger:focus
 ,.layui-form-danger+.layui-form-select .layui-input{border-color: #FF5722 !important;}
@@ -1027,12 +1032,12 @@ body .layui-table-tips .layui-layer-content{background: none; padding: 0; box-sh
 .layui-nav-tree .layui-this>a,
 .layui-nav-tree .layui-this>a:hover,
 .layui-nav-tree .layui-nav-child dd.layui-this,
-.layui-nav-tree .layui-nav-child dd.layui-this a{background-color: #009688; color: #fff;}
+.layui-nav-tree .layui-nav-child dd.layui-this a{background-color: #5FB878; color: #fff;}
 .layui-nav-tree .layui-this:after{display: none;}
 .layui-nav-tree .layui-nav-title a,
 .layui-nav-tree .layui-nav-title a:hover,
 .layui-nav-itemed>a{color: #fff !important;}
-.layui-nav-tree .layui-nav-bar{background-color: #009688;}
+.layui-nav-tree .layui-nav-bar{background-color: #5FB878;}
 
 .layui-nav-tree .layui-nav-child{position: relative; z-index: 0; top: 0; border: none; box-shadow: none;}
 .layui-nav-tree .layui-nav-child a{height: 40px; line-height: 40px;}

@@ -28,7 +28,7 @@ layui.use(['tree','layer','form'], function(){
                         },
                         click: function(e) { //节点选中状态改变事件监听，全选框有自己的监听事件
                             //节点选中效果
-                            let active = "layui-bg-green layui-active";
+                            let active = "layui-active";
                             $("#my-tree .layui-tree-entry").removeClass(active);
                             $(e.elem).find(".layui-tree-entry:first").addClass(active);
 
@@ -80,6 +80,31 @@ layui.use(['tree','layer','form'], function(){
         form.render();
         console.log(selData);
     };
+
+    !function(){
+        $.ajax({
+            url: "/core/menuurl/getMenuUrl.do",
+            dataType: 'json',
+            type: "POST",
+            success: function (data) {
+                console.log(data);
+                if (data != null && data.length > 0) {
+                    //渲染
+                    var str = '<option value="" >请选择一个应用</option>';
+                    for(let i = 0 ; i < data.length ; i++){
+                        let d = data[i];
+                        str += '<option value="'+ d.urlId +'">'+ d.title +'</option>';
+                    }
+                    $('.layui-form select[name="urlId"]').empty().append(str);
+                    form.render();
+                }
+
+            },
+            error: function (jqXHR) {
+                console.log(jqXHR);
+            }
+        });
+    }();
 
     let _check = function(){
         if(selData == null){
