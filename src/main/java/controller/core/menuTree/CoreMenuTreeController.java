@@ -1,6 +1,7 @@
 package controller.core.menuTree;
 
 import model.core.menuTree.service.CoreMenuTreeService;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,7 +25,18 @@ public class CoreMenuTreeController extends GenericController {
     @RequestMapping("getMenuTree")
     @ResponseBody
     public String getMenuTree(HttpServletRequest request, HttpServletResponse response)throws Exception{
-        List<Map<String,Object>> list = mainService.getMenuTree();
+        String isTop = request.getParameter("isTop");
+        String isShow = request.getParameter("isShow");
+
+        Boolean isShow2 = null;
+        if(StringUtils.isBlank(isTop)){
+            isTop = "true";
+        }
+        if(StringUtils.isNotBlank(isShow)){
+            isShow2 = Boolean.parseBoolean(isShow);
+        }
+
+        List<Map<String,Object>> list = mainService.getMenuTree(Boolean.parseBoolean(isTop),isShow2);
         return returnStringByList(list);
     }
 }

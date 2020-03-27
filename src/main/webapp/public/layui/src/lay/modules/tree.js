@@ -84,6 +84,7 @@ layui.define('form', function(exports){
   Class.prototype.config = {
     data: []  //数据
     
+    ,showIcon: true  //是否显示复选框
     ,showCheckbox: false  //是否显示复选框
     ,showLine: true  //是否开启连接线
     ,accordion: false  //是否开启手风琴模式
@@ -184,7 +185,7 @@ layui.define('form', function(exports){
                 if(hasChild){
                   return '<span class="layui-tree-iconClick layui-tree-icon"><i class="layui-icon '+ (item.spread ? "layui-icon-subtraction" : "layui-icon-addition") +'"></i></span>';
                 }else{
-                  return '<span class="layui-tree-iconClick"><i class="layui-icon layui-icon-file"></i></span>';
+                  return '<span class="layui-tree-iconClick"></span>';
                 };
               }else{
                 return '<span class="layui-tree-iconClick"><i class="layui-tree-iconArrow '+ (hasChild ? "": HIDE) +'"></i></span>';
@@ -194,6 +195,17 @@ layui.define('form', function(exports){
             //复选框
             ,function(){
               return options.showCheckbox ? '<input type="checkbox" name="'+ (item.field || ('layuiTreeCheck_'+ item.id)) +'" same="layuiTreeCheck" lay-skin="primary" '+ (item.disabled ? "disabled" : "") +' value="'+ item.id +'">' : '';
+            }()
+
+            //图标
+            ,function(){
+              var i_c = '';
+              if(hasChild){
+                i_c = item.icon ? item.icon : 'layui-icon-template-1';
+              }else{
+                  i_c = item.icon ? item.icon : 'layui-icon-app';
+              }
+              return options.showIcon ? '<span class="layui-tree-iconClick2"><i class="layui-icon '+ i_c +'"></i></span>' : '';
             }()
             
             //节点

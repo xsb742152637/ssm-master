@@ -12,6 +12,7 @@ layui.use(['element','layer'], function(){
     !function() {
         $.ajax({
             url: "/core/menuTree/getMenuTree.do",
+            data:{isTop: false,isShow: true},//不显示顶级节点，不显示隐藏节点
             dataType: 'json',
             type: "POST",
             success: function (data) {

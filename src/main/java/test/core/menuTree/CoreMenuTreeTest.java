@@ -14,7 +14,7 @@ public class CoreMenuTreeTest extends BaseTest {
 
     @Test
     public void findOne() throws Exception {
-        List<Map<String,Object>> list = core.getMenuTree();
-        System.out.println(list.size() + "---------------");
+        //List<Map<String,Object>> list = core.getMenuTree();
+        //System.out.println(list.size() + "---------------");
     }
 }

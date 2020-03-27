@@ -16,7 +16,7 @@
 <html>
 <head>
     <title>登录</title>
-    <link rel="stylesheet" href="/public/layui/dist/css/layui.css"/>
+    <link rel="stylesheet" href="/public/layui/src/css/layui.css"/>
     <link rel="stylesheet" href="/public/colors/default.css"/>
     <link rel="stylesheet" href="/theme/pc/login/res/index.css"/>
 

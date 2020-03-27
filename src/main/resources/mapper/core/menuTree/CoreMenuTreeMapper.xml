@@ -11,12 +11,16 @@
     <!--</cache>-->
 
     <!-- 目的：为dao接口方法提供sql语句配置 -->
-    <select id="getMenuTree" resultType="java.util.HashMap">
+    <select id="getMenuTree" resultType="java.util.HashMap" parameterType="java.lang.Boolean">
         select a.MENU_ID,a.MENU_LEVEL,a.OUTLINE_LEVEL,a.TITLE,a.ICON,ui.CODE,ui.URL_ID,ui.URL,ui.PARAMETER
         from core_menu_tree_info a left join core_menu_url_info ui on a.URL_ID=ui.URL_ID
-        where a.IS_SHOW=1
-        order by a.OUTLINE_LEVEL,a.MENU_LEVEL
+        <!--<if test="_parameter  != null" >-->
+        <if test="isShow != null" >
+          where a.IS_SHOW = #{isShow}
+        </if>
+        order by convert(REPLACE(a.OUTLINE_LEVEL,'.',''),SIGNED)
     </select>
+
     <select id="findOneByCode" resultType="CoreMenuTreeInfoEntity" parameterType="String">
         select a.* from core_menu_tree_info a join core_menu_url_info b on a.URL_ID=b.URL_ID where b.CODE=#{code}
     </select>

@@ -27,9 +27,9 @@ public class CoreMenuTreeServiceImpl extends GenericService implements CoreMenuT
 
     //@Cacheable(value = "cacheManager", key = "'CoreMenuTreeServiceImpl.getMenuTree'")
     @Override
-    public List<Map<String,Object>> getMenuTree() {
+    public List<Map<String,Object>> getMenuTree(Boolean isTop,Boolean isShow) {
         //1. 得到全部显示的菜单树的列表
-        List<Map<String,Object>> list = convertList(dao.getMenuTree());
+        List<Map<String,Object>> list = convertList(dao.getMenuTree(isShow));
         //2. 将列表转换为树形结构
 
         //2.1 将所有父级菜单放到此map中,方便后续菜单快速找到爹
@@ -37,18 +37,14 @@ public class CoreMenuTreeServiceImpl extends GenericService implements CoreMenuT
         //2.2 最终返回的树形结构
         List<Map<String,Object>> listR = new ArrayList<>();
         for(Map<String,Object> map : list){
-            if("root".equals(map.get("menuId").toString()))
+            if(!isTop && "root".equals(map.get("menuId").toString()))
                 continue;
+            if("root".equals(map.get("menuId").toString()))
+                map.put("spread",true);//根节点默认展开
+            map.put("id",map.get("menuId"));
             String outlineLevel = map.get("outlineLevel").toString();
             String parentLevel = outlineLevel.contains(".") ? outlineLevel.substring(0,outlineLevel.lastIndexOf(".")) : "";
 
-            //map.remove("menuLevel");
-            //map.remove("outlineLevel");
-            //map.remove("code");
-            //map.remove("menuId");
-            //map.remove("title");
-            //map.remove("url");
-            //map.remove("urlId");
             Map<String,Object> mp = mapP.get(parentLevel);
             if(mp == null){//找不到爹就自己当祖宗
                 listR.add(map);
@@ -61,7 +57,6 @@ public class CoreMenuTreeServiceImpl extends GenericService implements CoreMenuT
             mapP.put(outlineLevel,map);
         }
 
-        //listR.addAll((List<Map<String,Object>>) listR.get(0).get("children"));
         listR.get(0).put("state","open");
         return listR;
     }

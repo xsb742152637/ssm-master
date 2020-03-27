@@ -10,7 +10,7 @@ public interface CoreMenuTreeService {
      * 得到全部显示的菜单
      * @return
      */
-    List<Map<String,Object>> getMenuTree();
+    List<Map<String,Object>> getMenuTree(Boolean isTop,Boolean isShow);
 
     CoreMenuTreeInfoEntity findOneByCode(String code);
 }

@@ -69,6 +69,9 @@
     <!-- spring的缓存注解驱动 -->
     <cache:annotation-driven cache-manager="springCacheManager"/>
 
+    <!--全局异常捕捉 -->
+    <bean class="util.GlobalExceptionResolver" />
+
     <import resource="classpath:spring/spring-shiro.xml"/>
     <import resource="classpath:spring/spring-mybatis.xml"/>
     <import resource="classpath:spring/spring-quartz.xml"/>

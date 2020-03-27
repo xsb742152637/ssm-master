@@ -18,7 +18,7 @@
         <master:ContentPlaceHolder id="title"/>
     </title>
 
-    <link rel="stylesheet" href="/public/layui/dist/css/layui.css"/>
+    <link rel="stylesheet" href="/public/layui/src/css/layui.css"/>
     <link rel="stylesheet" href="/public/layui/src/css/admin.css"/>
     <link rel="stylesheet" href="/public/colors/default.css"/>
     <link rel="stylesheet" href="/theme/pc/main/res/index.css"/>
