@@ -29,17 +29,19 @@ layui.use(['element','layer'], function(){
         });
     }();
 
-    element.on('nav(layadmin-system-side-menu)',function(){
-        console.log('点击了')
-    });
+    // element.on('nav(layadmin-system-side-menu)',function(){
+    //     console.log('点击了菜单')
+    // });
 
     //组装菜单
+    let mbx = '';//面包屑
     let _loadMenuTree = function(parentE,data,isOne){
         let isHave = false;
         for(let i = 0 ; i < data.length ; i++){
+            let isHave2 = false;
             let d = data[i];
             if(d.menuId == thisMenuId)
-                isHave = true;
+                isHave2 = true;
 
             let li;
             if(isOne){
@@ -55,41 +57,52 @@ layui.use(['element','layer'], function(){
                 let dl = $("<dl/>").addClass("layui-nav-child");
                 let c_isHave = _loadMenuTree(dl,d.children,false);
                 if(c_isHave){
-                    isHave = c_isHave;
+                    isHave2 = c_isHave;
                     li.addClass('layui-nav-itemed');
                 }
                 dl.appendTo(li);
             }
+
+            if(isHave2){
+                isHave = isHave2;
+                mbx = '<a><i class="layui-icon '+ (String.isNullOrWhiteSpace(d.icon) ? 'layui-icon-file' : d.icon) +'"></i>'+ d.title +'</a>' + mbx;
+                $('.layui-layout-left .layui-breadcrumb').empty().append(mbx);
+            }
             li.appendTo(parentE);
         }
         return isHave;
-    }
-
+    };
 
     //左侧菜单收缩与展开
     let menu_set = function(){
-        $("#LAY_app_flexible").on("click",function(){
+        let isOpenMenu = true;
+        $(".LAY_app_flexible").on("click",function(){
             let c = "layadmin-side-shrink";
             let t = $(".layadmin-tabspage-none");
             if(t.hasClass(c)){//菜单展开
                 t.removeClass(c);
-                $(this).attr("class","layui-icon layui-icon-shrink-right");
+                $(this).find('i').attr("class","layui-icon layui-icon-shrink-right");
                 $(".logo-text").hide();
+                isOpenMenu = true;
             }else{
                 t.addClass(c);
-                $(this).attr("class","layui-icon layui-icon-spread-left");
+                $(this).find('i').attr("class","layui-icon layui-icon-spread-left");
                 $(".logo-text").show();
-                //
-                let tip_index = 0;
-                $('#LAY-system-side-menu li').off('mouseenter').off('mouseleave').on('mouseenter', function(){
-                    let that = this;
-                    tip_index = layer.tips($($(that).find('a')[0]).text(), that, {time: 0});
-                }).on('mouseleave', function(){
-                    layer.close(tip_index);
-                });
+                isOpenMenu = false;
             }
         });
+
+        let tip_index = 0;
+        $('#LAY-system-side-menu li').on('mouseenter', function(){
+            if(isOpenMenu)
+                return;
+            let that = this;
+            tip_index = layer.tips($($(that).find('a')[0]).text(), that, {time: 0});
+        }).on('mouseleave', function(){
+            layer.close(tip_index);
+        });
     };
+
 });
 
 

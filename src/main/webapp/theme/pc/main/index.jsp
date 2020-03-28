@@ -39,13 +39,13 @@
             <div class="layui-header">
 
                 <!-- 头部区域（可配合layui已有的水平导航） -->
-                <ul class="layui-nav layui-layout-left">
-                    <li class="layui-nav-item layadmin-flexible" lay-unselect="">
-                        <a href="javascript:;" layadmin-event="flexible" title="侧边伸缩">
-                            <i class="layui-icon layui-icon-shrink-right" id="LAY_app_flexible"></i>
-                        </a>
-                    </li>
-                </ul>
+                <div class="layui-layout-left">
+                    <div class="LAY_app_flexible" layadmin-event="flexible" title="侧边伸缩">
+                        <i class="layui-icon layui-icon-shrink-right"></i>
+                    </div>
+                    <div class="layui-breadcrumb"><a>首页</a><a>国际新闻</a></div>
+                </div>
+
                 <ul class="layui-nav layui-layout-right">
                     <li class="layui-nav-item">
                         <a href="javascript:;">

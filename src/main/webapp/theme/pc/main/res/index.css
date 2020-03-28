@@ -7,3 +7,19 @@
     color: #009688;
     font-weight: bolder;
 }
+.layui-layout-left .LAY_app_flexible{
+    display: inline-block;
+    padding: 17px 5px;
+    float: left;
+    margin-left: -10px;
+    background-color: #20222A;
+    color: #fff;
+}
+.layui-layout-left .layui-breadcrumb{
+    display: inline-block;
+    padding: 28px 0px 0px 10px;
+    float: left;
+}
+.layui-layout-left .layui-breadcrumb a{
+    cursor: default;
+}
