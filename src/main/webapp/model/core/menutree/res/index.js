@@ -54,6 +54,8 @@ layui.use(['tree','layer','form'], function(){
 
     //提交表单
     form.on('submit(formDemo)', function(data){
+        if(!_check())
+            return;
         console.log(data.field);
         layer.load();
         $.ajax({
