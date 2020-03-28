@@ -130,7 +130,7 @@ layui.use(['tree','layer','form'], function(){
     $('.btn-add').on('click',function(){
         if(!_check())
             return;
-        let data = {type: 'add',isShow: true,menuId: selData.menuId};
+        let data = {isShow: true,parentId: selData.menuId};
         Function.setForm($('.layui-form'),data,form);
     });
 
@@ -139,7 +139,6 @@ layui.use(['tree','layer','form'], function(){
         if(!_check())
             return;
         let data = $.extend({}, selData);
-        data.type = 'edit';
         Function.setForm($('.layui-form'),data,form);
     };
 

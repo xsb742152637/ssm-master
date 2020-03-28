@@ -52,8 +52,8 @@
                     </div>
                     <div class="layui-card-body">
                         <from class="layui-form">
-                            <input type="hidden" name="type"/>
                             <input type="hidden" name="menuId"/>
+                            <input type="hidden" name="parentId"/>
                             <div class="layui-form-item">
                                 <label class="layui-form-label">应用：</label>
                                 <div class="layui-input-block">
