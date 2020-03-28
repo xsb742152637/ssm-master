@@ -1,6 +1,6 @@
 package model.core.menutree.service.impl;
 
-import model.core.menutree.dao.CoreMenuTreeDao;
+import model.core.menutree.dao.CoreMenuTreeInfoDao;
 import model.core.menutree.entity.CoreMenuTreeInfoEntity;
 import model.core.menutree.service.CoreMenuTreeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ import java.util.Map;
 @Service
 public class CoreMenuTreeServiceImpl extends GenericService implements CoreMenuTreeService {
     @Autowired
-    private CoreMenuTreeDao dao;
+    private CoreMenuTreeInfoDao dao;
     /**
      * 获取实例
      */
@@ -77,5 +77,105 @@ public class CoreMenuTreeServiceImpl extends GenericService implements CoreMenuT
             System.out.println("菜单code："+code+"没有找到。");
             return null;
         }
+    }
+
+    @Override
+    public int insert(CoreMenuTreeInfoEntity pojo) {
+        return dao.insert(pojo);
+    }
+
+    @Override
+    public int insertSelective(CoreMenuTreeInfoEntity pojo) {
+        return dao.insertSelective(pojo);
+    }
+
+    @Override
+    public int insertList(List<CoreMenuTreeInfoEntity> pojo) {
+        return dao.insertList(pojo);
+    }
+
+    @Override
+    public int update(CoreMenuTreeInfoEntity pojo) {
+        return dao.update(pojo);
+    }
+
+    /**
+     * 	//根据上级，得到子级下一个排序数字
+     * @param outlineLevel
+     * @return
+     */
+    @Override
+    public Integer getMenuLevelByParLevel(String outlineLevel) {
+        Integer n = dao.getMenuLevelByParLevel(outlineLevel);
+        if(n == null){
+            return 1;
+        }
+        return n+1;
+    }
+
+    @Override
+    public CoreMenuTreeInfoEntity findOneById(String menuId) {
+        return dao.findOneById(menuId);
+    }
+
+    /**
+     *移动菜单
+     * @param treeId
+     * @param type(上移)、false(下移)
+     */
+    @Override
+    public void moveTree(String treeId, boolean type) {
+        CoreMenuTreeInfoEntity entity = dao.findOneById(treeId);
+        if(entity == null) {
+            return;
+        }
+        int menuLevel = entity.getMenuLevel();
+
+        if(type){
+            menuLevel--;
+        }else{
+            menuLevel++;
+        }
+        String outlineLevel = entity.getOutlineLevel();
+        if(outlineLevel.split("\\.").length > 1){
+            outlineLevel = outlineLevel.substring(0,outlineLevel.lastIndexOf(".")) + "." + menuLevel;
+        }else{
+            outlineLevel = String.valueOf(menuLevel);
+        }
+
+        CoreMenuTreeInfoEntity entity2 = dao.findOneByOutlineLevel(outlineLevel);
+        if(entity2 == null) {
+            return;
+        }
+
+        dao.moveChildren(entity2.getOutlineLevel()+".","temp"+".");
+        dao.moveChildren(entity.getOutlineLevel()+".",entity2.getOutlineLevel()+".");
+        dao.moveChildren("temp"+".",entity.getOutlineLevel()+".");
+
+        entity2.setMenuLevel(entity.getMenuLevel());
+        entity2.setOutlineLevel(entity.getOutlineLevel());
+
+        entity.setMenuLevel(menuLevel);
+        entity.setOutlineLevel(outlineLevel);
+
+        dao.update(entity);
+        dao.update(entity2);
+    }
+
+
+    @Override
+    public int updateAfterDelete(String before, String after) {
+        return dao.updateAfterDelete(before,after);
+    }
+
+    @Override
+    public void delete(String menuId) {
+        CoreMenuTreeInfoEntity entity = dao.findOneById(menuId);
+        String outlineLevel = entity.getOutlineLevel();
+        String before = outlineLevel.substring(0,outlineLevel.lastIndexOf(".")+1);
+        String after = outlineLevel.substring(outlineLevel.lastIndexOf(".")+1);
+        dao.delete(menuId);
+        dao.updateAfterDelete(before,after);
+
     }
 }

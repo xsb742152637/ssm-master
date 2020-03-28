@@ -1,10 +1,24 @@
 package model.core.menuurl.service;
 
 import model.core.menuurl.entity.CoreMenuUrlInfoEntity;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 public interface CoreMenuUrlService {
 
-    List<CoreMenuUrlInfoEntity> findAll();
+    List<CoreMenuUrlInfoEntity> getMainInfo(String mainId,String searchKey,int page,int rows);
+
+    int insert(CoreMenuUrlInfoEntity pojo);
+
+    int insertSelective(CoreMenuUrlInfoEntity pojo);
+
+    int insertList(List<CoreMenuUrlInfoEntity> pojo);
+
+    int delete(String mainId);
+
+    int update(CoreMenuUrlInfoEntity pojo);
+
+    CoreMenuUrlInfoEntity findOne(String mainId);
+
 }
