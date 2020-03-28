@@ -23,7 +23,6 @@ layui.use(['tree','layer','form'], function(){
                         selectedId: (selData == null ? '' : selData.menuId),//默认选中
                         data: data,
                         loadSuccess: function(e){
-                            console.log(e);
                             $(e.elem).find('.layui-tree-set').each(function(){
                                let data = $(this).data('data');
                                //停用的标签暗字显示
@@ -151,7 +150,6 @@ layui.use(['tree','layer','form'], function(){
             type: "POST",
             success: function (data) {
                 layer.close();
-                console.log(data);
                 if (data != null && data.length > 0) {
                     //渲染
                     var str = '<option value="" >请选择一个应用</option>';
@@ -171,6 +169,10 @@ layui.use(['tree','layer','form'], function(){
         });
     }();
 
+    //图标选择器
+    $('.layui-form .layui-icon-more-vertical').on('click',function(){
+        layer.iconSelector($('.layui-form input[name="icon"]'));
+    });
     let _check = function(){
         if(selData == null){
             layer.msg('请先选中一个菜单节点');

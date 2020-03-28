@@ -75,6 +75,7 @@
                                 <label class="layui-form-label">菜单图标：</label>
                                 <div class="layui-input-block">
                                     <input type="text" name="icon"  placeholder="请输入菜单图标" class="layui-input">
+                                    <i class="layui-icon layui-icon-more-vertical"></i>
                                 </div>
                             </div>
                             <div class="layui-form-item">

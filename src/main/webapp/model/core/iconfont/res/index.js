@@ -2,7 +2,7 @@ layui.use(['element'], function(){
     let element = layui.element;
 
     //搜索
-    $("input[name='title']").on('input',function(){
+    $(".my-iconfont input[name='title']").on('input',function(){
         let v = $(this).val();
         if(String.isNullOrWhiteSpace(v)){
             $('.my-icons li').show();
@@ -23,6 +23,6 @@ layui.use(['element'], function(){
 
     //刷新
     $(".my-refresh").on('click',function(){
-        $("input[name='title']").val("").trigger("input");
+        $(".my-iconfont input[name='title']").val("").trigger("input");
     });
 });

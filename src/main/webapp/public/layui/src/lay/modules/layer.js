@@ -137,6 +137,44 @@ var layer = {
     * */
     layer.msg(rs.msg,{icon: rs.error ? 2 : 1});
   },
+  iconSelector: function(inputEle){//图标选择器
+    layer.load();
+    $.ajax({
+      url: "/model/core/iconfont/detail.jsp",
+      dataType: 'html',
+      type: "POST",
+      success: function (rs) {
+        layer.close();
+        layer.open({
+          title:'图标选择器',
+          type: 1,
+          skin: 'layui-layer-rim',
+          area: ['85%', '90%'],
+          content: rs,
+          success: function(layero, index){
+            let v = inputEle.val();
+            if(v != null && v != ''){
+              layero.find('li').each(function(){
+                let c = $(this).find('.doc-icon-fontclass').text();
+                if(v == c){
+                  $(this).addClass('layui-active');
+                }
+              });
+            }
+            layero.find('li').css({cursor: 'pointer'}).on('click',function(){
+              let c = $(this).find('.doc-icon-fontclass').text();
+              inputEle.val(c);
+              layer.close(index);
+            });
+          }
+        });
+      },
+      error: function (jqXHR) {
+        layer.close();
+        console.log(jqXHR);
+      }
+    });
+  },
   msg: function(content, options, end){ //最常用提示层
     var type = typeof options === 'function', rskin = ready.config.skin;
     var skin = (rskin ? rskin + ' ' + rskin + '-msg' : '')||'layui-layer-msg';
