@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="model.core.menutree.dao.CoreMenuTreeInfoDao">
+    <!--auto generated Code-->
+    <resultMap id="AllColumnMap" type="model.core.menutree.entity.CoreMenuTreeInfoEntity">
+        <result column="menu_id" property="menuId"/>
+        <result column="menu_level" property="menuLevel"/>
+        <result column="outline_level" property="outlineLevel"/>
+        <result column="title" property="title"/>
+        <result column="url_id" property="urlId"/>
+        <result column="icon" property="icon"/>
+        <result column="type" property="type"/>
+        <result column="is_show" property="isShow"/>
+    </resultMap>
+
+    <!--auto generated Code-->
+    <sql id="all_column">
+        `menu_id`,
+        `menu_level`,
+        `outline_level`,
+        `title`,
+        `url_id`,
+        `icon`,
+        `type`,
+        `is_show`
+    </sql>
+
+    <!--auto generated Code-->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="pojo.menuId">
+        INSERT INTO core_menu_tree_info (
+            `menu_id`,
+            `menu_level`,
+            `outline_level`,
+            `title`,
+            `url_id`,
+            `icon`,
+            `type`,
+            `is_show`
+        ) VALUES (
+            #{pojo.menuId},
+            #{pojo.menuLevel},
+            #{pojo.outlineLevel},
+            #{pojo.title},
+            #{pojo.urlId},
+            #{pojo.icon},
+            #{pojo.type},
+            #{pojo.isShow}
+        )
+    </insert>
+
+    <!--auto generated Code-->
+    <insert id="insertSelective" useGeneratedKeys="true" keyProperty="pojo.menuId">
+        INSERT INTO core_menu_tree_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pojo.menuId!=null"> `menu_id`,</if>
+            <if test="pojo.menuLevel!=null"> `menu_level`,</if>
+            <if test="pojo.outlineLevel!=null"> `outline_level`,</if>
+            <if test="pojo.title!=null"> `title`,</if>
+            <if test="pojo.urlId!=null"> `url_id`,</if>
+            <if test="pojo.icon!=null"> `icon`,</if>
+            <if test="pojo.type!=null"> `type`,</if>
+            <if test="pojo.isShow!=null"> `is_show`,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pojo.menuId!=null">#{pojo.menuId},</if>
+            <if test="pojo.menuLevel!=null">#{pojo.menuLevel},</if>
+            <if test="pojo.outlineLevel!=null">#{pojo.outlineLevel},</if>
+            <if test="pojo.title!=null">#{pojo.title},</if>
+            <if test="pojo.urlId!=null">#{pojo.urlId},</if>
+            <if test="pojo.icon!=null">#{pojo.icon},</if>
+            <if test="pojo.type!=null">#{pojo.type},</if>
+            <if test="pojo.isShow!=null">#{pojo.isShow},</if>
+        </trim>
+    </insert>
+
+    <!--auto generated Code-->
+    <insert id="insertList">
+        INSERT INTO core_menu_tree_info (
+        <include refid="all_column"/>
+        )VALUES
+        <foreach collection="pojos" item="pojo" index="index" separator=",">
+            (
+            #{pojo.menuId},
+            #{pojo.menuLevel},
+            #{pojo.outlineLevel},
+            #{pojo.title},
+            #{pojo.urlId},
+            #{pojo.icon},
+            #{pojo.type},
+            #{pojo.isShow}
+            )
+        </foreach>
+    </insert>
+
+    <delete id="delete" parameterType="String">
+        delete a
+        from core_menu_tree_info a,core_menu_tree_info b
+        where b.MENU_ID=#{menuId}
+        and left(a.OUTLINE_LEVEL,length(b.OUTLINE_LEVEL))=b.OUTLINE_LEVEL
+        and length(a.OUTLINE_LEVEL)>=length(b.OUTLINE_LEVEL)
+    </delete>
+
+    <!--auto generated Code-->
+    <update id="update">
+        UPDATE core_menu_tree_info
+        <set>
+            <if test="pojo.menuId != null"> `menu_id` = #{pojo.menuId}, </if>
+            <if test="pojo.menuLevel != null"> `menu_level` = #{pojo.menuLevel}, </if>
+            <if test="pojo.outlineLevel != null"> `outline_level` = #{pojo.outlineLevel}, </if>
+            <if test="pojo.title != null"> `title` = #{pojo.title}, </if>
+            <if test="pojo.urlId != null"> `url_id` = #{pojo.urlId}, </if>
+            <if test="pojo.icon != null"> `icon` = #{pojo.icon}, </if>
+            <if test="pojo.type != null"> `type` = #{pojo.type}, </if>
+            <if test="pojo.isShow != null"> `is_show` = #{pojo.isShow} </if>
+        </set>
+        WHERE menu_id = #{pojo.menuId}
+    </update>
+
+    <update id="moveChildren">
+        update core_menu_tree_info a
+        set a.OUTLINE_LEVEL=concat(#{newParen},a.MENU_LEVEL)
+        where left(a.OUTLINE_LEVEL,length(#{oldParen}))=#{oldParen} and length(a.OUTLINE_LEVEL)>length(#{oldParen})
+    </update>
+
+
+    <update id="updatebigBrother" parameterType="String">
+        update core_menu_tree_info a
+        set a.OUTLINE_LEVEL=concat(#{outlineLevel},a.MENU_LEVEL-1),
+        where
+    </update>
+
+    <update id="updateAfterDelete">
+        update core_menu_tree_info d,(
+        select c.MENU_ID,c.OUTLINE_LEVEL,concat(c.beforNum,c.curLevel - 1,if(instr(c.other,'.') = 0,'',substring(c.other,instr(c.other,'.')))) newOL
+        from (
+        select b.MENU_ID,b.TITLE,b.MENU_LEVEL,b.OUTLINE_LEVEL,#{before} beforNum,
+        SUBSTRING(b.OUTLINE_LEVEL,length(#{before}) + 1) other,
+        if(
+	        instr(SUBSTRING(b.OUTLINE_LEVEL,length(#{before}) + 1),'.') = 0,
+	        SUBSTRING(b.OUTLINE_LEVEL,length(#{before}) + 1)
+	        ,
+	        SUBSTRING(SUBSTRING(b.OUTLINE_LEVEL,length(#{before}) + 1),1,instr(SUBSTRING(b.OUTLINE_LEVEL,length(#{before}) + 1),'.') - 1)
+        ) curLevel
+        from core_menu_tree_info b
+        where
+        left(b.OUTLINE_LEVEL,length(#{before})) = #{before}
+        ) c
+        where c.curLevel > #{after}
+        )e set d.MENU_LEVEL=SUBSTRING(REVERSE(e.newOL),1,INSTR(REVERSE(e.newOL),'.') - 1),
+        d.OUTLINE_LEVEL=e.newOL
+        where d.MENU_ID=e.MENU_ID
+    </update>
+
+
+
+
+    <!-- 目的：为dao接口方法提供sql语句配置 -->
+    <select id="getMenuTree" resultType="java.util.HashMap" parameterType="java.lang.Boolean">
+        select a.MENU_ID,a.MENU_LEVEL,a.OUTLINE_LEVEL,a.TITLE,a.ICON,a.IS_SHOW,ui.CODE,ui.URL_ID,ui.URL,ui.PARAMETER
+        from core_menu_tree_info a left join core_menu_url_info ui on a.URL_ID=ui.URL_ID
+        <!--<if test="_parameter  != null" >-->
+        <if test="isShow != null" >
+            where a.IS_SHOW = #{isShow}
+        </if>
+        order by convert(REPLACE(a.OUTLINE_LEVEL,'.',''),SIGNED)
+    </select>
+
+    <select id="findOneByCode" resultType="CoreMenuTreeInfoEntity" parameterType="String">
+        select a.* from core_menu_tree_info a join core_menu_url_info b on a.URL_ID=b.URL_ID where b.CODE=#{code}
+    </select>
+
+    <select id="findOneById" resultType="model.core.menutree.entity.CoreMenuTreeInfoEntity" parameterType="String">
+        select a.MENU_ID,a.MENU_LEVEL,a.OUTLINE_LEVEL,a.TITLE,a.ICON,a.IS_SHOW
+        from core_menu_tree_info a
+        where a.MENU_ID = #{menuId}
+    </select>
+
+    <select id="findOneByOutlineLevel" resultType="model.core.menutree.entity.CoreMenuTreeInfoEntity" parameterType="String">
+        select a.MENU_ID,a.MENU_LEVEL,a.OUTLINE_LEVEL,a.TITLE,a.ICON,a.IS_SHOW
+        from core_menu_tree_info a
+        where a.OUTLINE_LEVEL = #{outlineLevel}
+    </select>
+
+    <select id="getMenuLevelByParLevel" resultType="Integer" parameterType="String">
+        select max(a.MENU_LEVEL)
+        from core_menu_tree_info a
+        where left(a.OUTLINE_LEVEL,length(#{outlineLevel}))=#{outlineLevel} and length(a.OUTLINE_LEVEL)>length(#{outlineLevel})
+    </select>
+
+
+</mapper>
+
