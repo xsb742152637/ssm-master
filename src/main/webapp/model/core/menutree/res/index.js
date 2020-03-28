@@ -146,7 +146,7 @@ layui.use(['tree','layer','form'], function(){
     !function(){
         layer.load();
         $.ajax({
-            url: "/core/menuurl/getMainInfo.do",
+            url: "/core/menuurl/getMenuUrl.do",
             dataType: 'json',
             type: "POST",
             success: function (data) {

@@ -27,6 +27,11 @@ public class CoreMenuUrlServiceImpl extends GenericService implements CoreMenuUr
     }
 
     @Override
+    public Integer getMainCount(String mainId, String searchKey) {
+        return dao.getMainCount(mainId,searchKey);
+    }
+
+    @Override
     public int insert(CoreMenuUrlInfoEntity pojo) {
         return dao.insert(pojo);
     }

@@ -83,7 +83,7 @@
     <delete id="delete" parameterType="String">
         delete a
         from core_menu_url_info a
-        where a.urlId=#{mainId}
+        where a.url_id=#{mainId}
     </delete>
 
     <!--auto generated Code-->
@@ -110,7 +110,20 @@
             and (locate(#{searchKey},c.TITLE)>0 or locate(#{searchKey},c.CODE)>0)
         </if>
         ORDER BY c.SYS_TIME desc
-        LIMIT ${(page-1)*rows},${rows};
+
+        <if test="rows != -1">
+            LIMIT ${(page-1)*rows},${rows};
+        </if>
+    </select>
+    <select id="getMainCount" resultType="Integer">
+        select count(1) from core_menu_url_info c
+        where 1=1
+        <if test="mainId != null">
+            and c.URL_ID = #{mainId},
+        </if>
+        <if test="searchKey != null">
+            and (locate(#{searchKey},c.TITLE)>0 or locate(#{searchKey},c.CODE)>0)
+        </if>
     </select>
 
     <select id="findOne" resultType="CoreMenuUrlInfoEntity" parameterType="String">

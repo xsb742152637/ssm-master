@@ -9,6 +9,8 @@ public interface CoreMenuUrlService {
 
     List<CoreMenuUrlInfoEntity> getMainInfo(String mainId,String searchKey,int page,int rows);
 
+    Integer getMainCount(String mainId,String searchKey);
+
     int insert(CoreMenuUrlInfoEntity pojo);
 
     int insertSelective(CoreMenuUrlInfoEntity pojo);

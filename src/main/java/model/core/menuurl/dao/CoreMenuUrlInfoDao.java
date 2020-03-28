@@ -20,5 +20,7 @@ public interface CoreMenuUrlInfoDao {
 
     List<CoreMenuUrlInfoEntity> getMainInfo(@Param("mainId") String mainId,@Param("searchKey") String searchKey,@Param("page") int page,@Param("rows") int rows);
 
+    Integer getMainCount(@Param("mainId") String mainId,@Param("searchKey") String searchKey);
+
     CoreMenuUrlInfoEntity findOne(@Param("mainId") String mainId);
 }

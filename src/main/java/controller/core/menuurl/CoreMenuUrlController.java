@@ -28,11 +28,24 @@ public class CoreMenuUrlController extends GenericController {
     //@RequiresRoles("admin")
     @RequestMapping("getMainInfo")
     @ResponseBody
-    public String getMenuTree(HttpServletRequest request, HttpServletResponse response, @RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10") Integer rows)throws Exception{
+    public String getMainInfo(HttpServletRequest request, HttpServletResponse response, @RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10") Integer rows)throws Exception{
         String mainId = request.getParameter("mainId");
         String searchKey = request.getParameter("searchKey");
         try {
             List<CoreMenuUrlInfoEntity> list = mainService.getMainInfo(mainId,searchKey,page,rows);
+            Integer count = mainService.getMainCount(mainId,searchKey);
+            return getTable(list,count);
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @RequestMapping("getMenuUrl")
+    @ResponseBody
+    public String getMenuUrl(HttpServletRequest request, HttpServletResponse response)throws Exception{
+        try {
+            List<CoreMenuUrlInfoEntity> list = mainService.getMainInfo(null,null,1,-1);
             return returnStringByList(list);
         }catch (Exception e){
             e.printStackTrace();

@@ -18,20 +18,13 @@ import java.util.Map;
 public class GenericController {
     public Logger logger = LoggerFactory.getLogger(this.getClass());
     //将查询的数据转换成字符串返回
-    public static String getTable(List<Map<String,Object>> list,int count,int page,int rows){
+    public static String getTable(Object list,int count){
         Map<String, Object> table = new HashMap<String, Object>();
-        int total = count / rows;
-        if (total == 0) {
-            total = 1;
-        } else {
-            if ((count % rows) != 0) {
-                total++;
-            }
-        }
-        table.put("page", page);
-        table.put("records", count);
-        table.put("total", total);
-        table.put("rows", list);
+
+        table.put("code", 0);
+        table.put("msg", "查询成功");
+        table.put("count", count);
+        table.put("data", list);
         JSONObject jsonObject = JSONObject.fromObject(table);
         return jsonObject.toString();
     }
