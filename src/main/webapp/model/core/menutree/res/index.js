@@ -1,14 +1,18 @@
+var layer;
+var selData = null;//菜单树选中的信息
 layui.use(['tree','layer','form'], function(){
-    let tree = layui.tree, layer = layui.layer, form = layui.form;
-    let selData = null;//菜单树选中的信息
+    let tree = layui.tree, form = layui.form;
+    layer = layui.layer;
 
-    //加载树
-    !function(){
+        //加载树
+    let loadTree = function(){
+        layer.load();
         $.ajax({
             url: "/core/menuTree/getMenuTree.do",
             dataType: 'json',
             type: "POST",
             success: function (data) {
+                layer.close();
                 if (data != null && data.length > 0) {
                     //渲染
                     let inst1 = tree.render({
@@ -16,77 +20,137 @@ layui.use(['tree','layer','form'], function(){
                         elem: '#my-tree',  //绑定元素
                         accordion: true,//开启手风琴模式
                         onlyIconControl: true,//是否仅允许节点左侧图标控制展开收缩
+                        selectedId: (selData == null ? '' : selData.menuId),//默认选中
                         data: data,
-                        loadSuccess: function(){
-                            $('#my-tree .layui-tree-set').each(function(){
+                        loadSuccess: function(e){
+                            console.log(e);
+                            $(e.elem).find('.layui-tree-set').each(function(){
                                let data = $(this).data('data');
                                //停用的标签暗字显示
                                if(data != null && !data.isShow){
-                                   $(this).find('.layui-tree-txt').addClass('layui-tree-color2');
+                                   $(this).find('.layui-tree-txt:first').addClass('layui-tree-color2');
                                }
                             });
                         },
                         click: function(e) { //节点选中状态改变事件监听，全选框有自己的监听事件
-                            //节点选中效果
-                            let active = "layui-active";
-                            $("#my-tree .layui-tree-entry").removeClass(active);
-                            $(e.elem).find(".layui-tree-entry:first").addClass(active);
-
-                            selData = tree.getSelected('myTree');
-                            tree_edit();
+                            // console.log(e);
+                            if(e.selected){
+                                selData = e.data;
+                                tree_edit();
+                            }else{
+                                selData = null;
+                                Function.setForm($('.layui-form'),null,form);
+                            }
                         }
                     });
                 }
-
             },
             error: function (jqXHR) {
+                layer.close();
                 console.log(jqXHR);
             }
         });
-    }();
+    };
+    loadTree();
 
-    //按钮绑定事件
-    $('.btn-move').on('',function(){
-        if(!_check)
-            return;
-        let type = $(this).data('type');
-        console.log(type);
+    //提交表单
+    form.on('submit(formDemo)', function(data){
+        console.log(data.field);
+        layer.load();
+        $.ajax({
+            url: "/core/menuTree/saveMain.do",
+            dataType: 'json',
+            type: "POST",
+            data: data.field,
+            success: function (rs) {
+                layer.close();
+                console.log(rs);
+                layer.res(rs);
+                loadTree();
+            },
+            error: function (jqXHR) {
+                layer.close();
+                console.log(jqXHR);
+            }
+        });
+        return false;
     });
 
-    //新增下一级菜单
-    $('.btn-add').on('click',function(){
-        if(!_check)
+    //移动
+    $('.btn-move').on('click',function(){
+        if(!_check())
             return;
-        $('.layui-form input[name="type"]').val('add');
+        let type = $(this).data('type');
+        layer.load();
+        $.ajax({
+            url: "/core/menuTree/moveMain.do",
+            dataType: 'json',
+            type: "POST",
+            data: {mainId: selData.menuId,type: type},
+            success: function (rs) {
+                layer.close();
+                layer.res(rs);
+                loadTree();
+            },
+            error: function (jqXHR) {
+                layer.close();
+                console.log(jqXHR);
+            }
+        });
     });
 
     //删除当前菜单
     $('.btn-del').on('click',function(){
-        if(!_check)
+        if(!_check())
             return;
+        layer.confirm('确认删除当前菜单及其下级？', {btn: ['确定','取消']},
+            function(){
+                layer.load();
+                $.ajax({
+                    url: "/core/menuTree/deleteMain.do",
+                    dataType: 'json',
+                    type: "POST",
+                    data: {mainId: selData.menuId},
+                    success: function (rs) {
+                        layer.close();
+                        layer.res(rs);
+                        loadTree();
+                    },
+                    error: function (jqXHR) {
+                        layer.close();
+                        console.log(jqXHR);
+                    }
+                });
+            }, function(){});
 
+    });
+
+    //新增下一级菜单
+    $('.btn-add').on('click',function(){
+        if(!_check())
+            return;
+        let data = {type: 'add',isShow: true,menuId: selData.menuId};
+        Function.setForm($('.layui-form'),data,form);
     });
 
     //修改菜单
     let tree_edit = function(){
-        if(!_check)
+        if(!_check())
             return;
-        $('.layui-form input,.layui-form select').each(function(){
-            let name = $(this).attr('name');
-            $(this).val(selData[name]);
-        });
-        $('.layui-form input[name="type"]').val('edit');
-        $('.layui-form input[name="isShow"]').prop('checked',selData.isShow);
-        form.render();
-        console.log(selData);
+        let data = $.extend({}, selData);
+        data.type = 'edit';
+        Function.setForm($('.layui-form'),data,form);
     };
 
+    //加载应用列表
     !function(){
+        layer.load();
         $.ajax({
             url: "/core/menuurl/getMenuUrl.do",
             dataType: 'json',
             type: "POST",
             success: function (data) {
+                layer.close();
                 console.log(data);
                 if (data != null && data.length > 0) {
                     //渲染
@@ -101,6 +165,7 @@ layui.use(['tree','layer','form'], function(){
 
             },
             error: function (jqXHR) {
+                layer.close();
                 console.log(jqXHR);
             }
         });

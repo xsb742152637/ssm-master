@@ -81,6 +81,7 @@ var layer = {
   }(),
   index: (window.layer && window.layer.v) ? 100000 : 0,
   path: ready.getPath,
+  loadLayer: null,
   config: function(options, fn){
     options = options || {};
     layer.cache = ready.config = $.extend({}, ready.config, options);
@@ -130,6 +131,12 @@ var layer = {
     }, type ? {} : options));
   },
   
+  res: function(rs){ //最常用提示层
+    /*
+    * icon：1(成功) 2(失败) 3(疑问) 4(锁定) 5(哭) 6(笑)
+    * */
+    layer.msg(rs.msg,{icon: rs.error ? 2 : 1});
+  },
   msg: function(content, options, end){ //最常用提示层
     var type = typeof options === 'function', rskin = ready.config.skin;
     var skin = (rskin ? rskin + ' ' + rskin + '-msg' : '')||'layui-layer-msg';
@@ -154,16 +161,17 @@ var layer = {
          options.skin = skin + ' ' + (options.skin||'layui-layer-hui');
        }
        return options;
-    }()));  
+    }()));
   },
   
   load: function(icon, options){
-    return layer.open($.extend({
+    layer.loadLayer = layer.open($.extend({
       type: 3,
-      icon: icon || 0,
+      icon: icon || 1,
       resize: false,
       shade: 0.01
     }, options));
+    return layer.loadLayer;
   }, 
   
   tips: function(content, follow, options){
@@ -902,6 +910,9 @@ layer.title = function(name, index){
 
 //关闭layer总方法
 layer.close = function(index){
+  if(!index){
+    index = layer.loadLayer;
+  }
   var layero = $('#'+ doms[0] + index), type = layero.attr('type'), closeAnim = 'layer-anim-close';
   if(!layero[0]) return;
   var WRAP = 'layui-layer-wrap', remove = function(){

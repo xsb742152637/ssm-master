@@ -27,8 +27,12 @@
                 <div class="layui-card">
                     <div class="layui-card-header">
                         <!-- 按钮栏 -->
-                        <button type="button" class="layui-btn layui-btn-sm btn-move" data-type="true"><i class="layui-icon layui-icon-up"></i>上移</button>
-                        <button type="button" class="layui-btn layui-btn-sm btn-move" data-type="false"><i class="layui-icon layui-icon-down"></i>下移</button>
+                        <button type="button" class="layui-btn layui-btn-sm btn-move" data-type="true">
+                            <i class="layui-icon layui-icon-up" style="margin-right: 0px;"></i>
+                        </button>
+                        <button type="button" class="layui-btn layui-btn-sm btn-move" data-type="false">
+                            <i class="layui-icon layui-icon-down" style="margin-right: 0px;"></i>
+                        </button>
                     </div>
                     <div class="layui-card-body">
                         <div id="my-tree"></div>
@@ -39,13 +43,17 @@
                 <div class="layui-card">
                     <div class="layui-card-header">
                         <!-- 按钮栏 -->
-                        <button type="button" class="layui-btn layui-btn-sm btn-add"><i class="layui-icon layui-icon-add-1"></i>新增下级菜单</button>
-                        <button type="button" class="layui-btn layui-btn-sm btn-del layui-bg-red"><i class="layui-icon layui-icon-delete"></i>删除当前菜单</button>
+                        <button type="button" class="layui-btn layui-btn-sm btn-add">
+                            <i class="layui-icon layui-icon-add-1"></i>新增下级菜单
+                        </button>
+                        <button type="button" class="layui-btn layui-btn-sm btn-del layui-bg-red">
+                            <i class="layui-icon layui-icon-delete"></i>删除当前菜单
+                        </button>
                     </div>
                     <div class="layui-card-body">
                         <from class="layui-form">
-<%--                            <input type="hidden" name="type"/>--%>
-<%--                            <input type="hidden" name="menuId"/>--%>
+                            <input type="hidden" name="type"/>
+                            <input type="hidden" name="menuId"/>
                             <div class="layui-form-item">
                                 <label class="layui-form-label">应用：</label>
                                 <div class="layui-input-block">
@@ -72,7 +80,7 @@
                             <div class="layui-form-item">
                                 <label class="layui-form-label">菜单状态：</label>
                                 <div class="layui-input-block">
-                                    <input type="checkbox" name="isShow" lay-skin="switch" lay-text="启用|停用">
+                                    <input type="checkbox" name="isShow" value="true" lay-skin="switch" lay-text="启用|停用">
                                 </div>
                             </div>
 

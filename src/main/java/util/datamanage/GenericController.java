@@ -69,7 +69,7 @@ public class GenericController {
         if(StringUtils.isBlank(msg)){
             msg="操作成功！";
         }
-        re.put("error", 0);
+        re.put("error", false);
         re.put("msg", msg);
         return re.toString();
     }
@@ -80,7 +80,7 @@ public class GenericController {
         if(StringUtils.isBlank(msg)){
             msg="操作失败！";
         }
-        re.put("error", 1);
+        re.put("error", true);
         re.put("msg", msg);
         return re.toString();
     }

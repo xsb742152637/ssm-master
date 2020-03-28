@@ -59,7 +59,36 @@ Function.isEquals = function (arr1, arr2) {
         })
     }
     return flag;
-}
+};
+
+//填充表单
+Function.setForm = function (ele, data,layuiForm) {
+    if(ele == null || ele.length == 0){
+        console.log('没有找到表单对象');
+        return false;
+    }
+    if(data == null){
+        data = {};
+    }
+
+    ele.find('input,select,textarea').each(function(){
+        let type = $(this).attr('type');
+        let name = $(this).attr('name');
+        let value = $(this).attr('value');
+
+        if('radio' == type){
+            $(this).prop('checked',value == (data[name] + ''));
+        }else if('checkbox' == type){
+            $(this).prop('checked',value == (data[name] + ''));
+        }else{
+            $(this).val(data[name]);
+        }
+    });
+
+    if(layuiForm != null){
+        layuiForm.render();
+    }
+};
 String.Empty = "";
 
 /**

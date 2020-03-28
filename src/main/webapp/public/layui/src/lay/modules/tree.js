@@ -74,7 +74,8 @@ layui.define('form', function(exports){
   ,ELEM_VIEW = 'layui-tree', ELEM_SET = 'layui-tree-set', ICON_CLICK = 'layui-tree-iconClick'
   ,ICON_ADD = 'layui-icon-addition', ICON_SUB = 'layui-icon-subtraction', ELEM_ENTRY = 'layui-tree-entry', ELEM_MAIN = 'layui-tree-main', ELEM_TEXT = 'layui-tree-txt', ELEM_PACK = 'layui-tree-pack', ELEM_SPREAD = 'layui-tree-spread'
   ,ELEM_LINE_SHORT = 'layui-tree-setLineShort', ELEM_SHOW = 'layui-tree-showLine', ELEM_EXTEND = 'layui-tree-lineExtend'
- 
+
+  ,ACTIVE_ITEM = 'layui-active'
   //构造器
   ,Class = function(options){
     var that = this;
@@ -92,6 +93,7 @@ layui.define('form', function(exports){
     ,showLine: true  //是否开启连接线
     ,accordion: false  //是否开启手风琴模式
     ,onlyIconControl: false  //是否仅允许节点左侧图标控制展开收缩
+    ,selectedId: ''  //默认选中的节点ID
     ,isJump: false  //是否允许点击节点时弹出新窗口跳转
     ,edit: false  //是否开启节点的操作图标
     
@@ -159,12 +161,30 @@ layui.define('form', function(exports){
       if(!othis.next()[0] && !othis.parents('.layui-tree-set').eq(0).next()[0]){
         othis.addClass(ELEM_LINE_SHORT);
       };
+
+      //默认选中
+      if(options.selectedId != '' && options.selectedId == $(this).data('id')){
+        $(this).find(".layui-tree-entry:first").addClass(ACTIVE_ITEM);
+        //展开所有上级
+        let ps = $(this).parents('.layui-tree-set');
+        for(let iii = (ps.length - 1) ; iii >= 0 ; iii--){
+          //没有展开
+          if(!that.isOpen($(ps[iii]))){
+            let entry = $(ps[iii]).children('.'+ELEM_ENTRY)
+                ,elemMain = entry.children('.'+ ELEM_MAIN)
+                ,elemIcon = entry.find('.'+ ICON_CLICK)
+                ,touchOpen = options.onlyIconControl ? elemIcon : elemMain //判断展开通过节点还是箭头图标
+
+            touchOpen.trigger('click');
+          }
+        }
+      }
     });
 
     that.events();
 
     //加载完成产生的回调
-    options.loadSuccess && options.loadSuccess();
+    options.loadSuccess && options.loadSuccess({elem: that.elem});
   };
   
   //渲染表单
@@ -182,7 +202,7 @@ layui.define('form', function(exports){
     layui.each(data, function(index, item){
       var hasChild = item.children && item.children.length > 0
       ,packDiv = $('<div class="layui-tree-pack" '+ (item.spread ? 'style="display: block;"' : '') +'"></div>')
-      ,entryDiv = $(['<div data-id="'+ item.id +'" class="layui-tree-set'+ (item.spread ? " layui-tree-spread" : "") + (item.checked ? " layui-tree-checkedFirst" : "") +'">'
+      ,entryDiv = $(['<div data-id="'+ item.id +'" class="layui-tree-set '+ (item.spread ? ELEM_SPREAD : "") + (item.checked ? " layui-tree-checkedFirst" : "") +'">'
         ,'<div class="layui-tree-entry">'
           ,'<div class="layui-tree-main">'
             //箭头
@@ -335,11 +355,19 @@ layui.define('form', function(exports){
       } else {
         state = options.onlyIconControl ? 'close' : 'open';
       }
-      
+
+      //是否选中
+      let isS = $(elem).find(".layui-tree-entry:first").hasClass(ACTIVE_ITEM);
+      $(elem).parents('.layui-tree').find('.layui-tree-entry').removeClass(ACTIVE_ITEM);
+      if(!isS){
+        $(elem).find(".layui-tree-entry:first").addClass(ACTIVE_ITEM);
+      }
+
       //点击产生的回调
       options.click && options.click({
         elem: elem
         ,state: state
+        ,selected: !isS
         ,data: item
       });
     });
@@ -828,6 +856,22 @@ layui.define('form', function(exports){
         });
       };
     });
+  };
+
+  //是否展开
+  Class.prototype.isOpen = function(elem,id){
+    var that = this
+    ,options = that.config;
+
+    if(elem == null && id != null && id != ''){
+      elem = $(that).find('div[data-id="'+ id +'"]');
+    }
+
+    if(elem == null || elem.length == 0){
+      return false;
+    }
+
+    return elem.hasClass(ELEM_SPREAD);
   };
 
   //记录所有实例
