@@ -1,10 +1,8 @@
-var layer;
-var selData = null;//菜单树选中的信息
 layui.use(['tree','layer','form'], function(){
-    let tree = layui.tree, form = layui.form;
-    layer = layui.layer;
+    let tree = layui.tree, form = layui.form,layer = layui.layer;
 
-        //加载树
+    let selData = null;//菜单树选中的信息
+    //加载树
     let loadTree = function(){
         layer.load();
         $.ajax({
@@ -71,6 +69,7 @@ layui.use(['tree','layer','form'], function(){
             },
             error: function (jqXHR) {
                 layer.close();
+                layer.res('保存失败！');
                 console.log(jqXHR);
             }
         });

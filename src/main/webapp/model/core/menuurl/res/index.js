@@ -1,12 +1,10 @@
-var layer;
-layui.use(['table','layer','form'], function(){
-    let table = layui.table, form = layui.form;
-    layer = layui.layer;
 
-    //第一个实例
-    var mainTableId = 'mainTable';
+layui.use(['table','layer','form'], function(){
+    let table = layui.table, form = layui.form,layer = layui.layer;
+
+    let mainTableId = 'mainTable';
     let mainTable = table.render({
-        elem: '#mainTable'
+        elem: '#' + mainTableId
         ,id: mainTableId
         ,text: '暂无数据'
         // ,height: 500
@@ -21,19 +19,13 @@ layui.use(['table','layer','form'], function(){
             {field: 'title', title: '应用名称', width: '20%',cellMinWidth: 100},
             {field: 'code', title: '应用编码', width: '20%',cellMinWidth: 100, sort: true},
             {field: 'url', title: '应用路径',cellMinWidth: 200},
-            {field: 'parameter', title: '参数', width: '20%',cellMinWidth: 100},
-            {field: 'sysTime', title: '编制时间', width: '10%',cellMinWidth: 100, sort: true}
+            {field: 'parameter', title: '参数', width: '15%',cellMinWidth: 100},
+            {field: 'sysTime', title: '编制时间', width: '10%',cellMinWidth: 100, sort: true,templet: function(d){
+                return d.sysTime == null ? '' : Date.parseObj(d.sysTime).format('yyyy-MM-dd HH:mm');
+            }}
         ]]
         ,done: function(res, curr, count){
-            //如果是异步请求数据方式，res即为你接口返回的信息。
-            //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
-            // console.log(res);
-
-            //得到当前页码
-            // console.log(curr);
-
-            //得到数据总量
-            // console.log(count);
+            //加载成功
         }
     });
 
@@ -42,14 +34,14 @@ layui.use(['table','layer','form'], function(){
         var checkStatus = table.checkStatus(obj.config.id);
         switch(obj.event){
             case 'add':
-                layer.msg('添加');
+                openModel(null,'新增');
                 break;
             case 'update':
                 let d = _check();
                 if(d == false){
                     return;
                 }
-
+                openModel(d,'修改：' + d.title);
                 break;
             case 'delete':
                 let dd = _check();
@@ -67,7 +59,7 @@ layui.use(['table','layer','form'], function(){
                             success: function (rs) {
                                 layer.close();
                                 layer.res(rs);
-                                table.reload();
+                                mainTable.reload();
                             },
                             error: function (jqXHR) {
                                 layer.close();
@@ -79,13 +71,40 @@ layui.use(['table','layer','form'], function(){
         };
     });
 
-    //行单击事件
-    table.on('row(test)', function(obj){
-        let index = $(obj.tr).data('index');
-        let data = obj.data;
-        table.setSelectedRow(mainTableId,index);//选中行
+    //打开模态框
+    let openModel = function(data,title){
+        Function.setForm($('.my-model'),data,form);//表单填充
+        layer.open({
+            title: title,
+            type: 1,
+            area: '35%',
+            content: $('.my-model')
+        });
+    };
+
+    //提交表单
+    form.on('submit(formDemo)', function(data){
+        layer.load();
+        $.ajax({
+            url: "/core/menuurl/saveMain.do",
+            dataType: 'json',
+            type: "POST",
+            data: data.field,
+            success: function (rs) {
+                layer.closeAll();
+                layer.res(rs);
+                mainTable.reload();
+            },
+            error: function (jqXHR) {
+                layer.close();
+                layer.res('保存失败！');
+                console.log(jqXHR);
+            }
+        });
+        return false;
     });
 
+    //检查
     let _check = function(){
         let d = table.getSelectedRow(mainTableId);//选中行
         if(d == null){

@@ -23,6 +23,7 @@ public class CoreMenuUrlServiceImpl extends GenericService implements CoreMenuUr
 
     @Override
     public List<CoreMenuUrlInfoEntity> getMainInfo(String mainId,String searchKey,int page,int rows){
+
         return dao.getMainInfo(mainId,searchKey, page,rows);
     }
 

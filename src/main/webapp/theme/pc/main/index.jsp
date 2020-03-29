@@ -84,7 +84,7 @@
 
             <div class="layui-body">
                 <!-- 内容主体区域 -->
-                <div style="padding: 15px;">
+                <div style="padding: 15px 0px;">
                     <master:ContentPlaceHolder id="body"/>
                 </div>
             </div>

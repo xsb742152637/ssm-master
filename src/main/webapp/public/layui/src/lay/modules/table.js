@@ -238,7 +238,8 @@ layui.define(['laytpl', 'laypage', 'layer', 'form', 'util'], function(exports){
     limit: 10 //每页显示的数量
     ,loading: true //请求数据时，是否显示loading
     ,cellMinWidth: 60 //所有单元格默认最小宽度
-    ,defaultToolbarLeft: ['search', 'add', 'update','delete'] //工具栏右侧图标
+    ,selectRow: true //能单击选择行
+    ,defaultToolbarLeft: ['reset','search', 'add', 'update','delete'] //工具栏右侧图标
     ,defaultToolbarRight: ['filter', 'exports', 'print'] //工具栏右侧图标
     ,autoSort: true //是否前端自动排序。如果否，则需自主排序（通常为服务端处理好排序）
     ,text: {
@@ -427,7 +428,12 @@ layui.define(['laytpl', 'laypage', 'layer', 'form', 'util'], function(exports){
 
     //添加工具栏右侧面板
     var leftDefaultTemp = {
-      search: {
+      reset: {
+        title: '刷新'
+        ,layEvent: 'reset'
+        ,icon: 'layui-icon-refresh'
+      }
+      ,search: {
         title: '搜索'
         ,layEvent: 'search'
         ,icon: 'layui-icon-search'
@@ -450,14 +456,42 @@ layui.define(['laytpl', 'laypage', 'layer', 'form', 'util'], function(exports){
     },elemToolTemp = that.layTool.find('.layui-table-tool-temp');
     
     if(options.toolbar === 'default'){
-
       if(typeof options.defaultToolbarLeft === 'object'){
         layui.each(options.defaultToolbarLeft, function(i, item){
           var thisItem = typeof item === 'string' ? leftDefaultTemp[item] : item;
           if(thisItem){
-            elemToolTemp.append('<button class="layui-btn layui-btn-sm" title="'+ thisItem.title +'" lay-event="'+ thisItem.layEvent +'">'
+            elemToolTemp.append('<button class="layui-btn layui-btn-sm layui-btn-'+ item +'" title="'+ thisItem.title +'" lay-event="'+ thisItem.layEvent +'" '+ ('reset'.equals(item) ? ' style="display:none;"' : '') +'>'
                 +'<i class="layui-icon '+ thisItem.icon +'"></i>' + '<span class="layui-table-tool-text">'+ thisItem.title +'</span>'
                 +'</button>');
+            if('search'.equals(item)){
+
+              //提交表单
+              form.on('submit(formSearch)', function(data){
+                that.config.where  = $.extend({}, that.config.where, data.field);
+                layer.closeAll();
+                that.reload();
+                $('.layui-btn-reset').show();
+                return false;
+              });
+
+              //刷新按钮
+              $('.layui-btn-reset').on('click',function(){
+                Function.setForm($('.search-model'),null,form);//表单填充
+                $('button[lay-filter="formSearch"]').trigger('click');
+                $('.layui-btn-reset').hide();
+              });
+
+              let model = $('.search-model');
+              let footer = model.find(".layui-card-footer");
+              let buts = $('<button class="layui-btn layui-btn-sm" lay-submit lay-filter="formSearch"><i class="layui-icon layui-icon-search"></i>搜索</button><button class="layui-btn layui-btn-sm layui-btn-primary layui-layer-close" type="button"><i class="layui-icon layui-icon-close"></i>关闭</button>');
+              if(footer.length > 0){
+                footer.append(buts);
+              }else{
+                footer = $('<div class="layui-card-footer"></div>');
+                footer.append(buts);
+                model.find('.layui-card-body').after(footer);
+              }
+            }
           }
         });
       }
@@ -1454,6 +1488,19 @@ layui.define(['laytpl', 'laypage', 'layer', 'form', 'util'], function(exports){
           printWin.print();
           printWin.close();
         break;
+        case 'search': //搜索
+          let model = $('.search-model');
+            Function.setForm(model,null,form);//表单填充
+
+            layer.open({
+              title: '搜索',
+              type: 1,
+              area: '35%',
+              content: model
+            });
+
+
+        break;
       }
       
       layui.event.call(this, MOD_NAME, 'toolbar('+ filter +')', $.extend({
@@ -1645,6 +1692,9 @@ layui.define(['laytpl', 'laypage', 'layer', 'form', 'util'], function(exports){
       if(othis.data('off')) return; //不触发事件
       that.layBody.find('tr:eq('+ index +')').removeClass(ELEM_HOVER)
     }).on('click', 'tr', function(){ //单击行
+      if(that.config.selectRow){
+        that.setSelectedRow($(this).data('index'));
+      }
       setRowEvent.call(this, 'row');
     }).on('dblclick', 'tr', function(){ //双击行
       setRowEvent.call(this, 'rowDouble');

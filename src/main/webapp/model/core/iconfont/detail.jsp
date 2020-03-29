@@ -55,7 +55,7 @@
     <div class="layui-card-body my-icons">
         <div class="layui-form-item">
             <div class="layui-input-inline">
-                <input type="text" name="title" placeholder="输入关键字搜索……" class="layui-input"  autocomplete="off">
+                <input type="text" name="title" placeholder="输入关键字搜索……" class="layui-input">
                 <i class="layui-icon layui-icon-refresh-3 my-refresh"></i>
             </div>
         </div>

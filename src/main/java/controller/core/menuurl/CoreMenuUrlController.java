@@ -71,10 +71,11 @@ public class CoreMenuUrlController extends GenericController {
     @ResponseBody
     public String saveMain(HttpServletRequest request, HttpServletResponse response)throws Exception{
         String mainId = request.getParameter("urlId");
-        String urlTitle = request.getParameter("urlTitle");
-        String urlCode = request.getParameter("urlCode");
-        String urlStr = request.getParameter("urlStr");
+        String title = request.getParameter("title");
+        String code = request.getParameter("code");
+        String url = request.getParameter("url");
         String parameter = request.getParameter("parameter");
+
         CoreMenuUrlInfoEntity entity = new CoreMenuUrlInfoEntity();
         if(StringUtils.isBlank(mainId)){
             entity.setUrlId(UUID.randomUUID().toString());
@@ -82,9 +83,9 @@ public class CoreMenuUrlController extends GenericController {
         }else{
             entity = mainService.findOne(mainId);
         }
-        entity.setTitle(urlTitle);
-        entity.setCode(urlCode);
-        entity.setUrl(urlStr);
+        entity.setTitle(title);
+        entity.setCode(code);
+        entity.setUrl(url);
         entity.setParameter(parameter);
         try{
             if(StringUtils.isBlank(mainId)){

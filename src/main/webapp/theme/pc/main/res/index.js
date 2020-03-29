@@ -1,3 +1,7 @@
+$(function(){
+    // 去掉所有input的autocomplete, 显示指定的除外 
+    $('input:not([autocomplete]),textarea:not([autocomplete]),select:not([autocomplete])').attr('autocomplete', 'off');
+});
 layui.use(['element','layer'], function(){
     let $ = layui.jquery;
     let element = layui.element;
@@ -103,6 +107,13 @@ layui.use(['element','layer'], function(){
         });
     };
 
+    //esc 按钮关闭所有弹出框
+    $(document).keyup(function(event){
+        if(event.keyCode == 27 || event.keyCode == 96){
+            console.log("esc关闭弹框：" + event.keyCode)
+            layer.closeAll();
+        }
+    });
 });
 
 
