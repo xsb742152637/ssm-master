@@ -1,0 +1,352 @@
+
+/* 纯圆角 */.layui-circle{border-radius: 100%;}
+/* 进度条 */
+.layui-progress{border-radius: 20px;}
+.layui-progress-bar{border-radius: 20px;}
+/* 窗口面板 */
+.layui-panel-window{border-radius: 0;}
+
+
+
+/*菜单收缩按钮*/
+.bs-radius-lg .LAY_app_flexible{border-radius: 0 15px 15px 0;}
+/* 引用 */
+.bs-radius-lg .layui-elem-quote{border-radius: 0 15px 15px 0;}
+/* 折叠面板 */
+.bs-radius-lg .layui-collapse{border-radius: 15px;}
+/* 卡片面板 */
+.bs-radius-lg .layui-card{border-radius: 15px;}
+.bs-radius-lg .layui-card-header{border-radius: 15px 15px 0 0;}
+/* 按钮 */
+.bs-radius-lg .layui-btn{border-radius: 15px;}
+/* 按钮组 */
+.bs-radius-lg .layui-btn-group .layui-btn{border-radius: 0;}
+.bs-radius-lg .layui-btn-group .layui-btn:first-child{border-radius: 15px 0 0 15px;}
+.bs-radius-lg .layui-btn-group .layui-btn:last-child{border-radius: 0 15px 15px 0;}
+/** 表单 **/
+.bs-radius-lg .layui-input,.bs-radius-lg .layui-textarea,.bs-radius-lg .layui-select{border-radius: 15px;}
+/* 下拉选择 */
+.bs-radius-lg .layui-form-select dl{border-radius: 15px;}
+/* 复选框 */
+.bs-radius-lg .layui-form-checkbox span{border-radius: 15px 0 0 15px;}
+.bs-radius-lg .layui-form-checkbox i{border-radius: 0 15px 15px 0;}
+/* 复选框-原始风格 */
+.bs-radius-lg .layui-form-checkbox[lay-skin="primary"] i{border-radius: 15px;}
+/* 复选框-开关风格 */
+.bs-radius-lg .layui-form-switch{border-radius: 20px;}
+.bs-radius-lg .layui-form-switch i{border-radius: 20px;}
+/* 表单方框风格 */
+.bs-radius-lg .layui-form-pane .layui-form-label{border-radius: 15px 0 0 15px;}
+.bs-radius-lg .layui-form-pane .layui-input{border-radius: 0 15px 15px 0;}
+.bs-radius-lg .layui-form-pane .layui-form-text .layui-form-label{border-radius: 15px;}
+.bs-radius-lg .layui-form-pane .layui-form-text .layui-textarea{border-radius: 0 0 15px 15px;}
+/** 富文本编辑器 **/
+.bs-radius-lg .layui-layedit{border-radius: 15px;}
+.bs-radius-lg .layui-layedit-tool .layui-icon{border-radius: 15px;}
+/** 分页 **/
+.bs-radius-lg .layui-laypage>a:first-child,.bs-radius-lg .layui-laypage>a:first-child em{border-radius: 15px 0 0 15px;}
+.bs-radius-lg .layui-laypage>a:last-child,.bs-radius-lg .layui-laypage>a:last-child em{border-radius: 0 15px 15px 0;}
+.bs-radius-lg .layui-laypage-em{border-radius: 15px;}
+.bs-radius-lg .layui-laypage select{border-radius: 15px;}
+.bs-radius-lg .layui-laypage input,.bs-radius-lg .layui-laypage button{border-radius: 15px;}
+/** 流加载 **/
+.bs-radius-lg .layui-flow-more a cite{border-radius: 15px;}
+/* 数据表格 */
+.bs-radius-lg .layui-table-view{border-radius: 15px;}
+.bs-radius-lg .layui-table-view>div:first-child{border-radius: 15px 15px 0 0;}
+.bs-radius-lg .layui-table-view>.layui-table-page{border-radius: 0 0 15px 15px;}
+.bs-radius-lg .layui-table-edit{border-radius: 0;}
+/* 展开溢出的单元格 */
+.bs-radius-lg .layui-table-tips-c{border-radius: 50%;}
+/** 穿梭框 **/
+.bs-radius-lg .layui-transfer-box{border-radius: 15px;}
+/** 导航菜单 **/
+.bs-radius-lg .layui-nav{border-radius: 15px;}
+.bs-radius-lg .layui-nav-img{width: 30px; height: 30px; margin-right: 10px; border-radius: 50%;}
+.bs-radius-lg .layui-nav .layui-this{border-radius: 15px;}
+.bs-radius-lg .layui-nav .layui-this>a{border-radius: 15px;}
+/** Tab选项卡 **/
+.bs-radius-lg .layui-tab-title .layui-this:after{border-radius: 15px 15px 0 0;}
+.bs-radius-lg .layui-tab-bar{border-radius: 15px;}
+.bs-radius-lg .layui-tab-more li.layui-this:after{border-radius: 15px;}
+/* Tab关闭 */
+.bs-radius-lg .layui-tab-title li .layui-tab-close:hover{border-radius: 15px;}
+/* Tab简洁风格 */
+.bs-radius-lg .layui-tab-brief > .layui-tab-title .layui-this:after,.bs-radius-lg .layui-tab-brief > .layui-tab-more li.layui-this:after{border-radius: 0;}
+/* Tab卡片风格 */
+.bs-radius-lg .layui-tab-card{border-radius: 15px;}
+.bs-radius-lg .layui-tab-card > .layui-tab-title .layui-tab-bar{border-radius: 0;}
+/* 时间线 */
+.bs-radius-lg .layui-timeline-axis{border-radius: 50%;}
+/* 小徽章 */
+.bs-radius-lg .layui-badge,.bs-radius-lg .layui-badge-dot,.bs-radius-lg .layui-badge-rim{ border-radius: 15px;}
+.bs-radius-lg .layui-badge-dot{border-radius: 50%;}
+/* carousel 轮播 */
+.bs-radius-lg .layui-carousel-arrow{border-radius: 50%;}
+.bs-radius-lg .layui-carousel-ind ul{border-radius: 10px;}
+.bs-radius-lg .layui-carousel-ind li{border-radius: 50%;}
+/** fixbar **/
+.bs-radius-lg .layui-fixbar li{border-radius: 15px;}
+/** 颜色选择器 By star1029 **/
+.bs-radius-lg .layui-colorpicker{border-radius: 15px;}
+.bs-radius-lg .layui-colorpicker-trigger-bgcolor{border-radius: 15px;}
+.bs-radius-lg .layui-colorpicker-trigger-span{border-radius: 15px;}
+.bs-radius-lg .layui-colorpicker-main{border-radius: 15px;}
+.bs-radius-lg .layui-colorpicker-basis-cursor{border-radius: 50%;}
+.bs-radius-lg .layui-colorpicker-side-slider{border-radius: 1px;}
+.bs-radius-lg .layui-colorpicker-pre{border-radius: 15px;;}
+.bs-radius-lg .layui-colorpicker-pre > div{border-radius: 15px;}
+/** 滑块 By star1029 **/
+.bs-radius-lg .layui-slider{border-radius: 15px;;}
+.bs-radius-lg .layui-slider-bar{border-radius: 15px;}
+.bs-radius-lg .layui-slider-step{border-radius: 50%;}
+.bs-radius-lg .layui-slider-wrap-btn{border-radius: 50%;}
+.bs-radius-lg .layui-slider-tips{border-radius: 15px;}
+.bs-radius-lg .layui-slider-input{border-radius: 15px;}
+/*弹出层*/
+.bs-radius-lg .layui-layer{border-radius: 15px;}
+.bs-radius-lg .layui-layer>div:first-child{border-radius: 15px 15px 0 0;}
+.bs-radius-lg .layui-layer>.layui-layer-content{border-radius: 15px;}
+
+.bs-radius-lg .layadmin-shortcut li .layui-icon{border-radius: 15px;}
+.bs-radius-lg .layadmin-backlog .layadmin-backlog-body{border-radius: 15px;}
+
+
+
+
+/*菜单收缩按钮*/
+.bs-radius-md .LAY_app_flexible{border-radius: 0 6px 6px 0;}
+/* 引用 */
+.bs-radius-md .layui-elem-quote{border-radius: 0 6px 6px 0;}
+/* 折叠面板 */
+.bs-radius-md .layui-collapse{border-radius: 6px;}
+/* 卡片面板 */
+.bs-radius-md .layui-card{border-radius: 6px;}
+.bs-radius-md .layui-card-header{border-radius: 6px 6px 0 0;}
+/* 按钮 */
+.bs-radius-md .layui-btn{border-radius: 6px;}
+/* 按钮组 */
+.bs-radius-md .layui-btn-group .layui-btn{border-radius: 0;}
+.bs-radius-md .layui-btn-group .layui-btn:first-child{border-radius: 6px 0 0 6px;}
+.bs-radius-md .layui-btn-group .layui-btn:last-child{border-radius: 0 6px 6px 0;}
+/** 表单 **/
+.bs-radius-md .layui-input,.bs-radius-md .layui-textarea,.bs-radius-md .layui-select{border-radius: 6px;}
+/* 下拉选择 */
+.bs-radius-md .layui-form-select dl{border-radius: 6px;}
+/* 复选框 */
+.bs-radius-md .layui-form-checkbox span{border-radius: 6px 0 0 6px;}
+.bs-radius-md .layui-form-checkbox i{border-radius: 0 6px 6px 0;}
+/* 复选框-原始风格 */
+.bs-radius-md .layui-form-checkbox[lay-skin="primary"] i{border-radius: 6px;}
+/* 复选框-开关风格 */
+.bs-radius-md .layui-form-switch{border-radius: 20px;}
+.bs-radius-md .layui-form-switch i{border-radius: 20px;}
+/* 表单方框风格 */
+.bs-radius-md .layui-form-pane .layui-form-label{border-radius: 6px 0 0 6px;}
+.bs-radius-md .layui-form-pane .layui-input{border-radius: 0 6px 6px 0;}
+.bs-radius-md .layui-form-pane .layui-form-text .layui-form-label{border-radius: 6px;}
+.bs-radius-md .layui-form-pane .layui-form-text .layui-textarea{border-radius: 0 0 6px 6px;}
+/** 富文本编辑器 **/
+.bs-radius-md .layui-layedit{border-radius: 6px;}
+.bs-radius-md .layui-layedit-tool .layui-icon{border-radius: 6px;}
+/** 分页 **/
+.bs-radius-md .layui-laypage>a:first-child,.bs-radius-md .layui-laypage>a:first-child em{border-radius: 6px 0 0 6px;}
+.bs-radius-md .layui-laypage>a:last-child,.bs-radius-md .layui-laypage>a:last-child em{border-radius: 0 6px 6px 0;}
+.bs-radius-md .layui-laypage-em{border-radius: 6px;}
+.bs-radius-md .layui-laypage select{border-radius: 6px;}
+.bs-radius-md .layui-laypage input,.bs-radius-md .layui-laypage button{border-radius: 6px;}
+/** 流加载 **/
+.bs-radius-md .layui-flow-more a cite{border-radius: 6px;}
+/* 数据表格 */
+.bs-radius-md .layui-table-view{border-radius: 6px;}
+.bs-radius-md .layui-table-view>div:first-child{border-radius: 6px 6px 0 0;}
+.bs-radius-md .layui-table-view>.layui-table-page{border-radius: 0 0 6px 6px;}
+.bs-radius-md .layui-table-edit{border-radius: 0;}
+/* 展开溢出的单元格 */
+.bs-radius-md .layui-table-tips-c{border-radius: 50%;}
+/** 穿梭框 **/
+.bs-radius-md .layui-transfer-box{border-radius: 6px;}
+/** 导航菜单 **/
+.bs-radius-md .layui-nav{border-radius: 6px;}
+.bs-radius-md .layui-nav-img{width: 30px; height: 30px; margin-right: 10px; border-radius: 50%;}
+.bs-radius-md  .layui-nav .layui-this{border-radius: 6px;}
+.bs-radius-md  .layui-nav .layui-this>a{border-radius: 6px;}
+/** Tab选项卡 **/
+.bs-radius-md .layui-tab-title .layui-this:after{border-radius: 6px 6px 0 0;}
+.bs-radius-md .layui-tab-bar{border-radius: 6px;}
+.bs-radius-md .layui-tab-more li.layui-this:after{border-radius: 6px;}
+/* Tab关闭 */
+.bs-radius-md .layui-tab-title li .layui-tab-close:hover{border-radius: 6px;}
+/* Tab简洁风格 */
+.bs-radius-md .layui-tab-brief > .layui-tab-title .layui-this:after,.bs-radius-md .layui-tab-brief > .layui-tab-more li.layui-this:after{border-radius: 0;}
+/* Tab卡片风格 */
+.bs-radius-md .layui-tab-card{border-radius: 6px;}
+.bs-radius-md .layui-tab-card > .layui-tab-title .layui-tab-bar{border-radius: 0;}
+/* 时间线 */
+.bs-radius-md .layui-timeline-axis{border-radius: 50%;}
+/* 小徽章 */
+.bs-radius-md .layui-badge,.bs-radius-md  .layui-badge-dot,.bs-radius-md  .layui-badge-rim{ border-radius: 6px;}
+.bs-radius-md .layui-badge-dot{border-radius: 50%;}
+/* carousel 轮播 */
+.bs-radius-md .layui-carousel-arrow{border-radius: 50%;}
+.bs-radius-md .layui-carousel-ind ul{border-radius: 10px;}
+.bs-radius-md .layui-carousel-ind li{border-radius: 50%;}
+/** fixbar **/
+.bs-radius-md .layui-fixbar li{border-radius: 6px;}
+/** 颜色选择器 By star1029 **/
+.bs-radius-md .layui-colorpicker{border-radius: 6px;}
+.bs-radius-md .layui-colorpicker-trigger-bgcolor{border-radius: 6px;}
+.bs-radius-md .layui-colorpicker-trigger-span{border-radius: 6px;}
+.bs-radius-md .layui-colorpicker-main{border-radius: 6px;}
+.bs-radius-md .layui-colorpicker-basis-cursor{border-radius: 50%;}
+.bs-radius-md .layui-colorpicker-side-slider{border-radius: 1px;}
+.bs-radius-md .layui-colorpicker-pre{border-radius: 6px;;}
+.bs-radius-md .layui-colorpicker-pre > div{border-radius: 6px;}
+/** 滑块 By star1029 **/
+.bs-radius-md .layui-slider{border-radius: 6px;;}
+.bs-radius-md .layui-slider-bar{border-radius: 6px;}
+.bs-radius-md .layui-slider-step{border-radius: 50%;}
+.bs-radius-md .layui-slider-wrap-btn{border-radius: 50%;}
+.bs-radius-md .layui-slider-tips{border-radius: 6px;}
+.bs-radius-md .layui-slider-input{border-radius: 6px;}
+/*弹出层*/
+.bs-radius-md .layui-layer{border-radius: 6px;}
+.bs-radius-md .layui-layer>div:first-child{border-radius: 6px 6px 0 0;}
+.bs-radius-md .layui-layer>.layui-layer-content{border-radius: 6px;}
+
+.bs-radius-md .layadmin-shortcut li .layui-icon{border-radius: 6px;}
+.bs-radius-md .layadmin-backlog .layadmin-backlog-body{border-radius: 6px;}
+
+
+
+/*菜单收缩按钮*/
+.bs-radius-sm .LAY_app_flexible{border-radius: 0 2px 2px 0;}
+/* 引用 */
+.bs-radius-sm .layui-elem-quote{border-radius: 0 2px 2px 0;}
+/* 折叠面板 */
+.bs-radius-sm .layui-collapse{border-radius: 2px;}
+/* 卡片面板 */
+.bs-radius-sm .layui-card{border-radius: 2px;}
+.bs-radius-sm .layui-card-header{border-radius: 2px 2px 0 0;}
+/* 按钮 */
+.bs-radius-sm .layui-btn{border-radius: 2px;}
+/* 按钮组 */
+.bs-radius-sm .layui-btn-group .layui-btn{border-radius: 0;}
+.bs-radius-sm .layui-btn-group .layui-btn:first-child{border-radius: 2px 0 0 2px;}
+.bs-radius-sm .layui-btn-group .layui-btn:last-child{border-radius: 0 2px 2px 0;}
+/** 表单 **/
+.bs-radius-sm .layui-input,.bs-radius-sm .layui-textarea,.bs-radius-sm .layui-select{border-radius: 2px;}
+/* 下拉选择 */
+.bs-radius-sm .layui-form-select dl{border-radius: 2px;}
+/* 复选框 */
+.bs-radius-sm .layui-form-checkbox span{border-radius: 2px 0 0 2px;}
+.bs-radius-sm .layui-form-checkbox i{border-radius: 0 2px 2px 0;}
+/* 复选框-原始风格 */
+.bs-radius-sm .layui-form-checkbox[lay-skin="primary"] i{border-radius: 2px;}
+/* 复选框-开关风格 */
+.bs-radius-sm .layui-form-switch{border-radius: 20px;}
+.bs-radius-sm .layui-form-switch i{border-radius: 20px;}
+/* 表单方框风格 */
+.bs-radius-sm .layui-form-pane .layui-form-label{border-radius: 2px 0 0 2px;}
+.bs-radius-sm .layui-form-pane .layui-input{border-radius: 0 2px 2px 0;}
+.bs-radius-sm .layui-form-pane .layui-form-text .layui-form-label{border-radius: 2px;}
+.bs-radius-sm .layui-form-pane .layui-form-text .layui-textarea{border-radius: 0 0 2px 2px;}
+/** 富文本编辑器 **/
+.bs-radius-sm .layui-layedit{border-radius: 2px;}
+.bs-radius-sm .layui-layedit-tool .layui-icon{border-radius: 2px;}
+/** 分页 **/
+.bs-radius-sm .layui-laypage>a:first-child,.bs-radius-sm .layui-laypage>a:first-child em{border-radius: 2px 0 0 2px;}
+.bs-radius-sm .layui-laypage>a:last-child,.bs-radius-sm .layui-laypage>a:last-child em{border-radius: 0 2px 2px 0;}
+.bs-radius-sm .layui-laypage-em{border-radius: 2px;}
+.bs-radius-sm .layui-laypage select{border-radius: 2px;}
+.bs-radius-sm .layui-laypage input,.bs-radius-sm .layui-laypage button{border-radius: 2px;}
+/** 流加载 **/
+.bs-radius-sm .layui-flow-more a cite{border-radius: 2px;}
+/* 数据表格 */
+.bs-radius-sm .layui-table-view{border-radius: 2px;}
+.bs-radius-sm .layui-table-view>div:first-child{border-radius: 2px 2px 0 0;}
+.bs-radius-sm .layui-table-view>.layui-table-page{border-radius: 0 0 2px 2px;}
+.bs-radius-sm .layui-table-edit{border-radius: 0;}
+/* 展开溢出的单元格 */
+.bs-radius-sm .layui-table-tips-c{border-radius: 50%;}
+/** 穿梭框 **/
+.bs-radius-sm .layui-transfer-box{border-radius: 2px;}
+/** 导航菜单 **/
+.bs-radius-sm .layui-nav{border-radius: 2px;}
+.bs-radius-sm .layui-nav-img{width: 30px; height: 30px; margin-right: 10px; border-radius: 50%;}
+.bs-radius-sm .layui-nav .layui-this{border-radius: 2px;}
+.bs-radius-sm .layui-nav .layui-this>a{border-radius: 2px;}
+/** Tab选项卡 **/
+.bs-radius-sm .layui-tab-title .layui-this:after{border-radius: 2px 2px 0 0;}
+.bs-radius-sm .layui-tab-bar{border-radius: 2px;}
+.bs-radius-sm .layui-tab-more li.layui-this:after{border-radius: 2px;}
+/* Tab关闭 */
+.bs-radius-sm .layui-tab-title li .layui-tab-close:hover{border-radius: 2px;}
+/* Tab简洁风格 */
+.bs-radius-sm .layui-tab-brief > .layui-tab-title .layui-this:after,.bs-radius-sm .layui-tab-brief > .layui-tab-more li.layui-this:after{border-radius: 0;}
+/* Tab卡片风格 */
+.bs-radius-sm .layui-tab-card{border-radius: 2px;}
+.bs-radius-sm .layui-tab-card > .layui-tab-title .layui-tab-bar{border-radius: 0;}
+/* 时间线 */
+.bs-radius-sm .layui-timeline-axis{border-radius: 50%;}
+/* 小徽章 */
+.bs-radius-sm .layui-badge,.bs-radius-sm .layui-badge-dot,.bs-radius-sm .layui-badge-rim{ border-radius: 2px;}
+.bs-radius-sm .layui-badge-dot{border-radius: 50%;}
+/* carousel 轮播 */
+.bs-radius-sm .layui-carousel-arrow{border-radius: 50%;}
+.bs-radius-sm .layui-carousel-ind ul{border-radius: 10px;}
+.bs-radius-sm .layui-carousel-ind li{border-radius: 50%;}
+/** fixbar **/
+.bs-radius-sm .layui-fixbar li{border-radius: 2px;}
+/** 颜色选择器 By star1029 **/
+.bs-radius-sm .layui-colorpicker{border-radius: 2px;}
+.bs-radius-sm .layui-colorpicker-trigger-bgcolor{border-radius: 2px;}
+.bs-radius-sm .layui-colorpicker-trigger-span{border-radius: 2px;}
+.bs-radius-sm .layui-colorpicker-main{border-radius: 2px;}
+.bs-radius-sm .layui-colorpicker-basis-cursor{border-radius: 50%;}
+.bs-radius-sm .layui-colorpicker-side-slider{border-radius: 1px;}
+.bs-radius-sm .layui-colorpicker-pre{border-radius: 2px;;}
+.bs-radius-sm .layui-colorpicker-pre > div{border-radius: 2px;}
+/** 滑块 By star1029 **/
+.bs-radius-sm .layui-slider{border-radius: 2px;;}
+.bs-radius-sm .layui-slider-bar{border-radius: 2px;}
+.bs-radius-sm .layui-slider-step{border-radius: 50%;}
+.bs-radius-sm .layui-slider-wrap-btn{border-radius: 50%;}
+.bs-radius-sm .layui-slider-tips{border-radius: 2px;}
+.bs-radius-sm .layui-slider-input{border-radius: 2px;}
+/*弹出层*/
+.bs-radius-sm .layui-layer{border-radius: 2px;}
+.bs-radius-sm .layui-layer>div:first-child{border-radius: 2px 2px 0 0;}
+.bs-radius-sm .layui-layer>.layui-layer-content{border-radius: 2px;}
+
+.bs-radius-sm .layadmin-shortcut li .layui-icon{border-radius: 2px;}
+.bs-radius-sm .layadmin-backlog .layadmin-backlog-body{border-radius: 2px;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

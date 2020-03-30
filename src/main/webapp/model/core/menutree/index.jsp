@@ -27,10 +27,10 @@
                 <div class="layui-card">
                     <div class="layui-card-header">
                         <!-- 按钮栏 -->
-                        <button type="button" class="layui-btn layui-btn-sm btn-move" data-type="true">
+                        <button type="button" class="layui-btn btn-move" data-type="true">
                             <i class="layui-icon layui-icon-up" style="margin-right: 0px;"></i>
                         </button>
-                        <button type="button" class="layui-btn layui-btn-sm btn-move" data-type="false">
+                        <button type="button" class="layui-btn btn-move" data-type="false">
                             <i class="layui-icon layui-icon-down" style="margin-right: 0px;"></i>
                         </button>
                     </div>
@@ -43,10 +43,10 @@
                 <div class="layui-card">
                     <div class="layui-card-header">
                         <!-- 按钮栏 -->
-                        <button type="button" class="layui-btn layui-btn-sm btn-add">
+                        <button type="button" class="layui-btn btn-add">
                             <i class="layui-icon layui-icon-add-1"></i>新增下级菜单
                         </button>
-                        <button type="button" class="layui-btn layui-btn-sm btn-del layui-bg-red">
+                        <button type="button" class="layui-btn btn-del">
                             <i class="layui-icon layui-icon-delete"></i>删除当前菜单
                         </button>
                     </div>

@@ -460,7 +460,7 @@ layui.define(['laytpl', 'laypage', 'layer', 'form', 'util'], function(exports){
         layui.each(options.defaultToolbarLeft, function(i, item){
           var thisItem = typeof item === 'string' ? leftDefaultTemp[item] : item;
           if(thisItem){
-            elemToolTemp.append('<button class="layui-btn layui-btn-sm layui-btn-'+ item +'" title="'+ thisItem.title +'" lay-event="'+ thisItem.layEvent +'" '+ ('reset'.equals(item) ? ' style="display:none;"' : '') +'>'
+            elemToolTemp.append('<button class="layui-btn layui-btn-'+ item +'" title="'+ thisItem.title +'" lay-event="'+ thisItem.layEvent +'" '+ ('reset'.equals(item) ? ' style="display:none;"' : '') +'>'
                 +'<i class="layui-icon '+ thisItem.icon +'"></i>' + '<span class="layui-table-tool-text">'+ thisItem.title +'</span>'
                 +'</button>');
             if('search'.equals(item)){
@@ -483,7 +483,7 @@ layui.define(['laytpl', 'laypage', 'layer', 'form', 'util'], function(exports){
 
               let model = $('.search-model');
               let footer = model.find(".layui-card-footer");
-              let buts = $('<button class="layui-btn layui-btn-sm" lay-submit lay-filter="formSearch"><i class="layui-icon layui-icon-search"></i>搜索</button><button class="layui-btn layui-btn-sm layui-btn-primary layui-layer-close" type="button"><i class="layui-icon layui-icon-close"></i>关闭</button>');
+              let buts = $('<button class="layui-btn" lay-submit lay-filter="formSearch"><i class="layui-icon layui-icon-search"></i>搜索</button><button class="layui-btn layui-btn-primary layui-layer-close" type="button"><i class="layui-icon layui-icon-close"></i>关闭</button>');
               if(footer.length > 0){
                 footer.append(buts);
               }else{
@@ -525,7 +525,7 @@ layui.define(['laytpl', 'laypage', 'layer', 'form', 'util'], function(exports){
       layui.each(options.defaultToolbarRight, function(i, item){
         var thisItem = typeof item === 'string' ? layout[item] : item;
         if(thisItem){
-          iconElem.push('<button class="layui-btn layui-btn-sm" title="'+ thisItem.title +'" lay-event="'+ thisItem.layEvent +'">'
+          iconElem.push('<button class="layui-btn" title="'+ thisItem.title +'" lay-event="'+ thisItem.layEvent +'">'
             +'<i class="layui-icon '+ thisItem.icon +'"></i>' + '<span class="layui-table-tool-text">'+ thisItem.title +'</span>'
           +'</button>');
         }

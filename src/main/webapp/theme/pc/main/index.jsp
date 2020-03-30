@@ -1,4 +1,5 @@
-<%@ page import="util.context.Context" %><%--
+<%@ page import="util.context.Context" %>
+<%@ page import="model.core.basesetting.CoreBaseSetting" %><%--
   Created by IntelliJ IDEA.
   User: Administrator
   Date: 2020/1/1
@@ -10,15 +11,13 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
 
-    System.out.println("aaaaa");
 %>
 <html>
 <head>
-    <title>
-        <master:ContentPlaceHolder id="title"/>
-    </title>
+    <title><master:ContentPlaceHolder id="title"/></title>
 
     <link rel="stylesheet" href="/public/layui/src/css/layui.css"/>
+<%--    <link rel="stylesheet" href="/public/layui/src/css/radius.css"/>--%>
     <link rel="stylesheet" href="/public/layui/src/css/admin.css"/>
     <link rel="stylesheet" href="/public/colors/default.css"/>
     <link rel="stylesheet" href="/theme/pc/main/res/index.css"/>
@@ -29,7 +28,7 @@
 
     <master:ContentPlaceHolder id="head"/>
 </head>
-<body class="layui-layout-body">
+<body class="layui-layout-body <%=CoreBaseSetting.getBaseSetting()%>">
     <!-- 让IE8/9支持媒体查询，从而兼容栅格。需要放在body标签内 -->
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
@@ -84,17 +83,15 @@
 
             <div class="layui-body">
                 <!-- 内容主体区域 -->
-                <div style="padding: 15px 0px;">
+                <div style="padding: 15px;">
                     <master:ContentPlaceHolder id="body"/>
                 </div>
             </div>
         </div>
     </div>
 
-
     <script type="text/javascript">
         const thisMenuId = "<%=Context.getCurrent().getMenuTree() == null ? "" : Context.getCurrent().getMenuTree().getMenuId()%>";
-        console.log(thisMenuId)
     </script>
     <script type="text/javascript" src="/theme/pc/main/res/index.js"></script>
 </body>

@@ -22,11 +22,7 @@
         <link rel="stylesheet" href="/model/core/menuurl/res/index.css"/>
     </master:Content>
     <master:Content contentPlaceHolderId="body">
-        <div class="layui-card">
-            <div class="layui-card-body">
-                <table id="mainTable" lay-filter="test"></table>
-            </div>
-        </div>
+        <table id="mainTable" lay-filter="test"></table>
 
         <!-- 新增/修改 弹出框 -->
         <div class="layui-card my-model" style="display: none;">
@@ -59,8 +55,8 @@
                     </div>
                 </div>
                 <div class="layui-card-footer">
-                    <button class="layui-btn layui-btn-sm" lay-submit lay-filter="formDemo">保存</button>
-                    <button class="layui-btn layui-btn-sm layui-btn-primary  layui-layer-close" type="button">关闭</button>
+                    <button class="layui-btn" lay-submit lay-filter="formDemo">保存</button>
+                    <button class="layui-btn layui-btn-primary layui-layer-close" type="button">关闭</button>
                 </div>
             </form>
         </div>

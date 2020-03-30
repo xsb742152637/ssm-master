@@ -1,0 +1,29 @@
+
+
+/* ---------------------------------基础设置---------------------------------  */
+
+/* 大按钮 */
+.bs-btn-lg .layui-btn{height: 44px; line-height: 44px; padding: 0 25px; font-size: 16px;}
+.bs-btn-lg .layui-btn .layui-icon{font-size: 20px;}
+/* 小按钮 */
+.bs-btn-sm .layui-btn{height: 30px; line-height: 30px; padding: 0 10px; font-size: 12px;}
+.bs-btn-sm .layui-btn .layui-icon{font-size: 16px;}
+/* 迷你按钮 */
+.bs-btn-xs .layui-btn{height: 22px; line-height: 22px; padding: 0 5px; font-size: 12px;}
+.bs-btn-xs .layui-btn .layui-icon{font-size: 14px;}
+
+
+
+/* 大圆角 */.bs-btn-radius-lg .layui-btn{border-radius: 20px;}
+/* 小圆角 */.bs-btn-radius-md .layui-btn{border-radius: 6px;}
+
+
+
+/* 原始 */.bs-btn-primary .layui-btn{border: 1px solid #C9C9C9; background-color: #fff; color: #555;}
+.bs-btn-primary .layui-btn:hover{border-color: #009688; color: #333}
+/* 百搭 */.bs-btn-normal .layui-btn{background-color: #1E9FFF;}
+/* 暖色 */.bs-btn-warm .layui-btn{background-color: #FFB800;}
+/* 警告 */.bs-btn-danger .layui-btn{background-color: #FF5722;}
+/* 选中 */.bs-btn-checked .layui-btn{background-color: #5FB878;}
+/* 禁用 */.bs-btn-disabled .layui-btn,.bs-btn-disabled .layui-btn:hover,.bs-btn-disabled .layui-btn:active{border: 1px solid #e6e6e6; background-color: #FBFBFB; color: #C9C9C9; cursor: not-allowed; opacity: 1;}
+

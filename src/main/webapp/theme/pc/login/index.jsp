@@ -1,5 +1,6 @@
 <%@ page import="org.apache.shiro.SecurityUtils" %>
-<%@ page import="util.context.Context" %><%--
+<%@ page import="util.context.Context" %>
+<%@ page import="model.core.basesetting.CoreBaseSetting" %><%--
   Created by IntelliJ IDEA.
   User: xiucai
   Date: 2020/1/13
@@ -25,7 +26,7 @@
     <script type="text/javascript" src="/public/util/eiis.foundation.js"></script>
     <script type="text/javascript" src="/theme/pc/login/res/index.js"></script>
 </head>
-<body>
+<body class="<%=CoreBaseSetting.getBaseSetting()%>">
     <div class="qt">
 
     </div>
