@@ -59,7 +59,7 @@
                                 <div class="layui-input-block">
                                     <!-- lay-verify="required" 表示验证类型为必填 -->
                                     <!-- lay-search 表示开启搜索 -->
-                                    <select name="urlId" lay-search>
+                                    <select name="urlId" lay-search lay-filter="urlSel">
                                         <option value="" >请选择一个应用</option>
                                     </select>
                                 </div>

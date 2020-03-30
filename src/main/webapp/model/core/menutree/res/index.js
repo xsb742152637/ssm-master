@@ -169,6 +169,21 @@ layui.use(['tree','layer','form'], function(){
         });
     }();
 
+    //应用选择监听
+    form.on('select(urlSel)',function(data){
+        let v = data.value;
+        $(data.elem).find('option').each(function(){
+            let vv = $(this).attr('value');
+            if(String.isNullOrWhiteSpace(vv)){
+                return;
+            }
+            if(vv.equals(v)){
+                $('.layui-form input[name="title"]').val($(this).text());
+            }
+        });
+        console.log(data);
+    });
+
     //图标选择器
     $('.layui-form .layui-icon-more-vertical').on('click',function(){
         layer.iconSelector($('.layui-form input[name="icon"]'));
