@@ -1,8 +1,249 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="model.core.memberinfo.dao.CoreMemberInfoDao">
+
+    <!--auto generated Code-->
+    <resultMap id="AllColumnMap" type="model.core.memberinfo.entity.CoreMemberInfoEntity">
+        <result column="MEMBER_ID" property="memberId"/>
+        <result column="PARENT_ID" property="parentId"/>
+        <result column="MEMBER_NAME" property="memberName"/>
+        <result column="MEMBER_TYPE" property="memberType"/>
+        <result column="PHOTO" property="photo"/>
+        <result column="ACCOUNT" property="account"/>
+        <result column="PASSWORD" property="password"/>
+        <result column="IS_FROZEN" property="isFrozen"/>
+        <result column="MEMBER_LEFT" property="memberLeft"/>
+        <result column="MEMBER_RIGHT" property="memberRight"/>
+    </resultMap>
+
+    <!--auto generated Code-->
+    <sql id="all_column">
+        `MEMBER_ID`,
+        `PARENT_ID`,
+        `MEMBER_NAME`,
+        `MEMBER_TYPE`,
+        `PHOTO`,
+        `ACCOUNT`,
+        `PASSWORD`,
+        `IS_FROZEN`,
+        `MEMBER_LEFT`,
+        `MEMBER_RIGHT`
+    </sql>
+
+    <sql id="all_column_map">
+        `MEMBER_ID` memberId,
+        `PARENT_ID` parentId,
+        `MEMBER_NAME` memberName,
+        `MEMBER_TYPE` memberType,
+        `PHOTO` photo,
+        `ACCOUNT` account,
+        `PASSWORD` password,
+        `IS_FROZEN` isFrozen,
+        `MEMBER_LEFT` memberLeft,
+        `MEMBER_RIGHT` memberRight
+    </sql>
+
+    <sql id="all_column_temp">
+        temp.`MEMBER_ID`,
+        temp.`PARENT_ID`,
+        temp.`MEMBER_NAME`,
+        temp.`MEMBER_TYPE`,
+        temp.`PHOTO`,
+        temp.`ACCOUNT`,
+        temp.`PASSWORD`,
+        temp.`IS_FROZEN`,
+        temp.`MEMBER_LEFT`,
+        temp.`MEMBER_RIGHT`
+    </sql>
+
+
     <!-- 目的：为dao接口方法提供sql语句配置 -->
     <select id="findOne" resultType="CoreMemberInfoEntity" parameterType="String">
         SELECT * FROM core_member_info WHERE ACCOUNT = #{account} and PASSWORD = #{password}
     </select>
+
+
+    <insert id="insert" parameterType="model.core.memberinfo.entity.CoreMemberInfoEntity">
+        INSERT INTO core_member_info (
+            `MEMBER_ID`,
+            `PARENT_ID`,
+            `MEMBER_NAME`,
+            `MEMBER_TYPE`,
+            `PHOTO`,
+            `ACCOUNT`,
+            `PASSWORD`,
+            `IS_FROZEN`,
+            `MEMBER_LEFT`,
+            `MEMBER_RIGHT`
+        ) VALUES (
+            #{pojo.memberId},
+            #{pojo.parentId},
+            #{pojo.memberName},
+            #{pojo.memberType},
+            #{pojo.photo},
+            #{pojo.account},
+            #{pojo.password},
+            #{pojo.isFrozen},
+            #{pojo.memberLeft},
+            #{pojo.memberRight}
+        )
+    </insert>
+
+    <insert id="insertList">
+        INSERT INTO core_member_info (
+        <include refid="all_column"/>
+        )VALUES
+        <foreach collection="pojos" item="pojo" index="index" separator=",">
+            (
+            #{pojo.memberId},
+            #{pojo.parentId},
+            #{pojo.memberName},
+            #{pojo.memberType},
+            #{pojo.photo},
+            #{pojo.account},
+            #{pojo.password},
+            #{pojo.isFrozen}
+            #{pojo.memberLeft},
+            #{pojo.memberRight}
+            )
+        </foreach>
+    </insert>
+
+    <update id="updateList" parameterType="java.util.List">
+        <foreach collection="pojo" item="item" index="index" open="" close="" separator=";">
+            update core_member_info
+            <set >
+                `MEMBER_ID` = #{item.memberId},
+                `PARENT_ID` = #{item.parentId},
+                `MEMBER_NAME` = #{item.memberName},
+                `MEMBER_TYPE` = #{item.memberType},
+                `PHOTO` = #{item.photo},
+                `ACCOUNT` = #{item.account},
+                `PASSWORD` = #{item.password},
+                `IS_FROZEN` = #{item.isFrozen},
+                `MEMBER_LEFT` = #{item.memberLeft},
+                `MEMBER_RIGHT` = #{item.memberRight}
+            </set>
+            where MEMBER_ID = #{item.memberId,jdbcType=BIGINT}
+        </foreach>
+    </update>
+
+    <update id="update">
+        UPDATE core_member_info
+        <set>
+            `MEMBER_ID` = #{pojo.memberId},
+            `PARENT_ID` = #{pojo.parentId},
+            `MEMBER_NAME` = #{pojo.memberName},
+            `MEMBER_TYPE` = #{pojo.memberType},
+            `PHOTO` = #{pojo.photo},
+            `ACCOUNT` = #{pojo.account},
+            `PASSWORD` = #{pojo.password},
+            `IS_FROZEN` = #{pojo.isFrozen},
+            `MEMBER_LEFT` = #{pojo.memberLeft},
+            `MEMBER_RIGHT` = #{pojo.memberRight}
+        </set>
+        WHERE MEMBER_ID = #{pojo.memberId}
+    </update>
+
+    <select id="getMainInfo" resultType="java.util.Map">
+        select
+        <include refid="all_column_map"/>
+        FROM core_member_info c
+        <choose>
+            <when test="parentId != null">
+                Where c.PARENT_ID = #{parentId}
+            </when>
+            <otherwise>
+                Where c.PARENT_ID is null
+            </otherwise>
+        </choose>
+        order by MEMBER_LEFT
+    </select>
+
+    <delete id="delete">
+        delete temp
+        from core_member_info temp join core_member_info temp_1
+        on
+        temp_1.MEMBER_ID=#{mainId}
+        and
+        temp.MEMBER_LEFT &gt;= temp_1.MEMBER_LEFT
+        and
+        temp.MEMBER_RIGHT &lt;= temp_1.MEMBER_RIGHT
+    </delete>
+
+    <update id="delete_updateBefor">
+        update core_member_info c
+        set c.MEMBER_RIGHT = c.MEMBER_RIGHT-(#{sonCount} * 2)
+        where
+        c.MEMBER_LEFT &lt; #{left}
+        and
+        c.MEMBER_RIGHT &gt; #{right}
+    </update>
+
+
+    <update id="delete_updateAfter">
+        update core_member_info c
+        set c.MEMBER_LEFT = c.MEMBER_LEFT-(#{sonCount} * 2),
+            c.MEMBER_RIGHT = c.MEMBER_RIGHT-(#{sonCount} * 2)
+        where
+        c.MEMBER_LEFT &gt; #{left}
+    </update>
+
+    <update id="insert_updateBefore">
+        update core_member_info c
+        set c.MEMBER_RIGHT = c.MEMBER_RIGHT + 2
+        where
+        c.MEMBER_LEFT &lt;= #{left}
+        and
+        c.MEMBER_RIGHT &gt;= #{right}
+    </update>
+
+    <update id="insert_updateAfter">
+        update core_member_info c
+        set c.MEMBER_LEFT = c.MEMBER_LEFT +2,
+            c.MEMBER_RIGHT = c.MEMBER_RIGHT+ 2
+        where
+        c.MEMBER_LEFT &gt; #{left}
+    </update>
+
+    <select id="findOneById" resultMap="AllColumnMap">
+        select
+        <include refid="all_column"></include>
+        from core_member_info c
+        where c.MEMBER_ID = #{mainId}
+    </select>
+
+
+    <select id="findSons" resultMap="AllColumnMap">
+        select
+        <include refid="all_column_temp"></include>
+        from core_member_info temp join core_member_info temp_1
+        on
+        temp_1.MEMBER_ID=#{mainId}
+        and
+        temp.MEMBER_LEFT &gt; temp_1.MEMBER_LEFT
+        and
+        temp.MEMBER_RIGHT &lt; temp_1.MEMBER_RIGHT
+        order by temp.MEMBER_LEFT
+    </select>
+
+
+    <select id="findNeighborEntity" resultMap="AllColumnMap">
+        <choose>
+            <when test="moveOn">
+                select <include refid="all_column"></include>
+                from core_member_info c
+                where c.MEMBER_RIGHT = #{pojo.memberLeft}-1
+            </when>
+            <otherwise>
+                select <include refid="all_column"></include>
+                from core_member_info c
+                where c.MEMBER_LEFT = #{pojo.memberRight}+1
+            </otherwise>
+        </choose>
+    </select>
+
+
+
+
 </mapper>

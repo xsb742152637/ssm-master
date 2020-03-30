@@ -30,4 +30,12 @@ public enum MemberType {
         return "";
     }
 
+    public static String getNames(){
+        String str = "";
+        for(MemberType en : MemberType.values()){
+            str += "<option value = "+ en.getCode() + " > "+en.getName().toString() +"<option>";
+        }
+        return str;
+    }
+
 }

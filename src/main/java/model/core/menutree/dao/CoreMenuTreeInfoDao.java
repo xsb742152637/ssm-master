@@ -1,6 +1,7 @@
 package model.core.menutree.dao;
 
 
+import model.core.memberinfo.entity.CoreMemberInfoEntity;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -36,5 +37,7 @@ public interface CoreMenuTreeInfoDao {
     void moveChildren(@Param("oldParen")String oldParen,@Param("newParen")String newParen);
 
     Integer getMenuLevelByParLevel(@Param("outlineLevel")String outlineLevel);
+
+
 
 }

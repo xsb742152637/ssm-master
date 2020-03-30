@@ -189,7 +189,9 @@ layui.use(['tree','layer','form'], function(){
         layer.iconSelector($('.layui-form input[name="icon"]'));
     });
     let _check = function(){
+        console.log(selData);
         if(selData == null){
+
             layer.msg('请先选中一个菜单节点');
             return false;
         }

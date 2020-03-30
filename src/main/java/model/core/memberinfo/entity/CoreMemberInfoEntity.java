@@ -1,18 +1,32 @@
 package model.core.memberinfo.entity;
 
 import javax.persistence.*;
-import java.sql.Blob;
+import java.util.Arrays;
+import java.util.Objects;
 
-@SuppressWarnings("ALL")
+/**
+ * @ClassName CoreMemberInfoEntity
+ * @Description TODO
+ * @Author
+ * @Date 2020/3/30
+ * @Version 1.0
+ */
 @Entity
-@Table(name = "CORE_MEMBER_INFO")
+@Table(name = "core_member_info")
 public class CoreMemberInfoEntity {
     private String memberId;
+    private String parentId;
     private String memberName;
-    private Blob photo;
+
+
+
+    private int memberType;
+    private byte[] photo;
     private String account;
     private String password;
-    private boolean isFrozen;
+    private Boolean isFrozen;
+    private int memberLeft;
+    private int memberRight;
 
     @Id
     @Column(name = "MEMBER_ID")
@@ -25,6 +39,16 @@ public class CoreMemberInfoEntity {
     }
 
     @Basic
+    @Column(name = "PARENT_ID")
+    public String getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
+    }
+
+    @Basic
     @Column(name = "MEMBER_NAME")
     public String getMemberName() {
         return memberName;
@@ -33,14 +57,22 @@ public class CoreMemberInfoEntity {
     public void setMemberName(String memberName) {
         this.memberName = memberName;
     }
+    @Basic
+    @Column(name = "MEMBER_TYPE")
+    public int getMemberType() { return memberType;
+    }
+
+    public void setMemberType(int memberType) {
+        this.memberType = memberType;
+    }
 
     @Basic
     @Column(name = "PHOTO")
-    public Blob getPhoto() {
+    public byte[] getPhoto() {
         return photo;
     }
 
-    public void setPhoto(Blob photo) {
+    public void setPhoto(byte[] photo) {
         this.photo = photo;
     }
 
@@ -66,51 +98,59 @@ public class CoreMemberInfoEntity {
 
     @Basic
     @Column(name = "IS_FROZEN")
-    public boolean getIsFrozen() {
+    public Boolean getFrozen() {
         return isFrozen;
     }
 
-    public void setIsFrozen(boolean isFrozen) {
-        this.isFrozen = isFrozen;
+
+    public void setFrozen(Boolean frozen) {
+        isFrozen = frozen;
+    }
+
+    @Basic
+    @Column(name = "MEMBER_LEFT")
+    public int getMemberLeft() {
+        return memberLeft;
+    }
+
+    public void setMemberLeft(int memberLeft) {
+        this.memberLeft = memberLeft;
+    }
+
+    @Basic
+    @Column(name = "MEMBER_RIGHT")
+    public int getMemberRight() {
+        return memberRight;
+    }
+
+    public void setMemberRight(int memberRight) {
+        this.memberRight = memberRight;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
         CoreMemberInfoEntity that = (CoreMemberInfoEntity) o;
-
-        if (isFrozen != that.isFrozen) {
-            return false;
-        }
-        if (memberId != null ? !memberId.equals(that.memberId) : that.memberId != null) {
-            return false;
-        }
-        if (memberName != null ? !memberName.equals(that.memberName) : that.memberName != null) {
-            return false;
-        }
-        if (photo != null ? !photo.equals(that.photo) : that.photo != null) {
-            return false;
-        }
-        if (account != null ? !account.equals(that.account) : that.account != null) {
-            return false;
-        }
-        return password != null ? password.equals(that.password) : that.password == null;
+        return memberType == that.memberType &&
+                memberLeft == that.memberLeft &&
+                memberRight == that.memberRight &&
+                Objects.equals(memberId, that.memberId) &&
+                Objects.equals(parentId, that.parentId) &&
+                Objects.equals(memberName, that.memberName) &&
+                Arrays.equals(photo, that.photo) &&
+                Objects.equals(account, that.account) &&
+                Objects.equals(password, that.password) &&
+                Objects.equals(isFrozen, that.isFrozen);
     }
 
     @Override
     public int hashCode() {
-        int result = memberId != null ? memberId.hashCode() : 0;
-        result = 31 * result + (memberName != null ? memberName.hashCode() : 0);
-        result = 31 * result + (photo != null ? photo.hashCode() : 0);
-        result = 31 * result + (account != null ? account.hashCode() : 0);
-        result = 31 * result + (password != null ? password.hashCode() : 0);
-        result = 31 * result + (isFrozen ? 1 : 0);
+        int result = Objects.hash(memberId, parentId, memberName, memberType, account, password, isFrozen, memberLeft, memberRight);
+        result = 31 * result + Arrays.hashCode(photo);
         return result;
     }
+
+
+
 }
