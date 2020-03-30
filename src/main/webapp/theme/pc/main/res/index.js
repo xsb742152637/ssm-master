@@ -18,7 +18,7 @@ layui.use(['element','layer'], function(){
                 if (data != null && data.length > 0) {
                     let parentE = $('ul[lay-filter="layadmin-system-side-menu"]');
                     parentE.empty();
-                    _loadMenuTree(parentE, data,true);
+                    _loadMenuTree(parentE, data,0);
                 }
 
                 $(".layui-nav-bar").attr("class", "zorder:999;");//解决左侧菜单hover失效问题
@@ -39,7 +39,8 @@ layui.use(['element','layer'], function(){
 
     //组装菜单
     let mbx = '';//面包屑
-    let _loadMenuTree = function(parentE,data,isOne){
+    let _loadMenuTree = function(parentE,data,c){
+        c++;//菜单层次
         let isHave = false;
         for(let i = 0 ; i < data.length ; i++){
             let isHave2 = false;
@@ -48,10 +49,14 @@ layui.use(['element','layer'], function(){
                 isHave2 = true;
 
             let li;
-            if(isOne){
+            if(c == 1){
                 li = $('<li/>').addClass('layui-nav-item' + (d.menuId == thisMenuId ? ' layui-this' : ''));
             }else{
-                li = $('<dd/>').addClass((d.menuId == thisMenuId ? ' layui-this' : ''));
+                let pl = (c - 1) * 20;
+                if(pl > 80){
+                    pl = 80;
+                }
+                li = $('<dd/>').addClass((d.menuId == thisMenuId ? ' layui-this' : '')).css({'padding-left': (pl + 'px')});
             }
             let aa = $('<a/>').attr('href',String.isNullOrWhiteSpace(d.url) ? 'javascript:;' : (d.url + '?menuCode=' + d.code)).attr("lay-tips",d.title).attr("lay-direction","1");
             aa.append($("<i/>").addClass("layui-icon " + (String.isNullOrWhiteSpace(d.icon) ? 'layui-icon-file' : d.icon)));
@@ -59,7 +64,7 @@ layui.use(['element','layer'], function(){
             li.append(aa);
             if(d.children != null && d.children.length > 0){
                 let dl = $("<dl/>").addClass("layui-nav-child");
-                let c_isHave = _loadMenuTree(dl,d.children,false);
+                let c_isHave = _loadMenuTree(dl,d.children,c);
                 if(c_isHave){
                     isHave2 = c_isHave;
                     li.addClass('layui-nav-itemed');
