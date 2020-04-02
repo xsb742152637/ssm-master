@@ -46,24 +46,9 @@
         <include refid="GenericMapper.delete"/>
     </delete>
 
-    <!--auto generated Code-->
-    <insert id="insertList">
-        INSERT INTO core_menu_url_info (
-        <include refid="all_column"/>
-      )VALUES
-        <foreach collection="list" item="entity" index="index" separator=",">
-            (
-            #{entity.urlId},
-            #{entity.title},
-            #{entity.code},
-            #{entity.url},
-            #{entity.parameter},
-            #{entity.sysTime}
-            )
-        </foreach>
+    <insert id="insertList" >
+        <include refid="GenericMapper.insertList"/>
     </insert>
-
-
 
     <!--auto generated Code-->
     <update id="update">

@@ -8,9 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 public interface CoreMenuTreeInfoDao {
-    int insertSelective(@Param("entity") CoreMenuTreeInfoEntity entity);
 
-    int insertList(@Param("list") List<CoreMenuTreeInfoEntity> list);
+    int insertList(@Param("map") Map<String,Object> map);
 
     int update(@Param("entity") CoreMenuTreeInfoEntity entity);
 

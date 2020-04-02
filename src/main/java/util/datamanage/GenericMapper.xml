@@ -8,6 +8,13 @@
     <sql id="findAll">select main.* from <include refid="tableName"/> main</sql>
 
 
+    <sql id="insertList">
+        INSERT INTO <include refid="tableName"/> (<foreach collection="map.fields" index="key" item="value" separator=",">${value}</foreach>) VALUES
+        <foreach collection="map.list" item="item" separator=",">
+            (<foreach collection="item" item="value" separator=",">#{value}</foreach>)
+        </foreach>
+    </sql>
+
     <!-- parameterType="String" -->
     <sql id="delete">delete main from <include refid="tableName"/> main where main.<include refid="primaryKey"/>=#{mainId}</sql>
 

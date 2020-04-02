@@ -19,18 +19,16 @@ public interface CoreMemberInfoDao{
 
     List<CoreMemberInfoEntity> findSons(@Param("mainId") String mainId);
 
-    int insert(@Param("pojo") CoreMemberInfoEntity pojo);
-
     int insert_updateBefore(@Param("left") Integer left,@Param("right")Integer right);
     int insert_updateAfter(@Param("left") Integer left);
 
-    int insertList(@Param("pojos") List<CoreMemberInfoEntity> pojo);
+    int insertList(@Param("map") Map<String,Object> map);
 
-    int update(@Param("pojo") CoreMemberInfoEntity pojo);
+    int update(@Param("entity") CoreMemberInfoEntity entity);
 
-    int updateList(@Param("pojo") List<CoreMemberInfoEntity> pojo);
+    int updateList(@Param("list") List<CoreMemberInfoEntity> list);
 
-    CoreMemberInfoEntity findNeighborEntity(@Param("pojo")CoreMemberInfoEntity pojo,@Param("moveOn") Boolean moveOn);
+    CoreMemberInfoEntity findNeighborEntity(@Param("entity")CoreMemberInfoEntity entity,@Param("moveOn") Boolean moveOn);
 
 
 

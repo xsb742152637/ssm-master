@@ -19,10 +19,7 @@ public interface CoreMenuTreeService {
 
     int insert(CoreMenuTreeInfoEntity entity);
 
-    int insertSelective(CoreMenuTreeInfoEntity entity);
-
     int insertList(List<CoreMenuTreeInfoEntity> list);
-
 
     int update(CoreMenuTreeInfoEntity entity);
 

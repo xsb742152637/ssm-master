@@ -66,55 +66,12 @@
         SELECT * FROM core_member_info WHERE ACCOUNT = #{account} and PASSWORD = #{password}
     </select>
 
-
-    <insert id="insert" parameterType="model.core.memberinfo.entity.CoreMemberInfoEntity">
-        INSERT INTO core_member_info (
-            `MEMBER_ID`,
-            `PARENT_ID`,
-            `MEMBER_NAME`,
-            `MEMBER_TYPE`,
-            `PHOTO`,
-            `ACCOUNT`,
-            `PASSWORD`,
-            `IS_FROZEN`,
-            `MEMBER_LEFT`,
-            `MEMBER_RIGHT`
-        ) VALUES (
-            #{pojo.memberId},
-            #{pojo.parentId},
-            #{pojo.memberName},
-            #{pojo.memberType},
-            #{pojo.photo},
-            #{pojo.account},
-            #{pojo.password},
-            #{pojo.isFrozen},
-            #{pojo.memberLeft},
-            #{pojo.memberRight}
-        )
-    </insert>
-
-    <insert id="insertList">
-        INSERT INTO core_member_info (
-        <include refid="all_column"/>
-        )VALUES
-        <foreach collection="pojos" item="pojo" index="index" separator=",">
-            (
-            #{pojo.memberId},
-            #{pojo.parentId},
-            #{pojo.memberName},
-            #{pojo.memberType},
-            #{pojo.photo},
-            #{pojo.account},
-            #{pojo.password},
-            #{pojo.isFrozen}
-            #{pojo.memberLeft},
-            #{pojo.memberRight}
-            )
-        </foreach>
+    <insert id="insertList" >
+        <include refid="GenericMapper.insertList"/>
     </insert>
 
     <update id="updateList" parameterType="java.util.List">
-        <foreach collection="pojo" item="item" index="index" open="" close="" separator=";">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
             update core_member_info
             <set >
                 `MEMBER_ID` = #{item.memberId},
@@ -135,18 +92,18 @@
     <update id="update">
         UPDATE core_member_info
         <set>
-            `MEMBER_ID` = #{pojo.memberId},
-            `PARENT_ID` = #{pojo.parentId},
-            `MEMBER_NAME` = #{pojo.memberName},
-            `MEMBER_TYPE` = #{pojo.memberType},
-            `PHOTO` = #{pojo.photo},
-            `ACCOUNT` = #{pojo.account},
-            `PASSWORD` = #{pojo.password},
-            `IS_FROZEN` = #{pojo.isFrozen},
-            `MEMBER_LEFT` = #{pojo.memberLeft},
-            `MEMBER_RIGHT` = #{pojo.memberRight}
+            `MEMBER_ID` = #{entity.memberId},
+            `PARENT_ID` = #{entity.parentId},
+            `MEMBER_NAME` = #{entity.memberName},
+            `MEMBER_TYPE` = #{entity.memberType},
+            `PHOTO` = #{entity.photo},
+            `ACCOUNT` = #{entity.account},
+            `PASSWORD` = #{entity.password},
+            `IS_FROZEN` = #{entity.isFrozen},
+            `MEMBER_LEFT` = #{entity.memberLeft},
+            `MEMBER_RIGHT` = #{entity.memberRight}
         </set>
-        WHERE MEMBER_ID = #{pojo.memberId}
+        WHERE MEMBER_ID = #{entity.memberId}
     </update>
 
     <select id="getMainInfo" resultType="java.util.Map">
@@ -237,12 +194,12 @@
             <when test="moveOn">
                 select <include refid="all_column"></include>
                 from core_member_info c
-                where c.MEMBER_RIGHT = #{pojo.memberLeft}-1
+                where c.MEMBER_RIGHT = #{entity.memberLeft}-1
             </when>
             <otherwise>
                 select <include refid="all_column"></include>
                 from core_member_info c
-                where c.MEMBER_LEFT = #{pojo.memberRight}+1
+                where c.MEMBER_LEFT = #{entity.memberRight}+1
             </otherwise>
         </choose>
     </select>

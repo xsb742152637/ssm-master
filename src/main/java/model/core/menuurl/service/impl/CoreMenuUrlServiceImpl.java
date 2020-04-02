@@ -9,10 +9,12 @@ import util.context.ApplicationContext;
 import util.datamanage.GenericService;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.UUID;
 
 @Service
-public class CoreMenuUrlServiceImpl extends GenericService implements CoreMenuUrlService {
+public class CoreMenuUrlServiceImpl extends GenericService<CoreMenuUrlInfoEntity> implements CoreMenuUrlService {
     @Autowired
     private CoreMenuUrlInfoDao dao;
     /**
@@ -33,17 +35,6 @@ public class CoreMenuUrlServiceImpl extends GenericService implements CoreMenuUr
         return dao.getMainCount(mainId,searchKey);
     }
 
-    @Override
-    public int insert(CoreMenuUrlInfoEntity entity) {
-        List<CoreMenuUrlInfoEntity> list = new ArrayList<>();
-        list.add(entity);
-        return dao.insertList(list);
-    }
-
-    @Override
-    public int insertList(List<CoreMenuUrlInfoEntity> list) {
-        return dao.insertList(list);
-    }
 
     @Override
     public CoreMenuUrlInfoEntity findOne(String mainId) {
@@ -51,12 +42,25 @@ public class CoreMenuUrlServiceImpl extends GenericService implements CoreMenuUr
     }
 
     @Override
-    public int delete(String mainId) {
-        return dao.delete(mainId);
+    public int insert(CoreMenuUrlInfoEntity entity){
+        List<CoreMenuUrlInfoEntity> list = new ArrayList<>();
+        list.add(entity);
+        return dao.insertList(convertList(list));
+    }
+
+    @Override
+    public int insertList(List<CoreMenuUrlInfoEntity> list) {
+        return dao.insertList(convertList(list));
     }
 
     @Override
     public int update(CoreMenuUrlInfoEntity entity) {
         return dao.update(entity);
     }
+
+    @Override
+    public int delete(String mainId) {
+        return dao.delete(mainId);
+    }
+
 }

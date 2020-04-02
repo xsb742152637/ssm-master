@@ -3,6 +3,7 @@ package model.core.menutree.service.impl;
 import model.core.menutree.dao.CoreMenuTreeInfoDao;
 import model.core.menutree.entity.CoreMenuTreeInfoEntity;
 import model.core.menutree.service.CoreMenuTreeService;
+import model.core.menuurl.entity.CoreMenuUrlInfoEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import util.context.ApplicationContext;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class CoreMenuTreeServiceImpl extends GenericService implements CoreMenuTreeService {
+public class CoreMenuTreeServiceImpl extends GenericService<CoreMenuTreeInfoEntity> implements CoreMenuTreeService {
     @Autowired
     private CoreMenuTreeInfoDao dao;
     /**
@@ -29,7 +30,7 @@ public class CoreMenuTreeServiceImpl extends GenericService implements CoreMenuT
     @Override
     public List<Map<String,Object>> getMenuTree(Boolean isTop,Boolean isShow) {
         //1. 得到全部显示的菜单树的列表
-        List<Map<String,Object>> list = convertList(dao.getMenuTree(isShow));
+        List<Map<String,Object>> list = underlineToHump(dao.getMenuTree(isShow));
         //2. 将列表转换为树形结构
 
         //2.1 将所有父级菜单放到此map中,方便后续菜单快速找到爹
@@ -80,22 +81,16 @@ public class CoreMenuTreeServiceImpl extends GenericService implements CoreMenuT
     }
 
     @Override
-    public int insert(CoreMenuTreeInfoEntity entity) {
+    public int insert(CoreMenuTreeInfoEntity entity){
         List<CoreMenuTreeInfoEntity> list = new ArrayList<>();
         list.add(entity);
-        return dao.insertList(list);
-    }
-
-    @Override
-    public int insertSelective(CoreMenuTreeInfoEntity entity) {
-        return dao.insertSelective(entity);
+        return dao.insertList(convertList(list));
     }
 
     @Override
     public int insertList(List<CoreMenuTreeInfoEntity> list) {
-        return dao.insertList(list);
+        return dao.insertList(convertList(list));
     }
-
     @Override
     public int update(CoreMenuTreeInfoEntity entity) {
         return dao.update(entity);

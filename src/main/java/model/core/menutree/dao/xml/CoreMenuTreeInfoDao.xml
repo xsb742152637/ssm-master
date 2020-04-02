@@ -45,22 +45,8 @@
     </insert>
 
     <!--auto generated Code-->
-    <insert id="insertList">
-        INSERT INTO core_menu_tree_info (
-        <include refid="all_column"/>
-        )VALUES
-        <foreach collection="list" item="entity" index="index" separator=",">
-            (
-            #{entity.menuId},
-            #{entity.menuLevel},
-            #{entity.outlineLevel},
-            #{entity.title},
-            #{entity.urlId},
-            #{entity.icon},
-            #{entity.type},
-            #{entity.isShow}
-            )
-        </foreach>
+    <insert id="insertList" >
+        <include refid="GenericMapper.insertList"/>
     </insert>
 
     <delete id="delete" parameterType="String">

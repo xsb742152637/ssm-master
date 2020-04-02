@@ -21,14 +21,14 @@ public interface CoreMemberInfoService {
 
     void deleteMain( String mainId);
 
-    void insert(CoreMemberInfoEntity pojo,CoreMemberInfoEntity Fpojo);
+    void insert(CoreMemberInfoEntity entity,CoreMemberInfoEntity fEntity);
 
-    int insertList(List<CoreMemberInfoEntity> pojo);
+    int insertList(List<CoreMemberInfoEntity> list);
 
-    int update( CoreMemberInfoEntity pojo);
+    int update( CoreMemberInfoEntity entity);
 
     void moveMainInfo(String mainId,Boolean moveOn);
 
-    int updateList(List<CoreMemberInfoEntity> pojo);
+    int updateList(List<CoreMemberInfoEntity> list);
 
 }
