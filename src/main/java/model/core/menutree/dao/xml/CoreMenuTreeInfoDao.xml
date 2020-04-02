@@ -19,51 +19,28 @@
     </sql>
 
     <!--auto generated Code-->
-    <insert id="insert" useGeneratedKeys="true" keyProperty="pojo.menuId">
-        INSERT INTO core_menu_tree_info (
-            `menu_id`,
-            `menu_level`,
-            `outline_level`,
-            `title`,
-            `url_id`,
-            `icon`,
-            `type`,
-            `is_show`
-        ) VALUES (
-            #{pojo.menuId},
-            #{pojo.menuLevel},
-            #{pojo.outlineLevel},
-            #{pojo.title},
-            #{pojo.urlId},
-            #{pojo.icon},
-            #{pojo.type},
-            #{pojo.isShow}
-        )
-    </insert>
-
-    <!--auto generated Code-->
-    <insert id="insertSelective" useGeneratedKeys="true" keyProperty="pojo.menuId">
+    <insert id="insertSelective" useGeneratedKeys="true" keyProperty="entity.menuId">
         INSERT INTO core_menu_tree_info
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="pojo.menuId!=null"> `menu_id`,</if>
-            <if test="pojo.menuLevel!=null"> `menu_level`,</if>
-            <if test="pojo.outlineLevel!=null"> `outline_level`,</if>
-            <if test="pojo.title!=null"> `title`,</if>
-            <if test="pojo.urlId!=null"> `url_id`,</if>
-            <if test="pojo.icon!=null"> `icon`,</if>
-            <if test="pojo.type!=null"> `type`,</if>
-            <if test="pojo.isShow!=null"> `is_show`,</if>
+            <if test="entity.menuId!=null"> `menu_id`,</if>
+            <if test="entity.menuLevel!=null"> `menu_level`,</if>
+            <if test="entity.outlineLevel!=null"> `outline_level`,</if>
+            <if test="entity.title!=null"> `title`,</if>
+            <if test="entity.urlId!=null"> `url_id`,</if>
+            <if test="entity.icon!=null"> `icon`,</if>
+            <if test="entity.type!=null"> `type`,</if>
+            <if test="entity.isShow!=null"> `is_show`,</if>
         </trim>
         VALUES
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="pojo.menuId!=null">#{pojo.menuId},</if>
-            <if test="pojo.menuLevel!=null">#{pojo.menuLevel},</if>
-            <if test="pojo.outlineLevel!=null">#{pojo.outlineLevel},</if>
-            <if test="pojo.title!=null">#{pojo.title},</if>
-            <if test="pojo.urlId!=null">#{pojo.urlId},</if>
-            <if test="pojo.icon!=null">#{pojo.icon},</if>
-            <if test="pojo.type!=null">#{pojo.type},</if>
-            <if test="pojo.isShow!=null">#{pojo.isShow},</if>
+            <if test="entity.menuId!=null">#{entity.menuId},</if>
+            <if test="entity.menuLevel!=null">#{entity.menuLevel},</if>
+            <if test="entity.outlineLevel!=null">#{entity.outlineLevel},</if>
+            <if test="entity.title!=null">#{entity.title},</if>
+            <if test="entity.urlId!=null">#{entity.urlId},</if>
+            <if test="entity.icon!=null">#{entity.icon},</if>
+            <if test="entity.type!=null">#{entity.type},</if>
+            <if test="entity.isShow!=null">#{entity.isShow},</if>
         </trim>
     </insert>
 
@@ -72,16 +49,16 @@
         INSERT INTO core_menu_tree_info (
         <include refid="all_column"/>
         )VALUES
-        <foreach collection="pojos" item="pojo" index="index" separator=",">
+        <foreach collection="list" item="entity" index="index" separator=",">
             (
-            #{pojo.menuId},
-            #{pojo.menuLevel},
-            #{pojo.outlineLevel},
-            #{pojo.title},
-            #{pojo.urlId},
-            #{pojo.icon},
-            #{pojo.type},
-            #{pojo.isShow}
+            #{entity.menuId},
+            #{entity.menuLevel},
+            #{entity.outlineLevel},
+            #{entity.title},
+            #{entity.urlId},
+            #{entity.icon},
+            #{entity.type},
+            #{entity.isShow}
             )
         </foreach>
     </insert>
@@ -98,16 +75,16 @@
     <update id="update">
         UPDATE core_menu_tree_info
         <set>
-            <if test="pojo.menuId != null"> `menu_id` = #{pojo.menuId}, </if>
-            <if test="pojo.menuLevel != null"> `menu_level` = #{pojo.menuLevel}, </if>
-            <if test="pojo.outlineLevel != null"> `outline_level` = #{pojo.outlineLevel}, </if>
-            <if test="pojo.title != null"> `title` = #{pojo.title}, </if>
-            <if test="pojo.urlId != null"> `url_id` = #{pojo.urlId}, </if>
-            <if test="pojo.icon != null"> `icon` = #{pojo.icon}, </if>
-            <if test="pojo.type != null"> `type` = #{pojo.type}, </if>
-            <if test="pojo.isShow != null"> `is_show` = #{pojo.isShow} </if>
+            <if test="entity.menuId != null"> `menu_id` = #{entity.menuId}, </if>
+            <if test="entity.menuLevel != null"> `menu_level` = #{entity.menuLevel}, </if>
+            <if test="entity.outlineLevel != null"> `outline_level` = #{entity.outlineLevel}, </if>
+            <if test="entity.title != null"> `title` = #{entity.title}, </if>
+            <if test="entity.urlId != null"> `url_id` = #{entity.urlId}, </if>
+            <if test="entity.icon != null"> `icon` = #{entity.icon}, </if>
+            <if test="entity.type != null"> `type` = #{entity.type}, </if>
+            <if test="entity.isShow != null"> `is_show` = #{entity.isShow} </if>
         </set>
-        WHERE menu_id = #{pojo.menuId}
+        WHERE menu_id = #{entity.menuId}
     </update>
 
     <update id="moveChildren">

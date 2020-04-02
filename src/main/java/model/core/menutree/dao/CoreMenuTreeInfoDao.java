@@ -8,13 +8,11 @@ import java.util.List;
 import java.util.Map;
 
 public interface CoreMenuTreeInfoDao {
-    int insert(@Param("pojo") CoreMenuTreeInfoEntity pojo);
+    int insertSelective(@Param("entity") CoreMenuTreeInfoEntity entity);
 
-    int insertSelective(@Param("pojo") CoreMenuTreeInfoEntity pojo);
+    int insertList(@Param("list") List<CoreMenuTreeInfoEntity> list);
 
-    int insertList(@Param("pojos") List<CoreMenuTreeInfoEntity> pojo);
-
-    int update(@Param("pojo") CoreMenuTreeInfoEntity pojo);
+    int update(@Param("entity") CoreMenuTreeInfoEntity entity);
 
     int delete(@Param("mainId") String mainId);
 

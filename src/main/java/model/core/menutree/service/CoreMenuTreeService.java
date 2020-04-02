@@ -17,14 +17,14 @@ public interface CoreMenuTreeService {
 
     CoreMenuTreeInfoEntity findOne(String mainId);
 
-    int insert(CoreMenuTreeInfoEntity pojo);
+    int insert(CoreMenuTreeInfoEntity entity);
 
-    int insertSelective(CoreMenuTreeInfoEntity pojo);
+    int insertSelective(CoreMenuTreeInfoEntity entity);
 
-    int insertList(List<CoreMenuTreeInfoEntity> pojo);
+    int insertList(List<CoreMenuTreeInfoEntity> list);
 
 
-    int update(CoreMenuTreeInfoEntity pojo);
+    int update(CoreMenuTreeInfoEntity entity);
 
     void moveTree(String treeId,boolean type);
 

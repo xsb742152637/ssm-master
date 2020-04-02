@@ -47,32 +47,18 @@
     </delete>
 
     <!--auto generated Code-->
-    <insert id="insert" useGeneratedKeys="true" keyProperty="pojo.urlId">
-        INSERT INTO core_menu_url_info (
-        <include refid="all_column"/>
-        ) VALUES (
-        #{pojo.urlId},
-        #{pojo.title},
-        #{pojo.code},
-        #{pojo.url},
-        #{pojo.parameter},
-        #{pojo.sysTime}
-        )
-    </insert>
-
-    <!--auto generated Code-->
     <insert id="insertList">
         INSERT INTO core_menu_url_info (
         <include refid="all_column"/>
       )VALUES
-        <foreach collection="pojos" item="pojo" index="index" separator=",">
+        <foreach collection="list" item="entity" index="index" separator=",">
             (
-            #{pojo.urlId},
-            #{pojo.title},
-            #{pojo.code},
-            #{pojo.url},
-            #{pojo.parameter},
-            #{pojo.sysTime}
+            #{entity.urlId},
+            #{entity.title},
+            #{entity.code},
+            #{entity.url},
+            #{entity.parameter},
+            #{entity.sysTime}
             )
         </foreach>
     </insert>
@@ -83,14 +69,14 @@
     <update id="update">
         UPDATE core_menu_url_info
         <set>
-            <if test="pojo.urlId != null"> `url_id` = #{pojo.urlId}, </if>
-            <if test="pojo.title != null"> `title` = #{pojo.title}, </if>
-            <if test="pojo.code != null"> `code` = #{pojo.code}, </if>
-            <if test="pojo.url != null"> `url` = #{pojo.url}, </if>
-            <if test="pojo.parameter != null"> `parameter` = #{pojo.parameter}, </if>
-            <if test="pojo.sysTime != null"> `sys_time` = #{pojo.sysTime} </if>
+            <if test="entity.urlId != null"> `url_id` = #{entity.urlId}, </if>
+            <if test="entity.title != null"> `title` = #{entity.title}, </if>
+            <if test="entity.code != null"> `code` = #{entity.code}, </if>
+            <if test="entity.url != null"> `url` = #{entity.url}, </if>
+            <if test="entity.parameter != null"> `parameter` = #{entity.parameter}, </if>
+            <if test="entity.sysTime != null"> `sys_time` = #{entity.sysTime} </if>
         </set>
-        WHERE url_id = #{pojo.urlId}
+        WHERE url_id = #{entity.urlId}
     </update>
 
 </mapper>

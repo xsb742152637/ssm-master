@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import util.context.ApplicationContext;
 import util.datamanage.GenericService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -33,13 +34,15 @@ public class CoreMenuUrlServiceImpl extends GenericService implements CoreMenuUr
     }
 
     @Override
-    public int insert(CoreMenuUrlInfoEntity pojo) {
-        return dao.insert(pojo);
+    public int insert(CoreMenuUrlInfoEntity entity) {
+        List<CoreMenuUrlInfoEntity> list = new ArrayList<>();
+        list.add(entity);
+        return dao.insertList(list);
     }
 
     @Override
-    public int insertList(List<CoreMenuUrlInfoEntity> pojo) {
-        return dao.insertList(pojo);
+    public int insertList(List<CoreMenuUrlInfoEntity> list) {
+        return dao.insertList(list);
     }
 
     @Override
@@ -53,7 +56,7 @@ public class CoreMenuUrlServiceImpl extends GenericService implements CoreMenuUr
     }
 
     @Override
-    public int update(CoreMenuUrlInfoEntity pojo) {
-        return dao.update(pojo);
+    public int update(CoreMenuUrlInfoEntity entity) {
+        return dao.update(entity);
     }
 }

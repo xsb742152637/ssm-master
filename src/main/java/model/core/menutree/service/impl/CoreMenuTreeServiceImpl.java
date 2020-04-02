@@ -80,23 +80,25 @@ public class CoreMenuTreeServiceImpl extends GenericService implements CoreMenuT
     }
 
     @Override
-    public int insert(CoreMenuTreeInfoEntity pojo) {
-        return dao.insert(pojo);
+    public int insert(CoreMenuTreeInfoEntity entity) {
+        List<CoreMenuTreeInfoEntity> list = new ArrayList<>();
+        list.add(entity);
+        return dao.insertList(list);
     }
 
     @Override
-    public int insertSelective(CoreMenuTreeInfoEntity pojo) {
-        return dao.insertSelective(pojo);
+    public int insertSelective(CoreMenuTreeInfoEntity entity) {
+        return dao.insertSelective(entity);
     }
 
     @Override
-    public int insertList(List<CoreMenuTreeInfoEntity> pojo) {
-        return dao.insertList(pojo);
+    public int insertList(List<CoreMenuTreeInfoEntity> list) {
+        return dao.insertList(list);
     }
 
     @Override
-    public int update(CoreMenuTreeInfoEntity pojo) {
-        return dao.update(pojo);
+    public int update(CoreMenuTreeInfoEntity entity) {
+        return dao.update(entity);
     }
 
     /**

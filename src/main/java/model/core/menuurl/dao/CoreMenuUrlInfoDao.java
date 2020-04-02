@@ -7,11 +7,9 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface CoreMenuUrlInfoDao {
-    int insert(@Param("pojo") CoreMenuUrlInfoEntity pojo);
+    int insertList(@Param("list") List<CoreMenuUrlInfoEntity> list);
 
-    int insertList(@Param("pojos") List<CoreMenuUrlInfoEntity> pojo);
-
-    int update(@Param("pojo") CoreMenuUrlInfoEntity pojo);
+    int update(@Param("entity") CoreMenuUrlInfoEntity entity);
 
     int delete(@Param("mainId") String mainId);
 

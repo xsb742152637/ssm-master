@@ -11,13 +11,13 @@ public interface CoreMenuUrlService {
 
     Integer getMainCount(String mainId,String searchKey);
 
-    int insert(CoreMenuUrlInfoEntity pojo);
+    int insert(CoreMenuUrlInfoEntity entity);
 
-    int insertList(List<CoreMenuUrlInfoEntity> pojo);
+    int insertList(List<CoreMenuUrlInfoEntity> list);
 
     int delete(String mainId);
 
-    int update(CoreMenuUrlInfoEntity pojo);
+    int update(CoreMenuUrlInfoEntity entity);
 
     CoreMenuUrlInfoEntity findOne(String mainId);
 
