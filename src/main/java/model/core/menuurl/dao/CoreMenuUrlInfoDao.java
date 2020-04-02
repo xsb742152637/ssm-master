@@ -1,16 +1,13 @@
 package model.core.menuurl.dao;
 
 
+import model.core.menuurl.entity.CoreMenuUrlInfoEntity;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
-import model.core.menuurl.entity.CoreMenuUrlInfoEntity;
-
 
 public interface CoreMenuUrlInfoDao {
     int insert(@Param("pojo") CoreMenuUrlInfoEntity pojo);
-
-    int insertSelective(@Param("pojo") CoreMenuUrlInfoEntity pojo);
 
     int insertList(@Param("pojos") List<CoreMenuUrlInfoEntity> pojo);
 

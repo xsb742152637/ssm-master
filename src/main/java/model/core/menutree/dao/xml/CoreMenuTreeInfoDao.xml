@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="model.core.menutree.dao.CoreMenuTreeInfoDao">
-    <!--auto generated Code-->
-    <resultMap id="AllColumnMap" type="model.core.menutree.entity.CoreMenuTreeInfoEntity">
-        <result column="menu_id" property="menuId"/>
-        <result column="menu_level" property="menuLevel"/>
-        <result column="outline_level" property="outlineLevel"/>
-        <result column="title" property="title"/>
-        <result column="url_id" property="urlId"/>
-        <result column="icon" property="icon"/>
-        <result column="type" property="type"/>
-        <result column="is_show" property="isShow"/>
-    </resultMap>
-
+    <!--表名-->
+    <sql id="tableName">core_menu_tree_info</sql>
+    <!--主键-->
+    <sql id="primaryKey">MENU_ID</sql>
+    
     <!--auto generated Code-->
     <sql id="all_column">
         `menu_id`,
@@ -96,7 +89,7 @@
     <delete id="delete" parameterType="String">
         delete a
         from core_menu_tree_info a,core_menu_tree_info b
-        where b.MENU_ID=#{menuId}
+        where b.MENU_ID=#{mainId}
         and left(a.OUTLINE_LEVEL,length(b.OUTLINE_LEVEL))=b.OUTLINE_LEVEL
         and length(a.OUTLINE_LEVEL)>=length(b.OUTLINE_LEVEL)
     </delete>
@@ -166,17 +159,15 @@
         order by convert(REPLACE(a.OUTLINE_LEVEL,'.',''),SIGNED)
     </select>
 
+    <select id="findOne" resultType="CoreMenuTreeInfoEntity" parameterType="String">
+        <include refid="GenericMapper.findOne"/>
+    </select>
+
     <select id="findOneByCode" resultType="CoreMenuTreeInfoEntity" parameterType="String">
         select a.* from core_menu_tree_info a join core_menu_url_info b on a.URL_ID=b.URL_ID where b.CODE=#{code}
     </select>
 
-    <select id="findOneById" resultType="model.core.menutree.entity.CoreMenuTreeInfoEntity" parameterType="String">
-        select a.MENU_ID,a.MENU_LEVEL,a.OUTLINE_LEVEL,a.TITLE,a.ICON,a.IS_SHOW
-        from core_menu_tree_info a
-        where a.MENU_ID = #{menuId}
-    </select>
-
-    <select id="findOneByOutlineLevel" resultType="model.core.menutree.entity.CoreMenuTreeInfoEntity" parameterType="String">
+    <select id="findOneByOutlineLevel" resultType="CoreMenuTreeInfoEntity" parameterType="String">
         select a.MENU_ID,a.MENU_LEVEL,a.OUTLINE_LEVEL,a.TITLE,a.ICON,a.IS_SHOW
         from core_menu_tree_info a
         where a.OUTLINE_LEVEL = #{outlineLevel}

@@ -38,11 +38,6 @@ public class CoreMenuUrlServiceImpl extends GenericService implements CoreMenuUr
     }
 
     @Override
-    public int insertSelective(CoreMenuUrlInfoEntity pojo) {
-        return dao.insertSelective(pojo);
-    }
-
-    @Override
     public int insertList(List<CoreMenuUrlInfoEntity> pojo) {
         return dao.insertList(pojo);
     }

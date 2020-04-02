@@ -17,9 +17,6 @@ public class CoreMemberInfoEntity {
     private String memberId;
     private String parentId;
     private String memberName;
-
-
-
     private int memberType;
     private byte[] photo;
     private String account;
@@ -98,13 +95,13 @@ public class CoreMemberInfoEntity {
 
     @Basic
     @Column(name = "IS_FROZEN")
-    public Boolean getFrozen() {
-        return isFrozen;
+    public Boolean getIsFrozen() {
+        return this.isFrozen;
     }
 
 
-    public void setFrozen(Boolean frozen) {
-        isFrozen = frozen;
+    public void setIsFrozen(Boolean isFrozen) {
+        this.isFrozen = isFrozen;
     }
 
     @Basic

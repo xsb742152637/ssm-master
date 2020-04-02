@@ -13,8 +13,6 @@ public interface CoreMenuUrlService {
 
     int insert(CoreMenuUrlInfoEntity pojo);
 
-    int insertSelective(CoreMenuUrlInfoEntity pojo);
-
     int insertList(List<CoreMenuUrlInfoEntity> pojo);
 
     int delete(String mainId);

@@ -15,7 +15,7 @@ public interface CoreMenuTreeService {
 
     CoreMenuTreeInfoEntity findOneByCode(String code);
 
-    CoreMenuTreeInfoEntity findOneById(String menuId);
+    CoreMenuTreeInfoEntity findOne(String mainId);
 
     int insert(CoreMenuTreeInfoEntity pojo);
 
@@ -28,7 +28,7 @@ public interface CoreMenuTreeService {
 
     void moveTree(String treeId,boolean type);
 
-    void delete(String menuId);
+    void delete(String mainId);
 
     /**
      * //根据上级，得到子级下一个排序数字

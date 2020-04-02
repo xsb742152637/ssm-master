@@ -65,7 +65,7 @@ public class CoreMemberInfoController extends GenericController {
         entity.setMemberType(Integer.parseInt(request.getParameter("memberType")));
         entity.setAccount(request.getParameter("account"));
         entity.setPassword(request.getParameter("password"));
-        entity.setFrozen(Boolean.parseBoolean(request.getParameter("isFrozen")));
+        entity.setIsFrozen(Boolean.parseBoolean(request.getParameter("isFrozen")));
         entity.setMemberLeft(fatherEntity.getMemberRight());
         entity.setMemberRight(entity.getMemberLeft()+1);
         try {

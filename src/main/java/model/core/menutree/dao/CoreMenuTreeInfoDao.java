@@ -1,14 +1,11 @@
 package model.core.menutree.dao;
 
 
-import model.core.memberinfo.entity.CoreMemberInfoEntity;
+import model.core.menutree.entity.CoreMenuTreeInfoEntity;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
-
-import model.core.menutree.entity.CoreMenuTreeInfoEntity;
-
 
 public interface CoreMenuTreeInfoDao {
     int insert(@Param("pojo") CoreMenuTreeInfoEntity pojo);
@@ -19,7 +16,7 @@ public interface CoreMenuTreeInfoDao {
 
     int update(@Param("pojo") CoreMenuTreeInfoEntity pojo);
 
-    int delete(@Param("menuId") String menuId);
+    int delete(@Param("mainId") String mainId);
 
     int updateAfterDelete(@Param("before") String before,@Param("after") String after);
 
@@ -30,7 +27,7 @@ public interface CoreMenuTreeInfoDao {
 
     List<CoreMenuTreeInfoEntity> findOneByCode(String code);
 
-    CoreMenuTreeInfoEntity findOneById(@Param("menuId") String menuId);
+    CoreMenuTreeInfoEntity findOne(@Param("mainId") String mainId);
 
     CoreMenuTreeInfoEntity findOneByOutlineLevel(@Param("outlineLevel") String outlineLevel);
 

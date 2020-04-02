@@ -1,6 +1,5 @@
 package controller.core.menutree;
 
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import model.core.menutree.entity.CoreMenuTreeInfoEntity;
 import model.core.menutree.service.CoreMenuTreeService;
 import org.apache.commons.lang3.StringUtils;
@@ -12,7 +11,6 @@ import util.datamanage.GenericController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -82,7 +80,7 @@ public class CoreMenuTreeController extends GenericController {
         CoreMenuTreeInfoEntity entity = new CoreMenuTreeInfoEntity();
         if(StringUtils.isBlank(mainId)){
             //如果是新增，需要调整上级菜单
-            CoreMenuTreeInfoEntity entityP = mainService.findOneById(parentId);
+            CoreMenuTreeInfoEntity entityP = mainService.findOne(parentId);
             entityP.setType(false);
             try{
                 mainService.update(entityP);
@@ -94,7 +92,7 @@ public class CoreMenuTreeController extends GenericController {
             entity.setOutlineLevel(entityP.getOutlineLevel() + "." + String.valueOf(entity.getMenuLevel()));
             entity.setType(true);
         }else{
-            entity = mainService.findOneById(mainId);
+            entity = mainService.findOne(mainId);
         }
         entity.setTitle(title);
         entity.setUrlId(urlId);

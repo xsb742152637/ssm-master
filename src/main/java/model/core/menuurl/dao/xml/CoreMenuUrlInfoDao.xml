@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="model.core.menuurl.dao.CoreMenuUrlInfoDao">
-    <!--auto generated Code-->
-    <resultMap id="AllColumnMap" type="model.core.menuurl.entity.CoreMenuUrlInfoEntity">
-        <result column="url_id" property="urlId"/>
-        <result column="title" property="title"/>
-        <result column="code" property="code"/>
-        <result column="url" property="url"/>
-        <result column="parameter" property="parameter"/>
-        <result column="sys_time" property="sysTime"/>
-    </resultMap>
+    <!--表名-->
+    <sql id="tableName">core_menu_url_info</sql>
+    <!--主键-->
+    <sql id="primaryKey">URL_ID</sql>
 
     <!--auto generated Code-->
     <sql id="all_column">
@@ -21,52 +16,55 @@
         `sys_time`
     </sql>
 
+    <sql id="_main_info">
+        select main.* from <include refid="tableName"/> main
+        where 1=1
+        <if test="mainId != null">
+            and main.<include refid="primaryKey"/> = #{mainId},
+        </if>
+        <if test="searchKey != null">
+            and (locate(#{searchKey},main.TITLE)>0 or locate(#{searchKey},main.CODE)>0)
+        </if>
+    </sql>
+
+    <select id="getMainInfo" resultType="CoreMenuUrlInfoEntity">
+        <include refid="_main_info"/>
+        ORDER BY main.SYS_TIME desc
+        <if test="rows != -1">
+            LIMIT ${(page-1)*rows},${rows};
+        </if>
+    </select>
+    <select id="getMainCount" resultType="Integer">
+        select count(1) from (<include refid="_main_info"/>) c
+    </select>
+
+    <select id="findOne" resultType="CoreMenuUrlInfoEntity" parameterType="String">
+        <include refid="GenericMapper.findOne"/>
+    </select>
+
+    <delete id="delete" parameterType="String">
+        <include refid="GenericMapper.delete"/>
+    </delete>
+
     <!--auto generated Code-->
     <insert id="insert" useGeneratedKeys="true" keyProperty="pojo.urlId">
         INSERT INTO core_menu_url_info (
-            `url_id`,
-            `title`,
-            `code`,
-            `url`,
-            `parameter`,
-            `sys_time`
+        <include refid="all_column"/>
         ) VALUES (
-            #{pojo.urlId},
-            #{pojo.title},
-            #{pojo.code},
-            #{pojo.url},
-            #{pojo.parameter},
-            #{pojo.sysTime}
+        #{pojo.urlId},
+        #{pojo.title},
+        #{pojo.code},
+        #{pojo.url},
+        #{pojo.parameter},
+        #{pojo.sysTime}
         )
-    </insert>
-
-    <!--auto generated Code-->
-    <insert id="insertSelective" useGeneratedKeys="true" keyProperty="pojo.urlId">
-        INSERT INTO core_menu_url_info
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="pojo.urlId!=null"> `url_id`,</if>
-            <if test="pojo.title!=null"> `title`,</if>
-            <if test="pojo.code!=null"> `code`,</if>
-            <if test="pojo.url!=null"> `url`,</if>
-            <if test="pojo.parameter!=null"> `parameter`,</if>
-            <if test="pojo.sysTime!=null"> `sys_time`,</if>
-        </trim>
-        VALUES
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="pojo.urlId!=null">#{pojo.urlId},</if>
-            <if test="pojo.title!=null">#{pojo.title},</if>
-            <if test="pojo.code!=null">#{pojo.code},</if>
-            <if test="pojo.url!=null">#{pojo.url},</if>
-            <if test="pojo.parameter!=null">#{pojo.parameter},</if>
-            <if test="pojo.sysTime!=null">#{pojo.sysTime},</if>
-        </trim>
     </insert>
 
     <!--auto generated Code-->
     <insert id="insertList">
         INSERT INTO core_menu_url_info (
         <include refid="all_column"/>
-        )VALUES
+      )VALUES
         <foreach collection="pojos" item="pojo" index="index" separator=",">
             (
             #{pojo.urlId},
@@ -80,11 +78,6 @@
     </insert>
 
 
-    <delete id="delete" parameterType="String">
-        delete a
-        from core_menu_url_info a
-        where a.url_id=#{mainId}
-    </delete>
 
     <!--auto generated Code-->
     <update id="update">
@@ -100,36 +93,5 @@
         WHERE url_id = #{pojo.urlId}
     </update>
 
-    <select id="getMainInfo" resultType="CoreMenuUrlInfoEntity">
-        select c.URL_ID,c.TITLE,c.CODE,c.URL,c.PARAMETER,c.SYS_TIME from core_menu_url_info c
-        where 1=1
-        <if test="mainId != null">
-            and c.URL_ID = #{mainId},
-        </if>
-        <if test="searchKey != null">
-            and (locate(#{searchKey},c.TITLE)>0 or locate(#{searchKey},c.CODE)>0)
-        </if>
-        ORDER BY c.SYS_TIME desc
-
-        <if test="rows != -1">
-            LIMIT ${(page-1)*rows},${rows};
-        </if>
-    </select>
-    <select id="getMainCount" resultType="Integer">
-        select count(1) from core_menu_url_info c
-        where 1=1
-        <if test="mainId != null">
-            and c.URL_ID = #{mainId},
-        </if>
-        <if test="searchKey != null">
-            and (locate(#{searchKey},c.TITLE)>0 or locate(#{searchKey},c.CODE)>0)
-        </if>
-    </select>
-
-    <select id="findOne" resultType="CoreMenuUrlInfoEntity" parameterType="String">
-        select c.URL_ID,c.TITLE,c.CODE,c.URL,c.PARAMETER,c.SYS_TIME
-        from core_menu_url_info c
-        where c.URL_ID = #{mainId}
-    </select>
 </mapper>
 

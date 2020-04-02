@@ -114,8 +114,8 @@ public class CoreMenuTreeServiceImpl extends GenericService implements CoreMenuT
     }
 
     @Override
-    public CoreMenuTreeInfoEntity findOneById(String menuId) {
-        return dao.findOneById(menuId);
+    public CoreMenuTreeInfoEntity findOne(String mainId) {
+        return dao.findOne(mainId);
     }
 
     /**
@@ -125,7 +125,7 @@ public class CoreMenuTreeServiceImpl extends GenericService implements CoreMenuT
      */
     @Override
     public void moveTree(String treeId, boolean type) {
-        CoreMenuTreeInfoEntity entity = dao.findOneById(treeId);
+        CoreMenuTreeInfoEntity entity = dao.findOne(treeId);
         if(entity == null) {
             return;
         }
@@ -169,12 +169,12 @@ public class CoreMenuTreeServiceImpl extends GenericService implements CoreMenuT
     }
 
     @Override
-    public void delete(String menuId) {
-        CoreMenuTreeInfoEntity entity = dao.findOneById(menuId);
+    public void delete(String mainId) {
+        CoreMenuTreeInfoEntity entity = dao.findOne(mainId);
         String outlineLevel = entity.getOutlineLevel();
         String before = outlineLevel.substring(0,outlineLevel.lastIndexOf(".")+1);
         String after = outlineLevel.substring(outlineLevel.lastIndexOf(".")+1);
-        dao.delete(menuId);
+        dao.delete(mainId);
         dao.updateAfterDelete(before,after);
 
     }
