@@ -62,10 +62,12 @@ layui.use(['tree','layer','form'], function(){
             type: "POST",
             data: data.field,
             success: function (rs) {
-                layer.close();
-                console.log(rs);
                 layer.res(rs);
-                loadTree();
+                console.log(rs);
+                if(!rs.error){
+                    layer.close();
+                    loadTree();
+                }
             },
             error: function (jqXHR) {
                 layer.close();
@@ -88,9 +90,11 @@ layui.use(['tree','layer','form'], function(){
             type: "POST",
             data: {mainId: selData.menuId,type: type},
             success: function (rs) {
-                layer.close();
                 layer.res(rs);
-                loadTree();
+                if(!rs.error){
+                    layer.close();
+                    loadTree();
+                }
             },
             error: function (jqXHR) {
                 layer.close();
@@ -112,9 +116,11 @@ layui.use(['tree','layer','form'], function(){
                     type: "POST",
                     data: {mainId: selData.menuId},
                     success: function (rs) {
-                        layer.close();
                         layer.res(rs);
-                        loadTree();
+                        if(!rs.error){
+                            layer.close();
+                            loadTree();
+                        }
                     },
                     error: function (jqXHR) {
                         layer.close();
