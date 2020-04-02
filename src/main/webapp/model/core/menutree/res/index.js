@@ -64,8 +64,8 @@ layui.use(['tree','layer','form'], function(){
             success: function (rs) {
                 layer.res(rs);
                 console.log(rs);
+                layer.close();
                 if(!rs.error){
-                    layer.close();
                     loadTree();
                 }
             },
@@ -91,8 +91,8 @@ layui.use(['tree','layer','form'], function(){
             data: {mainId: selData.menuId,type: type},
             success: function (rs) {
                 layer.res(rs);
+                layer.close();
                 if(!rs.error){
-                    layer.close();
                     loadTree();
                 }
             },
@@ -117,8 +117,8 @@ layui.use(['tree','layer','form'], function(){
                     data: {mainId: selData.menuId},
                     success: function (rs) {
                         layer.res(rs);
+                        layer.close();
                         if(!rs.error){
-                            layer.close();
                             loadTree();
                         }
                     },

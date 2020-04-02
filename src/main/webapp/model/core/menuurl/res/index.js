@@ -57,9 +57,9 @@ layui.use(['table','layer','form'], function(){
                             type: "POST",
                             data: {mainId: dd.urlId},
                             success: function (rs) {
+                                layer.close();
                                 layer.res(rs);
                                 if(!rs.error){
-                                    layer.close();
                                     mainTable.reload();
                                 }
                             },
@@ -97,6 +97,8 @@ layui.use(['table','layer','form'], function(){
                 if(!rs.error){
                     layer.closeAll();
                     mainTable.reload();
+                }else{
+                    layer.close();
                 }
             },
             error: function (jqXHR) {
