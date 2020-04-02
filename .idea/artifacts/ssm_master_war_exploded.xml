@@ -1,13 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="exploded-war" name="ssm-master:war exploded">
     <output-path>$PROJECT_DIR$/target/ssm-master</output-path>
-    <properties id="maven-jee-properties">
-      <options>
-        <exploded>true</exploded>
-        <module>ssm-master</module>
-        <packaging>war</packaging>
-      </options>
-    </properties>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
@@ -25,24 +18,24 @@
           <element id="library" level="project" name="Maven: org.mybatis:mybatis-spring:1.2.3" />
           <element id="library" level="project" name="Maven: taglibs:standard:1.1.2" />
           <element id="library" level="project" name="Maven: jstl:jstl:1.2" />
-          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.9.10.1" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.9.10.3" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.9.10" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.9.10" />
           <element id="library" level="project" name="Maven: javax.servlet:javax.servlet-api:3.1.0" />
-          <element id="library" level="project" name="Maven: org.springframework:spring-core:4.2.5.RELEASE" />
-          <element id="library" level="project" name="Maven: org.springframework:spring-beans:4.2.5.RELEASE" />
-          <element id="library" level="project" name="Maven: org.springframework:spring-context:4.2.5.RELEASE" />
-          <element id="library" level="project" name="Maven: org.springframework:spring-expression:4.2.5.RELEASE" />
-          <element id="library" level="project" name="Maven: org.springframework:spring-aop:4.2.5.RELEASE" />
-          <element id="library" level="project" name="Maven: aopalliance:aopalliance:1.0" />
-          <element id="library" level="project" name="Maven: org.springframework:spring-aspects:4.2.5.RELEASE" />
-          <element id="library" level="project" name="Maven: org.aspectj:aspectjweaver:1.8.8" />
-          <element id="library" level="project" name="Maven: org.springframework:spring-jdbc:4.2.5.RELEASE" />
-          <element id="library" level="project" name="Maven: org.springframework:spring-tx:4.2.5.RELEASE" />
-          <element id="library" level="project" name="Maven: org.springframework:spring-web:4.2.5.RELEASE" />
-          <element id="library" level="project" name="Maven: org.springframework:spring-webmvc:4.2.5.RELEASE" />
-          <element id="library" level="project" name="Maven: org.springframework:spring-test:4.2.5.RELEASE" />
-          <element id="library" level="project" name="Maven: org.springframework:spring-context-support:4.2.5.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-core:5.2.4.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-jcl:5.2.4.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-beans:5.2.4.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-context:5.2.4.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-expression:5.2.4.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-aop:5.2.4.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-aspects:5.2.4.RELEASE" />
+          <element id="library" level="project" name="Maven: org.aspectj:aspectjweaver:1.9.5" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-jdbc:5.2.4.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-tx:5.2.4.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-web:5.2.4.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-webmvc:5.2.4.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-test:5.2.4.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-context-support:5.2.4.RELEASE" />
           <element id="library" level="project" name="Maven: org.apache.shiro:shiro-core:1.5.0" />
           <element id="library" level="project" name="Maven: org.apache.shiro:shiro-lang:1.5.0" />
           <element id="library" level="project" name="Maven: org.apache.shiro:shiro-cache:1.5.0" />
