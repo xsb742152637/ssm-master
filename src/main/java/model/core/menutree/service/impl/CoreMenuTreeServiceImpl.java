@@ -81,19 +81,17 @@ public class CoreMenuTreeServiceImpl extends GenericService<CoreMenuTreeInfoEnti
     }
 
     @Override
-    public int insert(CoreMenuTreeInfoEntity entity){
-        List<CoreMenuTreeInfoEntity> list = new ArrayList<>();
-        list.add(entity);
-        return dao.insertList(convertList(list));
+    public int insert(CoreMenuTreeInfoEntity entity){ return dao.insert(convertList(entity)); }
+    @Override
+    public int insert(List<CoreMenuTreeInfoEntity> list) {
+        return dao.insert(convertList(list));
     }
 
     @Override
-    public int insertList(List<CoreMenuTreeInfoEntity> list) {
-        return dao.insertList(convertList(list));
-    }
+    public int update(CoreMenuTreeInfoEntity entity){ return dao.update(convertList(entity)); }
     @Override
-    public int update(CoreMenuTreeInfoEntity entity) {
-        return dao.update(entity);
+    public int update(List<CoreMenuTreeInfoEntity> list) {
+        return dao.update(convertList(list));
     }
 
     /**
@@ -155,8 +153,10 @@ public class CoreMenuTreeServiceImpl extends GenericService<CoreMenuTreeInfoEnti
         entity.setMenuLevel(menuLevel);
         entity.setOutlineLevel(outlineLevel);
 
-        dao.update(entity);
-        dao.update(entity2);
+        List<CoreMenuTreeInfoEntity> list = new ArrayList<>();
+        list.add(entity);
+        list.add(entity2);
+        update(list);
     }
 
 
@@ -173,6 +173,5 @@ public class CoreMenuTreeServiceImpl extends GenericService<CoreMenuTreeInfoEnti
         String after = outlineLevel.substring(outlineLevel.lastIndexOf(".")+1);
         dao.delete(mainId);
         dao.updateAfterDelete(before,after);
-
     }
 }

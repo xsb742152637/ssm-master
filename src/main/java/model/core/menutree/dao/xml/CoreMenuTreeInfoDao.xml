@@ -5,72 +5,44 @@
     <sql id="tableName">core_menu_tree_info</sql>
     <!--主键-->
     <sql id="primaryKey">MENU_ID</sql>
-    
-    <!--auto generated Code-->
-    <sql id="all_column">
-        `menu_id`,
-        `menu_level`,
-        `outline_level`,
-        `title`,
-        `url_id`,
-        `icon`,
-        `type`,
-        `is_show`
-    </sql>
 
-    <!--auto generated Code-->
-    <insert id="insertSelective" useGeneratedKeys="true" keyProperty="entity.menuId">
-        INSERT INTO core_menu_tree_info
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="entity.menuId!=null"> `menu_id`,</if>
-            <if test="entity.menuLevel!=null"> `menu_level`,</if>
-            <if test="entity.outlineLevel!=null"> `outline_level`,</if>
-            <if test="entity.title!=null"> `title`,</if>
-            <if test="entity.urlId!=null"> `url_id`,</if>
-            <if test="entity.icon!=null"> `icon`,</if>
-            <if test="entity.type!=null"> `type`,</if>
-            <if test="entity.isShow!=null"> `is_show`,</if>
-        </trim>
-        VALUES
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="entity.menuId!=null">#{entity.menuId},</if>
-            <if test="entity.menuLevel!=null">#{entity.menuLevel},</if>
-            <if test="entity.outlineLevel!=null">#{entity.outlineLevel},</if>
-            <if test="entity.title!=null">#{entity.title},</if>
-            <if test="entity.urlId!=null">#{entity.urlId},</if>
-            <if test="entity.icon!=null">#{entity.icon},</if>
-            <if test="entity.type!=null">#{entity.type},</if>
-            <if test="entity.isShow!=null">#{entity.isShow},</if>
-        </trim>
+    <!-- 目的：为dao接口方法提供sql语句配置 -->
+    <select id="getMenuTree" resultType="java.util.HashMap" parameterType="java.lang.Boolean">
+        select a.MENU_ID,a.MENU_LEVEL,a.OUTLINE_LEVEL,a.TITLE,a.ICON,a.IS_SHOW,ui.CODE,ui.URL_ID,ui.URL,ui.PARAMETER
+        from core_menu_tree_info a left join core_menu_url_info ui on a.URL_ID=ui.URL_ID
+        <!--<if test="_parameter  != null" >-->
+        <if test="isShow != null" >
+            where a.IS_SHOW = #{isShow}
+        </if>
+        order by convert(REPLACE(a.OUTLINE_LEVEL,'.',''),SIGNED)
+    </select>
+
+    <select id="findOne" resultType="CoreMenuTreeInfoEntity" parameterType="String">
+        <include refid="GenericMapper.findOne"/>
+    </select>
+
+    <select id="findOneByCode" resultType="CoreMenuTreeInfoEntity" parameterType="String">
+        select a.* from core_menu_tree_info a join core_menu_url_info b on a.URL_ID=b.URL_ID where b.CODE=#{code}
+    </select>
+
+    <select id="findOneByOutlineLevel" resultType="CoreMenuTreeInfoEntity" parameterType="String">
+        select a.MENU_ID,a.MENU_LEVEL,a.OUTLINE_LEVEL,a.TITLE,a.ICON,a.IS_SHOW
+        from core_menu_tree_info a
+        where a.OUTLINE_LEVEL = #{outlineLevel}
+    </select>
+
+    <select id="getMenuLevelByParLevel" resultType="Integer" parameterType="String">
+        select max(a.MENU_LEVEL)
+        from core_menu_tree_info a
+        where left(a.OUTLINE_LEVEL,length(#{outlineLevel}))=#{outlineLevel} and length(a.OUTLINE_LEVEL)>length(#{outlineLevel})
+    </select>
+
+    <insert id="insert" >
+        <include refid="GenericMapper.insert"/>
     </insert>
 
-    <!--auto generated Code-->
-    <insert id="insertList" >
-        <include refid="GenericMapper.insertList"/>
-    </insert>
-
-    <delete id="delete" parameterType="String">
-        delete a
-        from core_menu_tree_info a,core_menu_tree_info b
-        where b.MENU_ID=#{mainId}
-        and left(a.OUTLINE_LEVEL,length(b.OUTLINE_LEVEL))=b.OUTLINE_LEVEL
-        and length(a.OUTLINE_LEVEL)>=length(b.OUTLINE_LEVEL)
-    </delete>
-
-    <!--auto generated Code-->
     <update id="update">
-        UPDATE core_menu_tree_info
-        <set>
-            <if test="entity.menuId != null"> `menu_id` = #{entity.menuId}, </if>
-            <if test="entity.menuLevel != null"> `menu_level` = #{entity.menuLevel}, </if>
-            <if test="entity.outlineLevel != null"> `outline_level` = #{entity.outlineLevel}, </if>
-            <if test="entity.title != null"> `title` = #{entity.title}, </if>
-            <if test="entity.urlId != null"> `url_id` = #{entity.urlId}, </if>
-            <if test="entity.icon != null"> `icon` = #{entity.icon}, </if>
-            <if test="entity.type != null"> `type` = #{entity.type}, </if>
-            <if test="entity.isShow != null"> `is_show` = #{entity.isShow} </if>
-        </set>
-        WHERE menu_id = #{entity.menuId}
+        <include refid="GenericMapper.update"/>
     </update>
 
     <update id="moveChildren">
@@ -109,41 +81,12 @@
     </update>
 
 
-
-
-    <!-- 目的：为dao接口方法提供sql语句配置 -->
-    <select id="getMenuTree" resultType="java.util.HashMap" parameterType="java.lang.Boolean">
-        select a.MENU_ID,a.MENU_LEVEL,a.OUTLINE_LEVEL,a.TITLE,a.ICON,a.IS_SHOW,ui.CODE,ui.URL_ID,ui.URL,ui.PARAMETER
-        from core_menu_tree_info a left join core_menu_url_info ui on a.URL_ID=ui.URL_ID
-        <!--<if test="_parameter  != null" >-->
-        <if test="isShow != null" >
-            where a.IS_SHOW = #{isShow}
-        </if>
-        order by convert(REPLACE(a.OUTLINE_LEVEL,'.',''),SIGNED)
-    </select>
-
-    <select id="findOne" resultType="CoreMenuTreeInfoEntity" parameterType="String">
-        <include refid="GenericMapper.findOne"/>
-    </select>
-
-    <select id="findOneByCode" resultType="CoreMenuTreeInfoEntity" parameterType="String">
-        select a.* from core_menu_tree_info a join core_menu_url_info b on a.URL_ID=b.URL_ID where b.CODE=#{code}
-    </select>
-
-    <select id="findOneByOutlineLevel" resultType="CoreMenuTreeInfoEntity" parameterType="String">
-        select a.MENU_ID,a.MENU_LEVEL,a.OUTLINE_LEVEL,a.TITLE,a.ICON,a.IS_SHOW
-        from core_menu_tree_info a
-        where a.OUTLINE_LEVEL = #{outlineLevel}
-    </select>
-
-    <select id="getMenuLevelByParLevel" resultType="Integer" parameterType="String">
-        select max(a.MENU_LEVEL)
-        from core_menu_tree_info a
-        where left(a.OUTLINE_LEVEL,length(#{outlineLevel}))=#{outlineLevel} and length(a.OUTLINE_LEVEL)>length(#{outlineLevel})
-    </select>
-
-
-
-
+    <delete id="delete" parameterType="String">
+        delete a
+        from core_menu_tree_info a,core_menu_tree_info b
+        where b.MENU_ID=#{mainId}
+        and left(a.OUTLINE_LEVEL,length(b.OUTLINE_LEVEL))=b.OUTLINE_LEVEL
+        and length(a.OUTLINE_LEVEL)>=length(b.OUTLINE_LEVEL)
+    </delete>
 </mapper>
 

@@ -87,7 +87,7 @@ public class CoreMemberInfoController extends GenericController {
     public String deleteMain(HttpServletRequest request){
         String mainId = request.getParameter("mainId");
         try {
-            mainService.deleteMain(mainId);
+            mainService.delete(mainId);
             return GenericController.returnSuccess(null);
         }catch (Exception e){
             e.printStackTrace();

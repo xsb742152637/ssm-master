@@ -2,17 +2,31 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="GenericMapper">
 
-
     <!-- parameterType="String" -->
     <sql id="findOne">select main.* from <include refid="tableName"/> main where main.<include refid="primaryKey"/> = #{mainId}</sql>
     <sql id="findAll">select main.* from <include refid="tableName"/> main</sql>
 
-
-    <sql id="insertList">
+    <sql id="insert">
         INSERT INTO <include refid="tableName"/> (<foreach collection="map.fields" index="key" item="value" separator=",">${value}</foreach>) VALUES
         <foreach collection="map.list" item="item" separator=",">
             (<foreach collection="item" item="value" separator=",">#{value}</foreach>)
         </foreach>
+    </sql>
+
+    <sql id="update">
+        update <include refid="tableName"/>
+        <set>
+            <foreach collection="map.fields" item="name" separator=",">
+                ${name} = case <include refid="primaryKey"/>
+                <foreach collection="map.list" item="item">
+                    <foreach collection="item" index="key" item="val" >
+                        <if test="key == map.primaryKey"> when ${"'"}${val}${"'"} then </if><if test="key == name"> #{val} </if>
+                    </foreach>
+                </foreach>
+                end
+            </foreach>
+        </set>
+        where <include refid="primaryKey"/> in (<foreach collection="map.mainIds" item="value" separator=",">#{value}</foreach>)
     </sql>
 
     <!-- parameterType="String" -->

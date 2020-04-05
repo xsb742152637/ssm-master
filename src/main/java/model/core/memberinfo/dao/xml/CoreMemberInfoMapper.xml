@@ -60,52 +60,6 @@
         temp.`MEMBER_RIGHT`
     </sql>
 
-
-    <!-- 目的：为dao接口方法提供sql语句配置 -->
-    <select id="findOne" resultType="CoreMemberInfoEntity" parameterType="String">
-        SELECT * FROM core_member_info WHERE ACCOUNT = #{account} and PASSWORD = #{password}
-    </select>
-
-    <insert id="insertList" >
-        <include refid="GenericMapper.insertList"/>
-    </insert>
-
-    <update id="updateList" parameterType="java.util.List">
-        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
-            update core_member_info
-            <set >
-                `MEMBER_ID` = #{item.memberId},
-                `PARENT_ID` = #{item.parentId},
-                `MEMBER_NAME` = #{item.memberName},
-                `MEMBER_TYPE` = #{item.memberType},
-                `PHOTO` = #{item.photo},
-                `ACCOUNT` = #{item.account},
-                `PASSWORD` = #{item.password},
-                `IS_FROZEN` = #{item.isFrozen},
-                `MEMBER_LEFT` = #{item.memberLeft},
-                `MEMBER_RIGHT` = #{item.memberRight}
-            </set>
-            where MEMBER_ID = #{item.memberId,jdbcType=BIGINT}
-        </foreach>
-    </update>
-
-    <update id="update">
-        UPDATE core_member_info
-        <set>
-            `MEMBER_ID` = #{entity.memberId},
-            `PARENT_ID` = #{entity.parentId},
-            `MEMBER_NAME` = #{entity.memberName},
-            `MEMBER_TYPE` = #{entity.memberType},
-            `PHOTO` = #{entity.photo},
-            `ACCOUNT` = #{entity.account},
-            `PASSWORD` = #{entity.password},
-            `IS_FROZEN` = #{entity.isFrozen},
-            `MEMBER_LEFT` = #{entity.memberLeft},
-            `MEMBER_RIGHT` = #{entity.memberRight}
-        </set>
-        WHERE MEMBER_ID = #{entity.memberId}
-    </update>
-
     <select id="getMainInfo" resultType="java.util.Map">
         select
         <include refid="all_column_map"/>
@@ -120,6 +74,19 @@
         </choose>
         order by MEMBER_LEFT
     </select>
+
+    <!-- 目的：为dao接口方法提供sql语句配置 -->
+    <select id="findOne" resultType="CoreMemberInfoEntity" parameterType="String">
+        SELECT * FROM core_member_info WHERE ACCOUNT = #{account} and PASSWORD = #{password}
+    </select>
+
+    <insert id="insert" >
+        <include refid="GenericMapper.insert"/>
+    </insert>
+
+    <update id="update">
+        <include refid="GenericMapper.update"/>
+    </update>
 
     <delete id="delete">
         delete temp
@@ -203,8 +170,4 @@
             </otherwise>
         </choose>
     </select>
-
-
-
-
 </mapper>

@@ -42,27 +42,16 @@
         <include refid="GenericMapper.findOne"/>
     </select>
 
+    <insert id="insert" >
+        <include refid="GenericMapper.insert"/>
+    </insert>
+
+    <update id="update">
+        <include refid="GenericMapper.update"/>
+    </update>
+
     <delete id="delete" parameterType="String">
         <include refid="GenericMapper.delete"/>
     </delete>
-
-    <insert id="insertList" >
-        <include refid="GenericMapper.insertList"/>
-    </insert>
-
-    <!--auto generated Code-->
-    <update id="update">
-        UPDATE core_menu_url_info
-        <set>
-            <if test="entity.urlId != null"> `url_id` = #{entity.urlId}, </if>
-            <if test="entity.title != null"> `title` = #{entity.title}, </if>
-            <if test="entity.code != null"> `code` = #{entity.code}, </if>
-            <if test="entity.url != null"> `url` = #{entity.url}, </if>
-            <if test="entity.parameter != null"> `parameter` = #{entity.parameter}, </if>
-            <if test="entity.sysTime != null"> `sys_time` = #{entity.sysTime} </if>
-        </set>
-        WHERE url_id = #{entity.urlId}
-    </update>
-
 </mapper>
 

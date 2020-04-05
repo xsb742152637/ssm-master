@@ -16,8 +16,8 @@ layui.use(['table','layer','form'], function(){
         ,limits: [5,10,50,100] //每页条数
         ,cols: [[ //表头
             {field: 'order', title: '序号',type: 'numbers', width:80},
-            {field: 'title', title: '应用名称', width: '20%',cellMinWidth: 100},
             {field: 'code', title: '应用编码', width: '20%',cellMinWidth: 100, sort: true},
+            {field: 'title', title: '应用名称', width: '20%',cellMinWidth: 100},
             {field: 'url', title: '应用路径',cellMinWidth: 200},
             {field: 'parameter', title: '参数', width: '15%',cellMinWidth: 100},
             {field: 'sysTime', title: '编制时间', width: '10%',cellMinWidth: 100, sort: true,templet: function(d){

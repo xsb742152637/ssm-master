@@ -19,9 +19,10 @@ public interface CoreMenuTreeService {
 
     int insert(CoreMenuTreeInfoEntity entity);
 
-    int insertList(List<CoreMenuTreeInfoEntity> list);
+    int insert(List<CoreMenuTreeInfoEntity> list);
 
     int update(CoreMenuTreeInfoEntity entity);
+    int update(List<CoreMenuTreeInfoEntity> list);
 
     void moveTree(String treeId,boolean type);
 

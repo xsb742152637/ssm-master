@@ -9,9 +9,9 @@ import java.util.Map;
 
 public interface CoreMenuTreeInfoDao {
 
-    int insertList(@Param("map") Map<String,Object> map);
+    int insert(@Param("map") Map<String,Object> map);
 
-    int update(@Param("entity") CoreMenuTreeInfoEntity entity);
+    int update(@Param("map") Map<String,Object> map);
 
     int delete(@Param("mainId") String mainId);
 
@@ -31,7 +31,4 @@ public interface CoreMenuTreeInfoDao {
     void moveChildren(@Param("oldParen")String oldParen,@Param("newParen")String newParen);
 
     Integer getMenuLevelByParLevel(@Param("outlineLevel")String outlineLevel);
-
-
-
 }

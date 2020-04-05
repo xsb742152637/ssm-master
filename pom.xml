@@ -292,6 +292,14 @@
       <artifactId>joda-time</artifactId>
       <version>2.9.3</version>
     </dependency>
+
+    <!-- https://mvnrepository.com/artifact/javax.persistence/persistence-api -->
+    <dependency>
+      <groupId>javax.persistence</groupId>
+      <artifactId>persistence-api</artifactId>
+      <version>1.0.2</version>
+    </dependency>
+
   </dependencies>
 
   <build>

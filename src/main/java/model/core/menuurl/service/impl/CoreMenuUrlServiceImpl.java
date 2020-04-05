@@ -26,15 +26,12 @@ public class CoreMenuUrlServiceImpl extends GenericService<CoreMenuUrlInfoEntity
 
     @Override
     public List<CoreMenuUrlInfoEntity> getMainInfo(String mainId,String searchKey,int page,int rows){
-
         return dao.getMainInfo(mainId,searchKey, page,rows);
     }
-
     @Override
     public Integer getMainCount(String mainId, String searchKey) {
         return dao.getMainCount(mainId,searchKey);
     }
-
 
     @Override
     public CoreMenuUrlInfoEntity findOne(String mainId) {
@@ -43,19 +40,20 @@ public class CoreMenuUrlServiceImpl extends GenericService<CoreMenuUrlInfoEntity
 
     @Override
     public int insert(CoreMenuUrlInfoEntity entity){
-        List<CoreMenuUrlInfoEntity> list = new ArrayList<>();
-        list.add(entity);
-        return dao.insertList(convertList(list));
+        return dao.insert(convertList(entity));
     }
-
     @Override
-    public int insertList(List<CoreMenuUrlInfoEntity> list) {
-        return dao.insertList(convertList(list));
+    public int insert(List<CoreMenuUrlInfoEntity> list) {
+        return dao.insert(convertList(list));
     }
 
     @Override
     public int update(CoreMenuUrlInfoEntity entity) {
-        return dao.update(entity);
+        return dao.update(convertList(entity));
+    }
+    @Override
+    public int update(List<CoreMenuUrlInfoEntity> list) {
+        return dao.update(convertList(list));
     }
 
     @Override

@@ -26,7 +26,7 @@ public class CoreMemberInfoServiceImpl extends GenericService<CoreMemberInfoEnti
     public void insert(CoreMemberInfoEntity entity,CoreMemberInfoEntity fEntity) {
         List<CoreMemberInfoEntity> list = new ArrayList<>();
         list.add(entity);
-        dao.insertList(convertList(list));
+        dao.insert(convertList(list));
 
         //改前面的
         dao.insert_updateBefore(fEntity.getMemberLeft(),fEntity.getMemberLeft());
@@ -35,15 +35,15 @@ public class CoreMemberInfoServiceImpl extends GenericService<CoreMemberInfoEnti
     }
 
     @Override
-    public int insertList(List<CoreMemberInfoEntity> list) {
-        return dao.insertList(convertList(list));
+    public int insert(List<CoreMemberInfoEntity> list) {
+        return dao.insert(convertList(list));
     }
 
 
     @Override
     @Transactional
-    public int updateList(List<CoreMemberInfoEntity> list) {
-        return dao.updateList(list);
+    public int update(List<CoreMemberInfoEntity> list) {
+        return dao.update(convertList(list));
     }
 
     @Override
@@ -76,13 +76,17 @@ public class CoreMemberInfoServiceImpl extends GenericService<CoreMemberInfoEnti
                 e.setMemberRight(e.getMemberRight() - 2 * moveEntitySons.size());
             }
         }
-        updateList(neighborEntitySons);
-        updateList(moveEntitySons);
+
+        List<CoreMemberInfoEntity> list = new ArrayList<>();
+        list.addAll(neighborEntitySons);
+        list.addAll(moveEntitySons);
+
+        update(list);
     }
 
     @Override
     public int update(CoreMemberInfoEntity entity) {
-        return dao.update(entity);
+        return dao.update(convertList(entity));
     }
 
     @Override
@@ -92,7 +96,7 @@ public class CoreMemberInfoServiceImpl extends GenericService<CoreMemberInfoEnti
 
 
     @Override
-    public void deleteMain(String mainId) {
+    public void delete(String mainId) {
         CoreMemberInfoEntity entitySelf = dao.findOneById(mainId);
         List<CoreMemberInfoEntity> list = dao.findSons(mainId);
         CoreMemberInfoEntity entityLastSon;
