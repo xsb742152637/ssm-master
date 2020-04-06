@@ -3,6 +3,8 @@ package controller.core.memberinfo;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import model.core.memberinfo.entity.CoreMemberInfoEntity;
 import model.core.memberinfo.service.CoreMemberInfoService;
+import model.core.treeinfo.TreeType;
+import model.core.treeinfo.service.CoreTreeInfoService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,56 +23,47 @@ import java.util.UUID;
 public class CoreMemberInfoController extends GenericController {
     @Autowired
     private CoreMemberInfoService mainService;
+    @Autowired
+    private CoreTreeInfoService treeService;
 
-    @RequestMapping("findOne")
+    @RequestMapping("findOneByTreeId")
+    @ResponseBody
     public String findOne(HttpServletRequest request, HttpServletResponse response){
-        String account = request.getParameter("account");
-        String password = request.getParameter("password");
-        CoreMemberInfoEntity entity = mainService.findOne(account,password);
+        String treeId = request.getParameter("treeId");
+        CoreMemberInfoEntity entity = mainService.findOneByTreeId(treeId);
         System.out.println("CoreMemberInfoController: " + entity.getMemberName());
         logger.debug("查询成员");
         return returnStringByMap(entity);
     }
 
-    @RequestMapping("getMainInfo")
-    @ResponseBody
-    public String getMainInfo(HttpServletRequest request){
-        String parentId = request.getParameter("parentId");
-        try {
-            List<Map<String,Object>> list = mainService.getMainInfo(parentId);
-            return GenericController.returnStringByList(list);
-        }catch (Exception e){
-            e.printStackTrace();
-            return " ";
-        }
-
-    }
-
-
     @RequestMapping("saveMain")
     @ResponseBody
     public String saveMainInfo(HttpServletRequest request){
+        int treeType = TreeType.MemberInfo.getCode();
         String parentId = request.getParameter("parentId");
         String memberId = request.getParameter("memberId");
-        CoreMemberInfoEntity fatherEntity = mainService.findOnebyId(parentId);
+        String treeId = null;
+
         CoreMemberInfoEntity entity ;
         if (StringUtils.isBlank(memberId)){
             entity = new CoreMemberInfoEntity();
             entity.setMemberId(UUID.randomUUID().toString());
         }else {
-            entity = mainService.findOnebyId(memberId);
+            entity = mainService.findOne(memberId);
+            treeId = entity.getTreeId();
         }
-        entity.setParentId(fatherEntity.getMemberId());
         entity.setMemberName(request.getParameter("memberName"));
         entity.setMemberType(Integer.parseInt(request.getParameter("memberType")));
         entity.setAccount(request.getParameter("account"));
         entity.setPassword(request.getParameter("password"));
         entity.setIsFrozen(Boolean.parseBoolean(request.getParameter("isFrozen")));
-        entity.setMemberLeft(fatherEntity.getMemberRight());
-        entity.setMemberRight(entity.getMemberLeft()+1);
+
         try {
+            treeId = treeService.save(TreeType.getTreeTypeByCode(treeType),parentId,treeId,entity.getMemberName());
+            entity.setTreeId(treeId);
+
             if (StringUtils.isBlank(memberId)){
-                mainService.insert(entity,fatherEntity);
+                mainService.insert(entity);
             }else {
                 mainService.update(entity);
             }
@@ -85,24 +78,11 @@ public class CoreMemberInfoController extends GenericController {
     @RequestMapping("deleteMain")
     @ResponseBody
     public String deleteMain(HttpServletRequest request){
+        String treeId = request.getParameter("treeId");
         String mainId = request.getParameter("mainId");
         try {
+            treeService.delete(treeId);
             mainService.delete(mainId);
-            return GenericController.returnSuccess(null);
-        }catch (Exception e){
-            e.printStackTrace();
-            return GenericController.returnFaild(null);
-        }
-    }
-
-
-    @RequestMapping("moveMain")
-    @ResponseBody
-    public String move(HttpServletRequest request){
-        boolean moveOn = Boolean.parseBoolean(request.getParameter("type"));
-        String mainId = request.getParameter("mainId");
-        try {
-            mainService.moveMainInfo(mainId,moveOn);
             return GenericController.returnSuccess(null);
         }catch (Exception e){
             e.printStackTrace();

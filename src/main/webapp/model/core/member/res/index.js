@@ -7,12 +7,12 @@ layui.use(['tree','layer','form'], function(){
     let loadTree = function(){
         layer.load();
         $.ajax({
-            url: "/core/memberInfo/getMainInfo.do",
+            url: "/core/treeinfo/getMainInfo.do",
+            data: {treeType: treeType},
             dataType: 'json',
             type: "POST",
             success: function (data) {
                 layer.close();
-                console.log(data);
                 if (data != null && data.length > 0) {
                     //渲染
                     let inst1 = tree.render({
@@ -20,7 +20,7 @@ layui.use(['tree','layer','form'], function(){
                         elem: '#my-tree',  //绑定元素
                         // accordion: true,//开启手风琴模式
                         onlyIconControl: true,//是否仅允许节点左侧图标控制展开收缩
-                        selectedId: (selData == null ? '' : selData.memberId),//默认选中
+                        selectedId: (selData == null ? '' : selData.treeId),//默认选中
                         data: data,
                         loadSuccess: function(e){
                             $(e.elem).find('.layui-tree-set').each(function(){
@@ -32,7 +32,6 @@ layui.use(['tree','layer','form'], function(){
                             });
                         },
                         click: function(e) { //节点选中状态改变事件监听，全选框有自己的监听事件
-                            console.log(e);
                             if(e.selected){
                                 selData = e.data;
                                 tree_edit();
@@ -65,8 +64,24 @@ layui.use(['tree','layer','form'], function(){
     let tree_edit = function(){
         if(!_check())
             return;
-        let data = $.extend({}, selData);
-        Function.setForm($('.layui-form'),data,form);
+        layer.load();
+        $.ajax({
+            url: "/core/memberInfo/findOneByTreeId.do",
+            dataType: 'json',
+            type: "POST",
+            data: {treeId: selData.treeId},
+            success: function (rs) {
+                layer.close();
+
+                $.extend(selData, rs);
+                Function.setForm($('.layui-form'),selData,form);
+            },
+            error: function (jqXHR) {
+                layer.close();
+                console.log(jqXHR);
+            }
+        });
+
     };
 
     //删除当前菜单
@@ -80,7 +95,7 @@ layui.use(['tree','layer','form'], function(){
                     url: "/core/memberInfo/deleteMain.do",
                     dataType: 'json',
                     type: "POST",
-                    data: {mainId: selData.memberId},
+                    data: {treeId: selData.treeId,mainId: selData.memberId},
                     success: function (rs) {
                         layer.res(rs);
                         layer.close();
@@ -101,7 +116,7 @@ layui.use(['tree','layer','form'], function(){
     $('.btn-add').on('click',function(){
         if(!_check())
             return;
-        let data = {isShow: true,parentId: selData.memberId};
+        let data = {isShow: true,parentId: selData.treeId};
         Function.setForm($('.layui-form'),data,form);
     });
 
@@ -111,11 +126,12 @@ layui.use(['tree','layer','form'], function(){
             return;
         let type = $(this).data('type');
         layer.load();
+
         $.ajax({
-            url: "/core/memberInfo/moveMain.do",
+            url: "/core/treeinfo/moveMain.do",
             dataType: 'json',
             type: "POST",
-            data: {mainId: selData.memberId,type: type},
+            data: {mainId: selData.treeId,type: type},
             success: function (rs) {
                 layer.res(rs);
                 layer.close();
@@ -134,7 +150,6 @@ layui.use(['tree','layer','form'], function(){
     form.on('submit(formDemo)', function(data){
         if(!_check())
             return;
-        console.log(data.field);
         layer.load();
         $.ajax({
             url: "/core/memberInfo/saveMain.do",
@@ -142,7 +157,6 @@ layui.use(['tree','layer','form'], function(){
             type: "POST",
             data: data.field,
             success: function (rs) {
-                console.log(rs);
                 layer.res(rs);
                 layer.close();
                 if(!rs.error){

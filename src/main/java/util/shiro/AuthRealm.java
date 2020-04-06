@@ -47,7 +47,7 @@ public class AuthRealm extends AuthorizingRealm {
         String pwd = new String(token.getPassword());
 
         try{
-            CoreMemberInfoEntity entity = service.findOne(username,pwd);
+            CoreMemberInfoEntity entity = service.loginCheck(username,pwd);
             if(entity == null){
                 throw new UnknownAccountException();
             }else if(entity.getIsFrozen()){

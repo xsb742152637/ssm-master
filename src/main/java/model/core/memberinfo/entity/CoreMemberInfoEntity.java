@@ -15,15 +15,13 @@ import java.util.Objects;
 @Table(name = "core_member_info")
 public class CoreMemberInfoEntity {
     private String memberId;
-    private String parentId;
     private String memberName;
     private int memberType;
     private byte[] photo;
     private String account;
     private String password;
     private Boolean isFrozen;
-    private int memberLeft;
-    private int memberRight;
+    private String treeId;
 
     @Id
     @Column(name = "MEMBER_ID")
@@ -33,16 +31,6 @@ public class CoreMemberInfoEntity {
 
     public void setMemberId(String memberId) {
         this.memberId = memberId;
-    }
-
-    @Basic
-    @Column(name = "PARENT_ID")
-    public String getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(String parentId) {
-        this.parentId = parentId;
     }
 
     @Basic
@@ -99,55 +87,18 @@ public class CoreMemberInfoEntity {
         return this.isFrozen;
     }
 
-
     public void setIsFrozen(Boolean isFrozen) {
         this.isFrozen = isFrozen;
     }
 
     @Basic
-    @Column(name = "MEMBER_LEFT")
-    public int getMemberLeft() {
-        return memberLeft;
+    @Column(name = "TREE_ID")
+    public String getTreeId() {
+        return treeId;
     }
 
-    public void setMemberLeft(int memberLeft) {
-        this.memberLeft = memberLeft;
+    public void setTreeId(String treeId) {
+        this.treeId = treeId;
     }
-
-    @Basic
-    @Column(name = "MEMBER_RIGHT")
-    public int getMemberRight() {
-        return memberRight;
-    }
-
-    public void setMemberRight(int memberRight) {
-        this.memberRight = memberRight;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        CoreMemberInfoEntity that = (CoreMemberInfoEntity) o;
-        return memberType == that.memberType &&
-                memberLeft == that.memberLeft &&
-                memberRight == that.memberRight &&
-                Objects.equals(memberId, that.memberId) &&
-                Objects.equals(parentId, that.parentId) &&
-                Objects.equals(memberName, that.memberName) &&
-                Arrays.equals(photo, that.photo) &&
-                Objects.equals(account, that.account) &&
-                Objects.equals(password, that.password) &&
-                Objects.equals(isFrozen, that.isFrozen);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = Objects.hash(memberId, parentId, memberName, memberType, account, password, isFrozen, memberLeft, memberRight);
-        result = 31 * result + Arrays.hashCode(photo);
-        return result;
-    }
-
-
 
 }

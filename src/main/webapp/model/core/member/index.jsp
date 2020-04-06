@@ -9,6 +9,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="util.context.Context" %>
 <%@ page import="model.core.memberinfo.MemberType" %>
+<%@ page import="model.core.treeinfo.TreeType" %>
 <%@ taglib prefix="master" uri="util.masterpage" %>
 <%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 
@@ -102,6 +103,9 @@
             <div></div>
         </div>
 
+        <script type="text/javascript">
+            var treeType = "<%=TreeType.MemberInfo.getCode()%>";
+        </script>
         <script type="text/javascript" src="/model/core/member/res/index.js"></script>
     </master:Content>
 </master:ContentPage>

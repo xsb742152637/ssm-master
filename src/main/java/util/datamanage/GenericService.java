@@ -66,6 +66,21 @@ public class GenericService<T>{
 		return map;
 	}
 
+	public Map<String,Object> entityToMap(T obj){
+		Map<String,Object> map = new HashMap<>();
+		Class c = obj.getClass();
+		try{
+			for(Field field : c.getDeclaredFields()){
+				//设置为可访问
+				field.setAccessible(true);
+				map.put(field.getName().toString(),field.get(obj));
+			}
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		return map;
+	}
+
 
 	//将list中map的key按照驼峰命名法进行转换,如:MENU_ID > menuId
 	public List<Map<String,Object>> underlineToHump(List<Map<String,Object>> list){

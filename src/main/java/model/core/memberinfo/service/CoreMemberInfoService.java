@@ -8,26 +8,17 @@ import java.util.Map;
 
 public interface CoreMemberInfoService {
 
-    CoreMemberInfoEntity findOnebyId(String mainId);
-
-    List<Map<String,Object>> getMainInfo(String parentId);
-
     /**
      * 根据用户名和密码验证登录是否成功
      * @param account
      * @param password
      * @return
      */
-    CoreMemberInfoEntity findOne(String account, String password);
+    CoreMemberInfoEntity loginCheck(String account, String password);
+    CoreMemberInfoEntity findOneByTreeId(String treeId);
+    CoreMemberInfoEntity findOne(String mainId);
 
-    void insert(CoreMemberInfoEntity entity,CoreMemberInfoEntity fEntity);
-
-    int insert(List<CoreMemberInfoEntity> list);
-
+    void insert(CoreMemberInfoEntity entity);
     int update( CoreMemberInfoEntity entity);
-    int update(List<CoreMemberInfoEntity> list);
-
-    void moveMainInfo(String mainId,Boolean moveOn);
-
     void delete(String mainId);
 }

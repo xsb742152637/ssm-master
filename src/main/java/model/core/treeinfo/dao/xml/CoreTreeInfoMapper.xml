@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="model.core.treeinfo.dao.CoreTreeInfoDao">
+    <!--表名-->
+    <sql id="tableName">core_tree_info</sql>
+    <!--主键-->
+    <sql id="primaryKey">TREE_ID</sql>
+
+    <select id="getMainInfo" resultType="CoreTreeInfoEntity">
+        select * FROM core_tree_info c
+        where c.TREE_TYPE = #{treeType}
+        <choose>
+            <when test="parentId != null">
+                and c.PARENT_ID = #{parentId}
+            </when>
+        </choose>
+        order by TREE_LEFT
+    </select>
+
+    <select id="findOne" resultType="CoreTreeInfoEntity" parameterType="String">
+        <include refid="GenericMapper.findOne"/>
+    </select>
+
+    <select id="findSons" resultType="CoreTreeInfoEntity">
+        select temp.* from core_tree_info temp join core_tree_info temp_1
+        on
+        temp_1.TREE_ID=#{mainId}
+        and
+        temp.TREE_LEFT &gt; temp_1.TREE_LEFT
+        and
+        temp.TREE_RIGHT &lt; temp_1.TREE_RIGHT
+        order by temp.TREE_LEFT
+    </select>
+
+    <select id="findNeighborEntity" resultType="CoreTreeInfoEntity">
+        select * from core_tree_info c where c.TREE_TYPE = #{entity.treeType}
+        <choose>
+            <when test="moveOn">
+                and c.TREE_RIGHT = #{entity.treeLeft}-1
+            </when>
+            <otherwise>
+                and c.TREE_LEFT = #{entity.treeRight}+1
+            </otherwise>
+        </choose>
+    </select>
+
+    <insert id="insert" >
+        <include refid="GenericMapper.insert"/>
+    </insert>
+    <update id="insert_updateBefore">
+        update core_tree_info c
+        set c.TREE_RIGHT = c.TREE_RIGHT + 2
+        where c.TREE_TYPE = #{treeType}
+        and c.TREE_LEFT &lt;= #{left}
+        and c.TREE_RIGHT &gt;= #{right}
+    </update>
+    <update id="insert_updateAfter">
+        update core_tree_info c
+        set c.TREE_LEFT = c.TREE_LEFT +2,
+            c.TREE_RIGHT = c.TREE_RIGHT+ 2
+        where c.TREE_TYPE = #{treeType}
+        and c.TREE_LEFT &gt; #{left}
+    </update>
+
+    <update id="update">
+        <include refid="GenericMapper.update"/>
+    </update>
+
+    <delete id="delete">
+        delete temp
+        from core_tree_info temp join core_tree_info temp_1
+        on
+        temp_1.TREE_ID=#{mainId}
+        and
+        temp.TREE_LEFT &gt;= temp_1.TREE_LEFT
+        and
+        temp.TREE_RIGHT &lt;= temp_1.TREE_RIGHT
+    </delete>
+    <update id="delete_updateBefor">
+        update core_tree_info c
+        set c.TREE_RIGHT = c.TREE_RIGHT-(#{sonCount} * 2)
+        where c.TREE_TYPE = #{treeType}
+        and c.TREE_LEFT &lt; #{left}
+        and c.TREE_RIGHT &gt; #{right}
+    </update>
+    <update id="delete_updateAfter">
+        update core_tree_info c
+        set c.TREE_LEFT = c.TREE_LEFT-(#{sonCount} * 2),
+            c.TREE_RIGHT = c.TREE_RIGHT-(#{sonCount} * 2)
+        where c.TREE_TYPE = #{treeType}
+        and c.TREE_LEFT &gt; #{left}
+    </update>
+
+
+</mapper>

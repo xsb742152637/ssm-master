@@ -14,7 +14,7 @@ public class CoreMemberInfoTest extends BaseTest {
     public void findOne() throws Exception {
         String account = "xc";
         String password = "111";
-        CoreMemberInfoEntity entity = service.findOne(account,password);
+        CoreMemberInfoEntity entity = service.loginCheck(account,password);
         System.out.println(entity.getMemberName());
     }
 }
