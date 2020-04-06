@@ -1,5 +1,6 @@
 package model.core.treeinfo.service.impl;
 
+import model.core.menuurl.service.impl.CoreMenuUrlServiceImpl;
 import model.core.treeinfo.TreeType;
 import model.core.treeinfo.dao.CoreTreeInfoDao;
 import model.core.treeinfo.entity.CoreTreeInfoEntity;
@@ -7,6 +8,7 @@ import model.core.treeinfo.service.CoreTreeInfoService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import util.context.ApplicationContext;
 import util.datamanage.GenericService;
 
 import java.util.*;
@@ -16,8 +18,48 @@ public class CoreTreeInfoServiceImpl extends GenericService<CoreTreeInfoEntity> 
     @Autowired
     private CoreTreeInfoDao dao;
 
+    static {
+        String name = ApplicationContext.get("name");
+
+        System.out.println("初始化树，系统名称：" + name);
+        CoreTreeInfoServiceImpl that = CoreTreeInfoServiceImpl.getInstance();
+        List<CoreTreeInfoEntity> list = that.findRoots();
+        List<String> rootIds = new ArrayList<>();
+        for(CoreTreeInfoEntity entity : list){
+            rootIds.add(entity.getTreeId());
+        }
+        List<CoreTreeInfoEntity> addList = new ArrayList<>();
+        for(TreeType en : TreeType.values()){
+            if(!rootIds.contains(en.toString())){
+                CoreTreeInfoEntity entity = new CoreTreeInfoEntity();
+                entity.setTreeId(en.toString());
+                entity.setParentId(null);
+                entity.setTreeName(name);
+                entity.setTreeLeft(1);
+                entity.setTreeRight(entity.getTreeLeft() + 1);
+                entity.setTreeType(en.getCode());
+                addList.add(entity);
+            }
+        }
+        if(addList.size() > 0){
+            that.insert(addList);
+        }
+    }
+
+    public static CoreTreeInfoServiceImpl getInstance() {
+        return ApplicationContext.getCurrent().getBean(CoreTreeInfoServiceImpl.class);
+    }
+
+    public void insert(List<CoreTreeInfoEntity> list){
+        dao.insert(convertList(list));
+    }
+
     public CoreTreeInfoEntity findOne(String mainId) {
         return dao.findOne(mainId);
+    }
+
+    public List<CoreTreeInfoEntity> findRoots() {
+        return dao.findRoots();
     }
 
     @Override

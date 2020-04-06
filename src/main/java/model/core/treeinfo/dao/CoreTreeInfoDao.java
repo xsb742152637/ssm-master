@@ -12,6 +12,7 @@ public interface CoreTreeInfoDao {
 
     CoreTreeInfoEntity findOne(@Param("mainId") String mainId);
 
+    List<CoreTreeInfoEntity> findRoots();
     List<CoreTreeInfoEntity> findSons(@Param("mainId") String mainId);
     CoreTreeInfoEntity findNeighborEntity(@Param("entity") CoreTreeInfoEntity entity, @Param("moveOn") Boolean moveOn);
 

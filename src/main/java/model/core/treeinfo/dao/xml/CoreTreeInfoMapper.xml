@@ -21,6 +21,12 @@
         <include refid="GenericMapper.findOne"/>
     </select>
 
+    <select id="findRoots" resultType="CoreTreeInfoEntity">
+        select * from core_tree_info c where c.PARENT_ID is null
+        union all
+        select * from core_tree_info c where c.PARENT_ID is not null and length(c.PARENT_ID)=0
+    </select>
+
     <select id="findSons" resultType="CoreTreeInfoEntity">
         select temp.* from core_tree_info temp join core_tree_info temp_1
         on

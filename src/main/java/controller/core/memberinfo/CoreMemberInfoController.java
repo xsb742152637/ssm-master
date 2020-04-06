@@ -31,7 +31,6 @@ public class CoreMemberInfoController extends GenericController {
     public String findOne(HttpServletRequest request, HttpServletResponse response){
         String treeId = request.getParameter("treeId");
         CoreMemberInfoEntity entity = mainService.findOneByTreeId(treeId);
-        System.out.println("CoreMemberInfoController: " + entity.getMemberName());
         logger.debug("查询成员");
         return returnStringByMap(entity);
     }

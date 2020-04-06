@@ -28,6 +28,9 @@
   <listener>
     <listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
   </listener>
+  <listener>
+    <listener-class>model.core.listener.MyListener</listener-class>
+  </listener>
 
   <!-- Shiro核心控制器，表示由spring管理生命周期 -->
   <filter>
