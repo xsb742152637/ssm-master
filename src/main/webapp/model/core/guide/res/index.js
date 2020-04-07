@@ -3,7 +3,6 @@ layui.use(['tree','layer','form'], function(){
 
     let selData = null;//菜单树选中的信息
     let isUpdate = false;//是否有未保存的修改
-    var _projectId = "gh";
     //加载树
     let loadTree = function(){
         layer.load();
@@ -21,7 +20,7 @@ layui.use(['tree','layer','form'], function(){
                         elem: '#my-tree',  //绑定元素
                         accordion: false,//开启手风琴模式
                         onlyIconControl: true,//是否仅允许节点左侧图标控制展开收缩
-                        selectedId: (selData == null ? '' : selData.menuId),//默认选中
+                        selectedId: (selData == null ? '' : selData.treeId),//默认选中
                         data: data,
                         loadSuccess: function(e){
                             $(e.elem).find('.layui-tree-set').each(function(){
@@ -33,7 +32,6 @@ layui.use(['tree','layer','form'], function(){
                             });
                         },
                         click: function(e) { //节点选中状态改变事件监听，全选框有自己的监听事件
-                            // console.log(e);
                             if(e.selected){
                                 selData = e.data;
                                 if(Boolean.parse(selData.isFrozen)){
@@ -44,7 +42,6 @@ layui.use(['tree','layer','form'], function(){
                                 // tree_edit();
                             }else{
                                 selData = null;
-                                Function.setForm($('.layui-form'),null,form);
                             }
                         }
                     });
@@ -59,32 +56,27 @@ layui.use(['tree','layer','form'], function(){
     loadTree();
 
     let member_init = function(){
-        Mem.transform(function(){
-            console.log("成功转换成功")
-        });
-    }
+        let doc = Mem.transform();
+    };
+
     let menu_init = function(){
-        Menu.transform(function(doc){
-            console.log("转换成功");
-            $("#guide_menu_tree").html(doc);
-            $("#guide_menu_tree .tree-node").each(function(i,o){
-                let id = $(this).find(".tree-title>span").attr("id");
+        let doc = Menu.transform();
+        $("#guide_menu_tree").html(doc);
+        $("#guide_menu_tree .tree-node").each(function(i,o){
+            let id = $(this).find(".tree-title>span").attr("id");
 
-                $(this).append('<div class="check-div"><span id="img_'+codeUpdate+'_'+id+'" class="checkImg tree-icon  uncheck" onclick="checkbox_action(this,\''+codeUpdate+'\')" title="'+titleUpdate+'"></span></div>');
+            $(this).append('<div class="check-div"><span id="img_'+codeUpdate+'_'+id+'" class="checkImg tree-icon  uncheck" onclick="checkbox_action(this,\''+codeUpdate+'\')" title="'+titleUpdate+'"></span></div>');
 
-                $(this).append('<div class="check-div"><span id="img_'+codeRead+'_'+id+'" class="checkImg tree-icon  uncheck" onclick="checkbox_action(this,\''+codeRead+'\')" title="'+titleRead+'"></span></div>');
-                $(this).append('<div class="check-div"><span id="img_'+codeReadSelf+'_'+id+'" class="checkImg tree-icon  uncheck" onclick="checkbox_action(this,\''+codeReadSelf+'\')" title="'+titleReadSelf+'"></span></div>');
-            });
-
-            let str = '<div style="width: 100%" class="tree-table"><div class="three-th">菜单名称</div>';
-            if(s == "true"){
-                str += '<div class="two-th">'+titleUpdate+'</div>'
-            }
-            str += '<div class="first-th">'+titleRead+'</div>';
-            str += '<div class="first-th">'+titleReadSelf+'</div>';
-            str += '</div>';
-            $("#guide_menu_tree").prepend(str);
+            $(this).append('<div class="check-div"><span id="img_'+codeRead+'_'+id+'" class="checkImg tree-icon  uncheck" onclick="checkbox_action(this,\''+codeRead+'\')" title="'+titleRead+'"></span></div>');
+            $(this).append('<div class="check-div"><span id="img_'+codeReadSelf+'_'+id+'" class="checkImg tree-icon  uncheck" onclick="checkbox_action(this,\''+codeReadSelf+'\')" title="'+titleReadSelf+'"></span></div>');
         });
+
+        let str = '<div style="width: 100%" class="tree-table"><div class="three-th">菜单名称</div>';
+        str += '<div class="two-th">'+titleUpdate+'</div>'
+        str += '<div class="first-th">'+titleRead+'</div>';
+        str += '<div class="first-th">'+titleReadSelf+'</div>';
+        str += '</div>';
+        $("#guide_menu_tree").prepend(str);
     };
 
     let getMemberId = function(){
@@ -97,22 +89,22 @@ layui.use(['tree','layer','form'], function(){
 
     //勾选
     let checkbox_action = function(obj,type) {
-        // var a = (new Date()).getTime();
-        var appId = $(obj).attr('id').substr(6);
+        // let a = (new Date()).getTime();
+        let appId = $(obj).attr('id').substr(6);
 
-        var img = $(obj).attr('class');
+        let img = $(obj).attr('class');
 
         if (selData == null) {
             layer.msg('请选择一个成员');
             return;
         }
-        var xMem = Mem.getItem(getMemberId());
+        let xMem = Mem.getItem(getMemberId());
         if (xMem == null) {
             layer.msg("没有找到："+selData.memberId);
             return;
         }
 
-        var xMenu = Menu.getItem(appId);
+        let xMenu = Menu.getItem(appId);
         if (xMenu == null) {
             layer.msg("没有找到xMenu节点");
             return;
@@ -120,12 +112,12 @@ layui.use(['tree','layer','form'], function(){
 
         // $.message.loader.open("正在调整勾选情况……");
         // setTimeout(function(){
-        // var isAutoCheck = false;//是否自动勾选了另外一个权限
-        var type2 = "";
+        // let isAutoCheck = false;//是否自动勾选了另外一个权限
+        let type2 = "";
         if (img == MenuEx.getUncheck() || img == MenuEx.getCheckMix()) {
             MenuEx.select(xMem, xMenu,type);
             // 勾选编辑权限，判断查看权限是否全选，如果不是，则自动勾选查看权限
-            // var r = $("#img_r_"+appId).attr('class');
+            // let r = $("#img_r_"+appId).attr('class');
             // if(type == codeUpdate && r != MenuEx.getCheck()){
             //     MenuEx.select(xMem, xMenu,codeRead);
             //     isAutoCheck = true;
@@ -133,7 +125,7 @@ layui.use(['tree','layer','form'], function(){
             // }
         }else {
             MenuEx.reverseSelect(xMem, xMenu,type);
-            // var u = $("#img_u_"+appId).attr('class');
+            // let u = $("#img_u_"+appId).attr('class');
             // //取消查看权限，判断编辑权限是否勾选，只要不是未选，都自动取消勾选
             // if(type == codeRead && u != MenuEx.getUncheck()){
             //     MenuEx.reverseSelect(xMem, xMenu,codeUpdate);
@@ -154,14 +146,13 @@ layui.use(['tree','layer','form'], function(){
         // },500);
     };
 
-
-//选中一个成员时，切换菜单树
+    //选中一个成员时，切换菜单树
     let checkMem = function(){
         if(selData == null){
             layer.msg("没有找到xMem节点");
             return;
         }
-        var xMem = Mem.getItem(getMemberId());
+        let xMem = Mem.getItem(getMemberId());
         if (xMem == null) {
             layer.msg("没有找到xMem节点");
             return;
@@ -179,13 +170,10 @@ layui.use(['tree','layer','form'], function(){
     };
 
     let menu_debug_init = function() {
-        var loadCal = function(xsltSheet){
-            var xsltProcessor = new XSLTProcessor();
-            xsltProcessor.importStylesheet(xsltSheet);
-            $("#menuDebugTree").html(xsltProcessor.transformToFragment(Menu.getContext(), document));
-        };
-        Comm.load(loadCal,"./transform/app_debug.xsl");
-
+        let xsltProcessor = new XSLTProcessor();
+        xsltProcessor.importStylesheet(Comm.load("./transform/app_debug.xsl"));
+        let appDocument1 = xsltProcessor.transformToFragment(Menu.getContext(), document);
+        $("#menuDebugTree").html(appDocument1);
     };
 
     member_init();

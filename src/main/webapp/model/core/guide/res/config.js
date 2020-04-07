@@ -2,24 +2,19 @@
  * Created by changqing on 2017/11/14.
  */
 
-var Config = ( function () {
+let Config = ( function () {
 
     function getMenuTransformPath() {
-        return "/app/guide5/transform/menu.xsl";
+        return "/model/core/guide/transform/menu.xsl";
     }
 
     function getMemTransformPath() {
-        return "/app/guide5/transform/member.xsl";
-    }
-
-    function getOrgDataPath() {
-        return "/app/guide5/data/org.xml";
+        return "/model/core/guide/transform/member.xsl";
     }
 
     return {
         getMenuTransformPath : getMenuTransformPath,
-        getMemTransformPath : getMemTransformPath,
-        getOrgDataPath : getOrgDataPath
+        getMemTransformPath : getMemTransformPath
     }
 
 })();

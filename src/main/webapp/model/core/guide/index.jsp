@@ -27,6 +27,7 @@
         <link rel="stylesheet" href="/model/core/guide/res/index.css"/>
     </master:Content>
     <master:Content contentPlaceHolderId="body">
+        <input type="hidden" id="projectId" value="project"/>
         <div class="layui-row layui-col-space10">
             <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
                 <div class="layui-card">
@@ -44,12 +45,6 @@
                         <!-- 按钮栏 -->
                         <button type="button" class="layui-btn btn-save">
                             <i class="layui-icon layui-icon-add-1"></i>保存
-                        </button>
-                        <button type="button" class="layui-btn btn-add">
-                            <i class="layui-icon layui-icon-add-1"></i>新增下级菜单
-                        </button>
-                        <button type="button" class="layui-btn btn-del">
-                            <i class="layui-icon layui-icon-delete"></i>删除当前菜单
                         </button>
                     </div>
                     <div class="layui-card-body">

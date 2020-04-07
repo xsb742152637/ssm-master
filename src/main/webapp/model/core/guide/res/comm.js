@@ -2,20 +2,20 @@
  * Created by changqing on 2016/12/30.
  */
 
-var Comm = ( function () {
+let Comm = ( function () {
 
-    var xmlHttp;
+    let xmlHttp;
 
     //根据路径发起请求
-    function load(callback,url,data) {
+    function load(url,data) {
         if(url == null || url == "")
             return;
         if( xmlHttp === undefined ){
             xmlHttp = new XMLHttpRequest();
         }
         if(data != null){
-            var i = 0;
-            for(var j in data){
+            let i = 0;
+            for(let j in data){
 
                 if(i == 0)
                     url +="?";
@@ -26,22 +26,17 @@ var Comm = ( function () {
             }
         }
 
-        xmlHttp.open("get", url);
-        // to allow us doing XSLT in IE
-        try { xmlHttp.responseType = "msxml-document" ;} catch (ex) {}
-        xmlHttp.onload = function() {
-            callback(xmlHttp.responseXML);
-        };
-        xmlHttp.send();
+        xmlHttp.open("get", url, false);
+        xmlHttp.send(null);
+
+        let str = xmlHttp.responseXML;
+        return str
     }
     //xml转换成xsl
-    function getXsltProcessor(callback,url) {
-        var loadCal = function(xsltSheet){
-            var xsltProcessor = new XSLTProcessor();
-            xsltProcessor.importStylesheet(xsltSheet);
-            callback(xsltProcessor);
-        };
-        Comm.load(loadCal,url);
+    function getXsltProcessor(url) {
+        let xsltProcessor = new XSLTProcessor();
+        xsltProcessor.importStylesheet(Comm.load(url));
+        return xsltProcessor;
     }
 
     function getIdByItem(item){

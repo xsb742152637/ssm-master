@@ -1,37 +1,37 @@
 /**
  * Created by xc on 2018/2/7.
  */
-var Menu = (function(){
+let Menu = (function(){
 
-    var context;//菜单xml对象
-    var ParentsExpression;
-    var ParentsAndSelfExpression;
-    var SingleLevelChildrenExpression;
-    var ChildrenExpression;
-    var ChildrenAndSelfExpression;
-    var BrothersExpression;
+    let context;//菜单xml对象
+    let ParentsExpression;
+    let ParentsAndSelfExpression;
+    let SingleLevelChildrenExpression;
+    let ChildrenExpression;
+    let ChildrenAndSelfExpression;
+    let BrothersExpression;
 
-    var AllMemsExpression_r;
-    var AllMemsExpression_u;
-    var AllMemsExpression_s;
+    let AllMemsExpression_r;
+    let AllMemsExpression_u;
+    let AllMemsExpression_s;
 
     //固定的缓存对象
-    var cache_menu_items = new Map();
-    var cache_menu_parents = new Map();
-    var cache_menu_parentAndSelfs = new Map();
-    var cache_menu_SingleLevelChildren = new Map();
-    var cache_menu_children = new Map();
-    var cache_menu_childrenAndSelf = new Map();
-    var cache_menu_brothers = new Map();
+    let cache_menu_items = new Map();
+    let cache_menu_parents = new Map();
+    let cache_menu_parentAndSelfs = new Map();
+    let cache_menu_SingleLevelChildren = new Map();
+    let cache_menu_children = new Map();
+    let cache_menu_childrenAndSelf = new Map();
+    let cache_menu_brothers = new Map();
 
     //非固定的缓存对象，会因为勾选情况相应更新
-    var cache_root;
-    var cache_menu_allMems = new Map();
-    var cache_menu_mem = new Map();
-    var cache_menu_memParents = new Map();
-    var cache_menu_memParentsAndSelf = new Map();
-    var cache_menu_memChildren = new Map();
-    var cache_menu_memChildrenAndSelf = new Map();
+    let cache_root;
+    let cache_menu_allMems = new Map();
+    let cache_menu_mem = new Map();
+    let cache_menu_memParents = new Map();
+    let cache_menu_memParentsAndSelf = new Map();
+    let cache_menu_memChildren = new Map();
+    let cache_menu_memChildrenAndSelf = new Map();
 
     //如果菜单上的成员发生改变，相应的要改变缓存中的值
     function removeCache(){
@@ -55,7 +55,7 @@ var Menu = (function(){
     }
 
     //根据xml文件路径得到文件内容并转换成xsl文件格式
-    function transform(callback) {
+    function transform() {
         context = null;//每次切换项目时，需要重新请求，所有将此对象设置为空
         ParentsExpression = undefined;
         ParentsAndSelfExpression = undefined;
@@ -67,19 +67,16 @@ var Menu = (function(){
         AllMemsExpression_r = undefined;
         AllMemsExpression_u = undefined;
         AllMemsExpression_s = undefined;
-
-        var cal = function(xsltProcessor){
-            callback(xsltProcessor.transformToFragment(getContext(), document))
-        };
-        Comm.getXsltProcessor(cal,Config.getMenuTransformPath());
+        return Comm.getXsltProcessor(Config.getMenuTransformPath()).transformToFragment(getContext(), document);
     }
+
 
     //根据xml文件路径得到文件内容
     function getContext() {
         if(context === undefined || context == null) {
-            var dataUrl = "/app/guide5/getXmlTree.do";
-            var projectId = $("#projectId").val();
-            context = Comm.load("/app/guide5/getXmlTree.do",{xmlType:"caiDanTree",projectId:$("#projectId").val(),random:Math.random()});
+            let dataUrl = "/core/guide/getXmlTree.do";
+            let projectId = $("#projectId").val();
+            context = Comm.load(dataUrl,{xmlType:"caiDanTree",projectId: projectId,random:Math.random()});
         }
         return context;
     }
@@ -94,7 +91,7 @@ var Menu = (function(){
 
     //根据id得到一个menu节点
     function getItem(id) {
-        var val = cache_menu_items.get(id);
+        let val = cache_menu_items.get(id);
         if(Comm.isNull(val)){
             val = getContext().evaluate("//"+menuTag+"[@id='" + id + "']", getRoot(), null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
             cache_menu_items.set(id,val);
@@ -104,8 +101,8 @@ var Menu = (function(){
 
     //得到一个menu节点的所有父级节点，先得到距自己最近的父级节点
     function getParents(menu) {
-        var id = Comm.getIdByItem(menu);
-        var val = cache_menu_parents.get(id);
+        let id = Comm.getIdByItem(menu);
+        let val = cache_menu_parents.get(id);
         if(Comm.isNull(val)){
             val = Comm.getParents(getContext(), menu, ParentsExpression);
             cache_menu_parents.set(id,val);
@@ -115,8 +112,8 @@ var Menu = (function(){
 
     //得到一个menu节点的所有父级节点，先得到自己，再得到距自己最近的父级节点
     function getParentsAndSelf(menu) {
-        var id = Comm.getIdByItem(menu);
-        var val = cache_menu_parentAndSelfs.get(id);
+        let id = Comm.getIdByItem(menu);
+        let val = cache_menu_parentAndSelfs.get(id);
         if(Comm.isNull(val)){
             val = Comm.getParentsAndSelf(getContext(), menu, ParentsAndSelfExpression);
             cache_menu_parentAndSelfs.set(id,val);
@@ -126,8 +123,8 @@ var Menu = (function(){
 
     //得到menu节点的下一级节点
     function getSingleLevelChildren(menu) {
-        var id = Comm.getIdByItem(menu);
-        var val = cache_menu_SingleLevelChildren.get(id);
+        let id = Comm.getIdByItem(menu);
+        let val = cache_menu_SingleLevelChildren.get(id);
         if(Comm.isNull(val)){
             if (SingleLevelChildrenExpression === undefined) {
                 SingleLevelChildrenExpression = getContext().createExpression("child::"+menuTag, null);
@@ -140,8 +137,8 @@ var Menu = (function(){
 
     //得到一个menu节点的所有子节点，先得到距自己最近的子级节点
     function getChildren(menu) {
-        var id = Comm.getIdByItem(menu);
-        var val = cache_menu_children.get(id);
+        let id = Comm.getIdByItem(menu);
+        let val = cache_menu_children.get(id);
         if(Comm.isNull(val)){
             if (ChildrenExpression === undefined) {
                 ChildrenExpression = getContext().createExpression("descendant::"+menuTag, null);
@@ -154,8 +151,8 @@ var Menu = (function(){
 
     //得到一个menu节点的所有子节点以及自己，再得到距自己最近的子级节点
     function getChildrenAndSelf(menu) {
-        var id = Comm.getIdByItem(menu);
-        var val = cache_menu_childrenAndSelf.get(id);
+        let id = Comm.getIdByItem(menu);
+        let val = cache_menu_childrenAndSelf.get(id);
         if(Comm.isNull(val)){
             if (ChildrenAndSelfExpression === undefined) {
                 ChildrenAndSelfExpression = getContext().createExpression("descendant-or-self::"+menuTag, null);
@@ -168,8 +165,8 @@ var Menu = (function(){
 
     //得到一个menu节点的所有兄弟节点
     function getBrothers(menu) {
-        var id = Comm.getIdByItem(menu);
-        var val = cache_menu_brothers.get(id);
+        let id = Comm.getIdByItem(menu);
+        let val = cache_menu_brothers.get(id);
         if(Comm.isNull(val)){
             if (BrothersExpression === undefined) {
                 BrothersExpression = getContext().createExpression("preceding-sibling::"+menuTag+" | following-sibling::"+menuTag, null);
@@ -182,10 +179,10 @@ var Menu = (function(){
 
     //得到一个menu节点包含的所有mem节点
     function getAllMems(menu,type) {
-        var id = Comm.getIdByItem(menu)+type;
-        var val = cache_menu_allMems.get(id);
+        let id = Comm.getIdByItem(menu)+type;
+        let val = cache_menu_allMems.get(id);
         if(Comm.isNull(val)){
-            var AllMemsExpression = "";
+            let AllMemsExpression = "";
             if(codeRead == type){
                 if (AllMemsExpression_r === undefined) {
                     AllMemsExpression_r = getContext().createExpression(type, null);
@@ -211,9 +208,9 @@ var Menu = (function(){
 
     //根据一组id找到一个menu节点包含的特定一组mem节点
     function findMems(menu, mems,type) {
-        var val = new Array();
-        for (var i = 0; i < Comm.getLength(mems); i++) {
-            var memItem = findMem(menu, Comm.getItem(mems, i),type);
+        let val = new Array();
+        for (let i = 0; i < Comm.getLength(mems); i++) {
+            let memItem = findMem(menu, Comm.getItem(mems, i),type);
             if (memItem != null) {
                 val.push(memItem);
             }
@@ -223,12 +220,12 @@ var Menu = (function(){
 
     //根据mem及其上级找到其所有存在的menu
     function findMenuByMemParentAndSelf(mem,type){
-        var val = new Array();
-        var mems = Mem.getParentsAndSelf(mem);
-        for (var i = 0; i < Comm.getLength(mems); i++) {
-            var menuItem = getContext().evaluate("//"+type+"[@id='" + Comm.getIdByItem(Comm.getItem(mems, i)) + "']//parent::"+menuTag, getRoot(), null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
+        let val = new Array();
+        let mems = Mem.getParentsAndSelf(mem);
+        for (let i = 0; i < Comm.getLength(mems); i++) {
+            let menuItem = getContext().evaluate("//"+type+"[@id='" + Comm.getIdByItem(Comm.getItem(mems, i)) + "']//parent::"+menuTag, getRoot(), null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
             if (menuItem != null) {
-                for(var m = 0;m < Comm.getLength(menuItem);m++){
+                for(let m = 0;m < Comm.getLength(menuItem);m++){
                     val.push(Comm.getItem(menuItem,m));
                 }
             }
@@ -237,8 +234,8 @@ var Menu = (function(){
     }
     //在menu节点中得到mem节点
     function findMem(menu, mem,type) {
-        var id = Comm.getIdByItem(menu)+Comm.getIdByItem(mem)+type;
-        var val = cache_menu_mem.get(id);
+        let id = Comm.getIdByItem(menu)+Comm.getIdByItem(mem)+type;
+        let val = cache_menu_mem.get(id);
         if(Comm.isNull(val)){
             val = getContext().evaluate(type+"[@id='" + Comm.getIdByItem(mem) + "']", menu, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
             cache_menu_mem.set(id,val);
@@ -248,8 +245,8 @@ var Menu = (function(){
 
     //得到一个menu节点包含的某个mem节点所有的父节点
     function findMemParents(menu, mem,type) {
-        var id = Comm.getIdByItem(menu)+Comm.getIdByItem(mem)+type;
-        var val = cache_menu_memParents.get(id);
+        let id = Comm.getIdByItem(menu)+Comm.getIdByItem(mem)+type;
+        let val = cache_menu_memParents.get(id);
         if(Comm.isNull(val)){
             val = findMems(menu, Mem.getParents(mem),type);
             cache_menu_memParents.set(id,val);
@@ -259,8 +256,8 @@ var Menu = (function(){
 
     //得到一个menu节点包含的某个mem节点所有的父节点（含自己）
     function findMemParentsAndSelf(menu, mem,type) {
-        var id = Comm.getIdByItem(menu)+Comm.getIdByItem(mem)+type;
-        var val = cache_menu_memParentsAndSelf.get(id);
+        let id = Comm.getIdByItem(menu)+Comm.getIdByItem(mem)+type;
+        let val = cache_menu_memParentsAndSelf.get(id);
         if(Comm.isNull(val)){
             val = findMems(menu, Mem.getParentsAndSelf(mem),type);
             cache_menu_memParentsAndSelf.set(id,val);
@@ -270,8 +267,8 @@ var Menu = (function(){
 
     //得到一个menu节点包含的某个mem节点所有的子节点
     function findMemChildren(menu, mem,type) {
-        var id = Comm.getIdByItem(menu)+Comm.getIdByItem(mem)+type;
-        var val = cache_menu_memChildren.get(id);
+        let id = Comm.getIdByItem(menu)+Comm.getIdByItem(mem)+type;
+        let val = cache_menu_memChildren.get(id);
         if(Comm.isNull(val)){
             val = findMems(menu, Mem.getChildren(mem),type);
             cache_menu_memChildren.set(id,val);
@@ -281,8 +278,8 @@ var Menu = (function(){
 
     //得到一个menu节点包含的某个mem节点所有的子节点（含自己）
     function findMemChildrenAndSelf(menu, mem,type) {
-        var id = Comm.getIdByItem(menu)+Comm.getIdByItem(mem)+type;
-        var val = cache_menu_memChildrenAndSelf.get(id);
+        let id = Comm.getIdByItem(menu)+Comm.getIdByItem(mem)+type;
+        let val = cache_menu_memChildrenAndSelf.get(id);
         if(Comm.isNull(val)){
             val = findMems(menu, Mem.getChildrenAndSelf(mem),type);
             cache_menu_memChildrenAndSelf.set(id,val);
@@ -293,7 +290,7 @@ var Menu = (function(){
     //向menu节点中添加mem节点
     function addMem(menu, mem,type) {
         removeMemChildren(menu, mem,type);
-        var newMem = getContext().createElement(type);
+        let newMem = getContext().createElement(type);
         newMem.setAttribute("id", mem.attributes.getNamedItem("id").nodeValue);
         newMem.setAttribute("n", mem.attributes.getNamedItem("n").nodeValue);
         menu.appendChild(newMem);
@@ -303,7 +300,7 @@ var Menu = (function(){
     //将一个mem节点加入menu节点中,加入之前先检查是否存在
     function addMemBeforeCheck(menu, mem,type) {
         //查找本级是否已经有mem或其上级，没有的话才增加
-        var result = findMemParentsAndSelf(menu, mem,type);
+        let result = findMemParentsAndSelf(menu, mem,type);
         if (Comm.getLength(result) == 0) {
             addMem(menu, mem,type);
         }
@@ -311,7 +308,7 @@ var Menu = (function(){
 
     //将一个mem节点从menu节点中移除
     function removeMem(menu, mem,type) {
-        var memItem = findMem(menu, mem,type);
+        let memItem = findMem(menu, mem,type);
         if (memItem != null) {
             menu.removeChild(memItem);
         }
@@ -320,7 +317,7 @@ var Menu = (function(){
     //将一个mem节点从menu节点中移除
     function removeAllMem(menu, mems) {
         if (mems != null) {
-            for(var i = 0;i < mems.length;i++){
+            for(let i = 0;i < mems.length;i++){
                 menu.removeChild(mems[i]);
             }
         }
@@ -330,8 +327,8 @@ var Menu = (function(){
     //将一个menu节点中的mem下级节点删除
     function removeMemChildren(menu, mem,type) {
         //得到mem节点的所有下级
-        var memChildren = findMemChildren(menu, mem,type);
-        for (var i = Comm.getLength(memChildren) - 1; i >= 0; i--) {
+        let memChildren = findMemChildren(menu, mem,type);
+        for (let i = Comm.getLength(memChildren) - 1; i >= 0; i--) {
             removeMem(menu, Comm.getItem(memChildren, i),type);
         }
         removeCache();
@@ -341,8 +338,8 @@ var Menu = (function(){
     function removeMemChildrenAndSelf(menu, mem,type) {
         removeMem(menu, mem,type);
         //得到mem节点的所有下级
-        var memChildren = findMemChildren(menu, mem,type);
-        for (var i = Comm.getLength(memChildren) - 1; i >= 0; i--) {
+        let memChildren = findMemChildren(menu, mem,type);
+        for (let i = Comm.getLength(memChildren) - 1; i >= 0; i--) {
             removeMem(menu, Comm.getItem(memChildren, i),type);
         }
     }
@@ -352,7 +349,7 @@ var Menu = (function(){
         if(Comm.equals(menu1,menu2)){
            return true;
         }
-        var result = getContext().evaluate(".//"+menuTag+"[@id='" + Comm.getIdByItem(menu2) + "']", menu1, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
+        let result = getContext().evaluate(".//"+menuTag+"[@id='" + Comm.getIdByItem(menu2) + "']", menu1, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
         return result != null && Comm.getLength(result) > 0 ? true : false;
     }
 

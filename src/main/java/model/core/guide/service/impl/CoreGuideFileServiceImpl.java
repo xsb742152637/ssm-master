@@ -5,6 +5,7 @@ import model.core.guide.entity.CoreGuideFileEntity;
 import model.core.guide.service.CoreGuideFileService;
 import model.core.guide.service.core.Member;
 import model.core.guide.service.core.Menu;
+import model.core.memberinfo.MemberType;
 import model.core.memberinfo.entity.CoreMemberInfoEntity;
 import model.core.memberinfo.service.CoreMemberInfoService;
 import model.core.menutree.service.CoreMenuTreeService;
@@ -45,8 +46,9 @@ public class CoreGuideFileServiceImpl extends GenericService<CoreGuideFileEntity
     public String findOne(String projectId){
         String str = "";
         CoreGuideFileEntity en = dao.findOne(projectId);
-        if(en != null)
+        if(en != null){
             str = en.getDocument().toString();
+        }
         if(StringUtils.isBlank(str)){
             try{
                 if(projectId.equals(Member.PROJECT_ID)){
@@ -58,6 +60,7 @@ public class CoreGuideFileServiceImpl extends GenericService<CoreGuideFileEntity
                 }
             }catch (Exception e){
                 System.out.println(e);
+                e.printStackTrace();
             }
         }
         return str;
@@ -104,8 +107,9 @@ public class CoreGuideFileServiceImpl extends GenericService<CoreGuideFileEntity
 
     public String createMemberXml(String sourceType,String memberId,String memberName)throws Exception{
         Document _document = DocumentHelper.createDocument();
-        if(_document == null)
+        if(_document == null){
             return "";
+        }
 
         //得到成员树
         List<Map<String,Object>> list = treeService.getMainInfo(String.valueOf(TreeType.MemberInfo.getCode()),null);
@@ -121,8 +125,9 @@ public class CoreGuideFileServiceImpl extends GenericService<CoreGuideFileEntity
 
     public String createMenuXml()throws Exception{
         Document _document = DocumentHelper.createDocument();
-        if(_document == null)
+        if(_document == null){
             return "";
+        }
 
         List<Map<String,Object>> list = menuTreeService.getMenuTree(true,null);
         addMenuEle(_document,null,list);
@@ -134,13 +139,15 @@ public class CoreGuideFileServiceImpl extends GenericService<CoreGuideFileEntity
 
     public String createProjectXml(String projectId)throws Exception{
         String f = findOne(Menu.PROJECT_ID);
-        if(StringUtils.isBlank(f))
+        if(StringUtils.isBlank(f)){
             f = createMenuXml();
+        }
         Menu menuEntity = new Menu(null,null,f);
 
         Document _document = DocumentHelper.createDocument();
-        if(_document == null)
+        if(_document == null){
             return "";
+        }
 
         //创建跟节点
         Element root = _document.addElement(Menu.MENU_TAG);
@@ -165,7 +172,7 @@ public class CoreGuideFileServiceImpl extends GenericService<CoreGuideFileEntity
             }else{
                 newEle = parEle.addElement(Member.MEMBER_TAG);
             }
-            newEle.addAttribute("id",map.get("memberId").toString());
+            newEle.addAttribute("id",map.get("memberId").toString() + (String.valueOf(MemberType.Person.getCode()).equals(map.get("memberType").toString()) ? (";" + map.get("parentId").toString()) : ""));
             newEle.addAttribute("n",map.get("memberName").toString());
             newEle.addAttribute("p",map.get("memberType").toString());//是person
             if(map.get("children") != null){
@@ -191,8 +198,9 @@ public class CoreGuideFileServiceImpl extends GenericService<CoreGuideFileEntity
     }
 
     private void addProEle(Element p,List<Element> list){
-        if(list == null || list.size() < 1)
+        if(list == null || list.size() < 1){
             return;
+        }
         for(Element el : list){
             Element e = p.addElement(Menu.MENU_TAG);
             e.setAttributes(el.attributes());

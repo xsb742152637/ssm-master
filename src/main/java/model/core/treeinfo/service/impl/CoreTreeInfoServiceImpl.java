@@ -1,7 +1,9 @@
 package model.core.treeinfo.service.impl;
 
+import model.core.memberinfo.MemberType;
 import model.core.memberinfo.entity.CoreMemberInfoEntity;
 import model.core.memberinfo.service.CoreMemberInfoService;
+import model.core.memberinfo.service.impl.CoreMemberInfoServiceImpl;
 import model.core.menuurl.service.impl.CoreMenuUrlServiceImpl;
 import model.core.treeinfo.TreeType;
 import model.core.treeinfo.dao.CoreTreeInfoDao;
@@ -32,9 +34,11 @@ public class CoreTreeInfoServiceImpl extends GenericService implements CoreTreeI
         for(CoreTreeInfoEntity entity : list){
             rootIds.add(entity.getTreeId());
         }
+        CoreMemberInfoEntity mem = null;
         List<CoreTreeInfoEntity> addList = new ArrayList<>();
         for(TreeType en : TreeType.values()){
             if(!rootIds.contains(en.toString())){
+                //为各类型树新增根节点
                 CoreTreeInfoEntity entity = new CoreTreeInfoEntity();
                 entity.setTreeId(en.toString());
                 entity.setParentId(null);
@@ -43,10 +47,22 @@ public class CoreTreeInfoServiceImpl extends GenericService implements CoreTreeI
                 entity.setTreeRight(entity.getTreeLeft() + 1);
                 entity.setTreeType(en.getCode());
                 addList.add(entity);
+
+                //为根成员新增信息
+                if(TreeType.MemberInfo.toString().equals(en.toString())){
+                    mem = new CoreMemberInfoEntity();
+                    mem.setMemberId(en.toString());
+                    mem.setMemberName(name);
+                    mem.setMemberType(MemberType.Dept.getCode());
+                    mem.setIsFrozen(false);
+                    mem.setTreeId(entity.getTreeId());
+                }
             }
         }
         if(addList.size() > 0){
             that.insert(addList);
+        }if(mem != null){
+            CoreMemberInfoServiceImpl.getInstance().insert(mem);
         }
     }
 
