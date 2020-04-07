@@ -1,0 +1,9 @@
+CREATE TABLE `core_guide_file` (
+	`GUIDE_ID` CHAR(36) NOT NULL,
+	`DOCUMENT` LONGTEXT NULL COMMENT '授权xml文件',
+	PRIMARY KEY (`GUIDE_ID`)
+)
+COMMENT='授权文件'
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+;

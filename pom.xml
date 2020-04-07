@@ -293,11 +293,18 @@
       <version>2.9.3</version>
     </dependency>
 
-    <!-- https://mvnrepository.com/artifact/javax.persistence/persistence-api -->
+    <!-- 用于java反射获取entity中的注解 -->
     <dependency>
       <groupId>javax.persistence</groupId>
       <artifactId>persistence-api</artifactId>
       <version>1.0.2</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/dom4j/dom4j -->
+    <dependency>
+      <groupId>dom4j</groupId>
+      <artifactId>dom4j</artifactId>
+      <version>1.6.1</version>
     </dependency>
 
   </dependencies>
