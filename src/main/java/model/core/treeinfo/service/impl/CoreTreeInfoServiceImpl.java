@@ -1,5 +1,7 @@
 package model.core.treeinfo.service.impl;
 
+import model.core.memberinfo.entity.CoreMemberInfoEntity;
+import model.core.memberinfo.service.CoreMemberInfoService;
 import model.core.menuurl.service.impl.CoreMenuUrlServiceImpl;
 import model.core.treeinfo.TreeType;
 import model.core.treeinfo.dao.CoreTreeInfoDao;
@@ -14,9 +16,11 @@ import util.datamanage.GenericService;
 import java.util.*;
 
 @Service
-public class CoreTreeInfoServiceImpl extends GenericService<CoreTreeInfoEntity> implements CoreTreeInfoService {
+public class CoreTreeInfoServiceImpl extends GenericService implements CoreTreeInfoService {
     @Autowired
     private CoreTreeInfoDao dao;
+    @Autowired
+    private CoreMemberInfoService memberService;
 
     static {
         String name = ApplicationContext.get("name");
@@ -149,6 +153,16 @@ public class CoreTreeInfoServiceImpl extends GenericService<CoreTreeInfoEntity> 
 
     @Override
     public List<Map<String, Object>> getMainInfo(String treeType,String parentId) {
+
+        Map<String,Map<String,Object>> mapOther = new HashMap<>();
+        if(String.valueOf(TreeType.MemberInfo.getCode()).equals(treeType)){
+            //得到全部成员
+            List<CoreMemberInfoEntity> memList= memberService.findAll();
+            for(CoreMemberInfoEntity entity : memList){
+                mapOther.put(entity.getTreeId(),entityToMap(entity));
+            }
+        }
+
         List<CoreTreeInfoEntity> list = dao.getMainInfo(treeType,parentId);
         LinkedHashMap<String,List<Map<String, Object>>> map = new LinkedHashMap<>();
         List<Map<String, Object>> listRoot = new ArrayList<>();
@@ -167,17 +181,21 @@ public class CoreTreeInfoServiceImpl extends GenericService<CoreTreeInfoEntity> 
             li.add(m);
             map.put(entity.getParentId(), li);
         }
-        getTrees(listRoot,map);
+        getTrees(listRoot,map,mapOther);
         return listRoot;
     }
 
-    private void getTrees(List<Map<String, Object>> listPar,LinkedHashMap<String,List<Map<String, Object>>> map){
+    private void getTrees(List<Map<String, Object>> listPar,LinkedHashMap<String,List<Map<String, Object>>> map,Map<String,Map<String,Object>> mapOther){
         for(Map<String, Object> parMap : listPar){
-            List<Map<String, Object>> ch = map.get(parMap.get("treeId").toString());
+            String treeId = parMap.get("treeId").toString();
+            List<Map<String, Object>> ch = map.get(treeId);
             if(ch != null && ch.size() > 0){
-                getTrees(ch,map);
+                getTrees(ch,map,mapOther);
             }
             parMap.put("children", ch);
+            if(mapOther.get(treeId) != null){
+                parMap.putAll(mapOther.get(treeId));
+            }
         }
     }
 

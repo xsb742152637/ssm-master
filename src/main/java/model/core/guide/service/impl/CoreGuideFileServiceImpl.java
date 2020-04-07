@@ -33,8 +33,6 @@ public class CoreGuideFileServiceImpl extends GenericService<CoreGuideFileEntity
     @Autowired
     private CoreTreeInfoService treeService;
     @Autowired
-    private CoreMemberInfoService memberService;
-    @Autowired
     private CoreMenuTreeService menuTreeService;
     /**
      * 获取实例
@@ -109,16 +107,9 @@ public class CoreGuideFileServiceImpl extends GenericService<CoreGuideFileEntity
         if(_document == null)
             return "";
 
-        //得到全部成员
-        List<CoreMemberInfoEntity> memList= memberService.findAll();
-        Map<String,CoreMemberInfoEntity> memMap = new HashMap<>();
-        for(CoreMemberInfoEntity entity : memList){
-            memMap.put(entity.getTreeId(),entity);
-        }
-
         //得到成员树
         List<Map<String,Object>> list = treeService.getMainInfo(String.valueOf(TreeType.MemberInfo.getCode()),null);
-        addMemEle(_document,null,list,memMap);
+        addMemEle(_document,null,list);
 
         insert(Member.PROJECT_ID,_document);
         memberEntity.removeCache();
@@ -166,24 +157,19 @@ public class CoreGuideFileServiceImpl extends GenericService<CoreGuideFileEntity
         return _document.asXML().toString();
     }
 
-    private void addMemEle(Document doc,Element parEle,List<Map<String,Object>> list,Map<String,CoreMemberInfoEntity> memMap){
+    private void addMemEle(Document doc,Element parEle,List<Map<String,Object>> list){
         for(Map<String,Object> map : list) {
-            String treeId = map.get("treeId").toString();
-            CoreMemberInfoEntity entity = memMap.get(treeId);
-            if (entity == null) {
-                continue;
-            }
             Element newEle = null;
             if(parEle == null){
                 newEle = doc.addElement(Member.MEMBER_TAG);
             }else{
                 newEle = parEle.addElement(Member.MEMBER_TAG);
             }
-            newEle.addAttribute("id",entity.getMemberId());
-            newEle.addAttribute("n",entity.getMemberName());
-            newEle.addAttribute("p",String.valueOf(entity.getMemberType()));//是person
+            newEle.addAttribute("id",map.get("memberId").toString());
+            newEle.addAttribute("n",map.get("memberName").toString());
+            newEle.addAttribute("p",map.get("memberType").toString());//是person
             if(map.get("children") != null){
-                addMemEle(doc,newEle,(List<Map<String,Object>>) map.get("children"),memMap);
+                addMemEle(doc,newEle,(List<Map<String,Object>>) map.get("children"));
             }
         }
     }
