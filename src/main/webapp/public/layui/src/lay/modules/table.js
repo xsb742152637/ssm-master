@@ -485,7 +485,7 @@ layui.define(['laytpl', 'laypage', 'layer', 'form', 'util'], function(exports){
               let footer = model.find(".layui-card-footer");
               let buts = $('<button class="layui-btn" lay-submit lay-filter="formSearch"><i class="layui-icon layui-icon-search"></i>搜索</button><button class="layui-btn layui-btn-primary layui-layer-close" type="button"><i class="layui-icon layui-icon-close"></i>关闭</button>');
               if(footer.length > 0){
-                footer.append(buts);
+                footer.empty().append(buts);
               }else{
                 footer = $('<div class="layui-card-footer"></div>');
                 footer.append(buts);

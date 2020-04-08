@@ -870,8 +870,8 @@ hr, .layui-timeline-item:before{background-color: #e6e6e6;}
 .layui-table-tool .layui-inline[lay-event]{position: relative; height: 26px; padding: 5px; line-height: 16px; margin-right: 10px; text-align: center; color: #333; border: 1px solid #ccc; cursor: pointer; -webkit-transition: .5s all; transition: .5s all;}
 .layui-table-tool .layui-inline[lay-event] .layui-table-tool-text{margin-left: 5px;}
 .layui-table-tool .layui-inline[lay-event]:hover{border: 1px solid #999;}
-.layui-table-tool-temp{padding-right: 120px;}
-.layui-table-tool-self{position: absolute; right: 17px; top: 10px;}
+.layui-table-tool-temp{flex: 1;}
+/*.layui-table-tool-self{position: absolute; right: 17px; top: 10px;}*/
 .layui-table-tool .layui-table-tool-self .layui-inline[lay-event]{margin: 0 0 0 10px;}
 .layui-table-tool-panel{position: absolute; top: 38px; left: -1px; padding: 5px 0; min-width: 150px; min-height: 40px; border: 1px solid #d2d2d2; text-align: left; overflow-y: auto; background-color: #fff; box-shadow: 0 2px 4px rgba(0,0,0,.12);color: #000}
 .layui-table-tool-panel li{padding: 0 10px; line-height: 30px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; -webkit-transition: .5s all; transition: .5s all;}
@@ -911,7 +911,7 @@ hr, .layui-timeline-item:before{background-color: #e6e6e6;}
 .layui-table-fixed-r .layui-table-header{position: relative; overflow: visible;}
 .layui-table-mend{position: absolute; right: -49px; top: 0; height: 100%; width: 50px;}
 
-.layui-table-tool{position: relative; z-index: 890; width: 100%; min-height: 50px; line-height: 30px; padding: 10px 15px; border-width: 0; border-bottom-width: 1px;}
+.layui-table-tool{position: relative; z-index: 890; width: 100%; min-height: 50px; line-height: 30px; padding: 10px 15px; border-width: 0; border-bottom-width: 1px;display: flex;}
 .layui-table-tool .layui-btn-container{margin-bottom: -10px;}
 
 .layui-table-total{margin-bottom: -1px; border-width: 0; border-top-width: 1px; overflow: hidden;}
