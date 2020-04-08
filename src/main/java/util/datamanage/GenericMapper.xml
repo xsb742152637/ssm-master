@@ -5,7 +5,6 @@
     <!-- parameterType="String" -->
     <sql id="findOne">select main.* from <include refid="tableName"/> main where main.<include refid="primaryKey"/> = #{mainId}</sql>
     <sql id="findAll">select main.* from <include refid="tableName"/> main</sql>
-    <sql id="findAllCount">select count(1) from <include refid="tableName"/>main</sql>
 
     <sql id="insert">
         INSERT INTO <include refid="tableName"/> (<foreach collection="map.fields" index="key" item="value" separator=",">${value}</foreach>) VALUES

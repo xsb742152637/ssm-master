@@ -1,8 +1,8 @@
-package model.core.dictionary.service.impl;
+package model.core.dicinfo.service.impl;
 
-import model.core.dictionary.dao.CoreDicDetailDao;
-import model.core.dictionary.entity.CoreDicDetailEntity;
-import model.core.dictionary.service.CoreDicDetailService;
+import model.core.dicinfo.dao.CoreDicInfoDetailDao;
+import model.core.dicinfo.entity.CoreDicInfoDetailEntity;
+import model.core.dicinfo.service.CoreDicDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import util.datamanage.GenericService;
@@ -18,17 +18,16 @@ import java.util.List;
  */
 @Service
 public class CoreDicDetailServiceImpl extends GenericService implements CoreDicDetailService {
-
     @Autowired
-    CoreDicDetailDao dao;
+    CoreDicInfoDetailDao dao;
 
     @Override
-    public int insert(CoreDicDetailEntity entity) {
+    public int insert(CoreDicInfoDetailEntity entity) {
         return dao.insert(convertList(entity));
     }
 
     @Override
-    public int update(CoreDicDetailEntity entity) {
+    public int update(CoreDicInfoDetailEntity entity) {
         return dao.update(convertList(entity));
     }
 
@@ -38,17 +37,12 @@ public class CoreDicDetailServiceImpl extends GenericService implements CoreDicD
     }
 
     @Override
-    public CoreDicDetailEntity findOne(String mainId) {
+    public CoreDicInfoDetailEntity findOne(String mainId) {
         return dao.findOne(mainId);
     }
 
     @Override
-    public List<CoreDicDetailEntity> findAll(String typeId) {
-        return dao.findAll(typeId);
-    }
-
-    @Override
-    public Integer findAllCount(String typeId) {
-        return dao.findAllCount(typeId);
+    public List<CoreDicInfoDetailEntity> findAll(String dicId) {
+        return dao.findAll(dicId);
     }
 }

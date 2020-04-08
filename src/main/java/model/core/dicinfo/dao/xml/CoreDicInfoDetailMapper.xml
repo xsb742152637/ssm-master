@@ -1,21 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="model.core.dictionary.dao.CoreDicDetailDao">
+<mapper namespace="model.core.dicinfo.dao.CoreDicInfoDetailDao">
     <!--表名-->
-    <sql id="tableName">core_dic_detail</sql>
+    <sql id="tableName">core_dic_info_detail</sql>
     <!--主键-->
-    <sql id="primaryKey">TYPE_DETAIL_ID</sql>
+    <sql id="primaryKey">DETAIL_ID</sql>
 
-    <select id="findOne" resultType="CoreDicDetailEntity" parameterType="String">
+    <select id="findOne" resultType="CoreDicInfoDetailEntity" parameterType="String">
         <include refid="GenericMapper.findOne"/>
     </select>
 
-    <select id="findAll" resultType="CoreDicDetailEntity">
-        select * from <include refid="tableName"/> main where main.TYPE_ID = #{typeId}
-    </select>
-
-    <select id="findAllCount" resultType="Integer">
-        select count(1) from <include refid="tableName"/> main where main.TYPE_ID = #{typeId}
+    <select id="findAll" resultType="CoreDicInfoDetailEntity">
+        select * from <include refid="tableName"/> det where det.DIC_ID = #{dicId}
     </select>
 
     <insert id="insert" >

@@ -1,7 +1,7 @@
-package model.core.dictionary.dao;
+package model.core.dicinfo.dao;
 
 
-import model.core.dictionary.entity.CoreDicInfoEntity;
+import model.core.dicinfo.entity.CoreDicInfoEntity;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -20,5 +20,4 @@ public interface CoreDicInfoDao {
     int delete(@Param("mainId") String mainId);
     CoreDicInfoEntity findOne(@Param("mainId") String mainId);
     List<CoreDicInfoEntity> findAll();
-    Integer findAllCount();
 }

@@ -1,8 +1,8 @@
-package model.core.dictionary.service.impl;
+package model.core.dicinfo.service.impl;
 
-import model.core.dictionary.dao.CoreDicInfoDao;
-import model.core.dictionary.entity.CoreDicInfoEntity;
-import model.core.dictionary.service.CoreDicInfoService;
+import model.core.dicinfo.dao.CoreDicInfoDao;
+import model.core.dicinfo.entity.CoreDicInfoEntity;
+import model.core.dicinfo.service.CoreDicInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import util.datamanage.GenericService;
@@ -44,10 +44,5 @@ public class CoreDicInfoServiceImpl extends GenericService implements CoreDicInf
     @Override
     public List<CoreDicInfoEntity> findAll() {
         return dao.findAll();
-    }
-
-    @Override
-    public Integer findAllCount() {
-        return dao.findAllCount();
     }
 }

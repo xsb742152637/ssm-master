@@ -1,6 +1,6 @@
-package model.core.dictionary.service;
+package model.core.dicinfo.service;
 
-import model.core.dictionary.entity.CoreDicInfoEntity;
+import model.core.dicinfo.entity.CoreDicInfoEntity;
 
 import java.util.List;
 
@@ -17,5 +17,4 @@ public interface CoreDicInfoService {
     int delete(String mainId);
     CoreDicInfoEntity findOne(String mainId);
     List<CoreDicInfoEntity> findAll();
-    Integer findAllCount();
 }

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="model.core.dictionary.dao.CoreDicInfoDao">
+<mapper namespace="model.core.dicinfo.dao.CoreDicInfoDao">
     <!--表名-->
     <sql id="tableName">core_dic_info</sql>
     <!--主键-->
-    <sql id="primaryKey">TYPE_DETAIL_ID</sql>
+    <sql id="primaryKey">DIC_ID</sql>
 
     <select id="findOne" resultType="CoreDicInfoEntity" parameterType="String">
         <include refid="GenericMapper.findOne"/>
@@ -12,10 +12,6 @@
 
     <select id="findAll" resultType="CoreDicInfoEntity">
         <include refid="GenericMapper.findAll"/>
-    </select>
-
-    <select id="findAllCount" resultType="Integer">
-        <include refid="GenericMapper.findAllCount"/>
     </select>
 
     <insert id="insert" >

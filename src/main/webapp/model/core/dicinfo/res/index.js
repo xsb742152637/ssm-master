@@ -16,8 +16,8 @@ layui.use(['table','layer','form','element'],function () {
         ,limit: 10 //每页条数
         ,limits: [5,10,50,100] //每页条数
         ,cols:[[
-            {field: 'typeName', title: '字典名称', width:'50%', sort: true, fixed: 'left'}
-            ,{field: 'typeCode', title: '字典编码'}
+            {field: 'dicName', title: '字典名称', width:'50%', sort: true, fixed: 'left'}
+            ,{field: 'dicCode', title: '字典编码'}
         ]]
         ,done: function(res, curr, count){
             //加载成功
@@ -32,8 +32,8 @@ layui.use(['table','layer','form','element'],function () {
         ,text:{
             none: '暂无相关数据' //默认：无数据。注：该属性为 layui 2.2.5 开始新增
         }
-        ,url:"/core/dicdetail/getMainInfo.do"
-        ,where:{"dicinfoId":'-1'}
+        ,url:"/core/dicdetail/getDetailInfo.do"
+        ,where:{"dicId":'-1'}
         ,toolbar: 'default'
         ,loading: true //显示加载条,
         ,page: true //开启分页
@@ -60,7 +60,7 @@ layui.use(['table','layer','form','element'],function () {
     table.on('row(test)', function(obj){
         var data = obj.data;
         dicdetailTable.reload({
-            where:{"dicinfoId":data.typeId}
+            where:{"dicId":data.dicId}
         });
 
 
@@ -77,12 +77,12 @@ layui.use(['table','layer','form','element'],function () {
 
 
     //检查
-    let _check = function(){
-        let selectedRow = table.getSelectedRow(mainTableId);//选中行
-        if(selectedRow == null){
-            layer.msg('请选择一行数据');
-            return false;
-        }
-        return selectedRow;
-    }
+    // let _check = function(){
+    //     let selectedRow = table.getSelectedRow(mainTableId);//选中行
+    //     if(selectedRow == null){
+    //         layer.msg('请选择一行数据');
+    //         return false;
+    //     }
+    //     return selectedRow;
+    // }
 });
