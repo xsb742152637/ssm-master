@@ -36,7 +36,7 @@ public class Context {
     }
 
     //-------------------成员相关------------------------------
-    private  CoreMemberInfoEntity member = null;
+    private CoreMemberInfoEntity member = null;
     public CoreMemberInfoEntity getMember(){
         if(member == null){
             if (SecurityUtils.getSubject().isAuthenticated()) {
