@@ -9,7 +9,8 @@ layui.use(['table','layer','form','element'],function () {
             none: '暂无相关数据' //默认：无数据。注：该属性为 layui 2.2.5 开始新增
         }
         ,url:"/core/dicinfo/getMainInfo.do"
-        ,defaultToolbarRight:'object'
+        ,defaultToolbarLeft: ['add', 'update','delete']
+        ,defaultToolbarRight:''
         ,toolbar: 'default'
         ,loading: true //显示加载条,
         ,page: true //开启分页
@@ -17,7 +18,7 @@ layui.use(['table','layer','form','element'],function () {
         ,limits: [5,10,50,100] //每页条数
         ,cols:[[
             {field: 'dicName', title: '字典名称', width:'50%', sort: true, fixed: 'left'}
-            ,{field: 'dicCode', title: '字典编码'}
+            ,{field: 'dicCode', title: '字典编码', sort: true}
         ]]
         ,done: function(res, curr, count){
             //加载成功
@@ -35,6 +36,7 @@ layui.use(['table','layer','form','element'],function () {
         ,url:"/core/dicdetail/getDetailInfo.do"
         ,where:{"dicId":'-1'}
         ,toolbar: 'default'
+        ,defaultToolbarRight:''
         ,loading: true //显示加载条,
         ,page: true //开启分页
         ,limit: 10 //每页条数
