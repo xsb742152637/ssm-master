@@ -9,6 +9,7 @@ import java.util.Map;
 public interface CoreMemberInfoDao{
 
     CoreMemberInfoEntity findOne(@Param("mainId") String mainId);
+    List<CoreMemberInfoEntity> findAll();
     CoreMemberInfoEntity findOneByTreeId(@Param("treeId") String treeId);
     CoreMemberInfoEntity loginCheck(@Param("account") String account, @Param("password")  String password);
 

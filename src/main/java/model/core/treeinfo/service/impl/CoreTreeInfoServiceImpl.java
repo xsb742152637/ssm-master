@@ -1,5 +1,9 @@
 package model.core.treeinfo.service.impl;
 
+import model.core.memberinfo.MemberType;
+import model.core.memberinfo.entity.CoreMemberInfoEntity;
+import model.core.memberinfo.service.CoreMemberInfoService;
+import model.core.memberinfo.service.impl.CoreMemberInfoServiceImpl;
 import model.core.menuurl.service.impl.CoreMenuUrlServiceImpl;
 import model.core.treeinfo.TreeType;
 import model.core.treeinfo.dao.CoreTreeInfoDao;
@@ -14,9 +18,11 @@ import util.datamanage.GenericService;
 import java.util.*;
 
 @Service
-public class CoreTreeInfoServiceImpl extends GenericService<CoreTreeInfoEntity> implements CoreTreeInfoService {
+public class CoreTreeInfoServiceImpl extends GenericService implements CoreTreeInfoService {
     @Autowired
     private CoreTreeInfoDao dao;
+    @Autowired
+    private CoreMemberInfoService memberService;
 
     static {
         String name = ApplicationContext.get("name");
@@ -28,9 +34,11 @@ public class CoreTreeInfoServiceImpl extends GenericService<CoreTreeInfoEntity> 
         for(CoreTreeInfoEntity entity : list){
             rootIds.add(entity.getTreeId());
         }
+        CoreMemberInfoEntity mem = null;
         List<CoreTreeInfoEntity> addList = new ArrayList<>();
         for(TreeType en : TreeType.values()){
             if(!rootIds.contains(en.toString())){
+                //为各类型树新增根节点
                 CoreTreeInfoEntity entity = new CoreTreeInfoEntity();
                 entity.setTreeId(en.toString());
                 entity.setParentId(null);
@@ -39,10 +47,22 @@ public class CoreTreeInfoServiceImpl extends GenericService<CoreTreeInfoEntity> 
                 entity.setTreeRight(entity.getTreeLeft() + 1);
                 entity.setTreeType(en.getCode());
                 addList.add(entity);
+
+                //为根成员新增信息
+                if(TreeType.MemberInfo.toString().equals(en.toString())){
+                    mem = new CoreMemberInfoEntity();
+                    mem.setMemberId(en.toString());
+                    mem.setMemberName(name);
+                    mem.setMemberType(MemberType.Dept.getCode());
+                    mem.setIsFrozen(false);
+                    mem.setTreeId(entity.getTreeId());
+                }
             }
         }
         if(addList.size() > 0){
             that.insert(addList);
+        }if(mem != null){
+            CoreMemberInfoServiceImpl.getInstance().insert(mem);
         }
     }
 
@@ -149,6 +169,16 @@ public class CoreTreeInfoServiceImpl extends GenericService<CoreTreeInfoEntity> 
 
     @Override
     public List<Map<String, Object>> getMainInfo(String treeType,String parentId) {
+
+        Map<String,Map<String,Object>> mapOther = new HashMap<>();
+        if(String.valueOf(TreeType.MemberInfo.getCode()).equals(treeType)){
+            //得到全部成员
+            List<CoreMemberInfoEntity> memList= memberService.findAll();
+            for(CoreMemberInfoEntity entity : memList){
+                mapOther.put(entity.getTreeId(),entityToMap(entity));
+            }
+        }
+
         List<CoreTreeInfoEntity> list = dao.getMainInfo(treeType,parentId);
         LinkedHashMap<String,List<Map<String, Object>>> map = new LinkedHashMap<>();
         List<Map<String, Object>> listRoot = new ArrayList<>();
@@ -167,17 +197,21 @@ public class CoreTreeInfoServiceImpl extends GenericService<CoreTreeInfoEntity> 
             li.add(m);
             map.put(entity.getParentId(), li);
         }
-        getTrees(listRoot,map);
+        getTrees(listRoot,map,mapOther);
         return listRoot;
     }
 
-    private void getTrees(List<Map<String, Object>> listPar,LinkedHashMap<String,List<Map<String, Object>>> map){
+    private void getTrees(List<Map<String, Object>> listPar,LinkedHashMap<String,List<Map<String, Object>>> map,Map<String,Map<String,Object>> mapOther){
         for(Map<String, Object> parMap : listPar){
-            List<Map<String, Object>> ch = map.get(parMap.get("treeId").toString());
+            String treeId = parMap.get("treeId").toString();
+            List<Map<String, Object>> ch = map.get(treeId);
             if(ch != null && ch.size() > 0){
-                getTrees(ch,map);
+                getTrees(ch,map,mapOther);
             }
             parMap.put("children", ch);
+            if(mapOther.get(treeId) != null){
+                parMap.putAll(mapOther.get(treeId));
+            }
         }
     }
 

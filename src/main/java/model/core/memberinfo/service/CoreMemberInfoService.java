@@ -17,6 +17,7 @@ public interface CoreMemberInfoService {
     CoreMemberInfoEntity loginCheck(String account, String password);
     CoreMemberInfoEntity findOneByTreeId(String treeId);
     CoreMemberInfoEntity findOne(String mainId);
+    List<CoreMemberInfoEntity> findAll();
 
     void insert(CoreMemberInfoEntity entity);
     int update( CoreMemberInfoEntity entity);

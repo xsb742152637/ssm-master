@@ -7,6 +7,7 @@ import model.core.menutree.entity.CoreMenuTreeInfoEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import util.context.ApplicationContext;
 import util.datamanage.GenericService;
 
 import java.util.ArrayList;
@@ -18,9 +19,18 @@ public class CoreMemberInfoServiceImpl extends GenericService<CoreMemberInfoEnti
     @Autowired
     private CoreMemberInfoDao dao;
 
+    public static CoreMemberInfoServiceImpl getInstance() {
+        return ApplicationContext.getCurrent().getBean(CoreMemberInfoServiceImpl.class);
+    }
+
     @Override
     public CoreMemberInfoEntity findOne(String mainId) {
         return dao.findOne(mainId);
+    }
+
+    @Override
+    public List<CoreMemberInfoEntity> findAll() {
+        return dao.findAll();
     }
     @Override
     public CoreMemberInfoEntity findOneByTreeId(String treeId) {

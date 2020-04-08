@@ -9,6 +9,9 @@
     <select id="findOne" resultType="CoreMemberInfoEntity" parameterType="String">
         <include refid="GenericMapper.findOne"/>
     </select>
+    <select id="findAll" resultType="CoreMemberInfoEntity">
+        <include refid="GenericMapper.findAll"/>
+    </select>
 
     <select id="findOneByTreeId" resultType="CoreMemberInfoEntity" parameterType="String">
         SELECT * FROM core_member_info WHERE TREE_ID = #{treeId}
