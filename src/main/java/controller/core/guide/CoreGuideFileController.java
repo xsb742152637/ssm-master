@@ -53,7 +53,7 @@ public class CoreGuideFileController extends GenericController {
             }
             try{
                 str = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"+str;
-                mainService.insert(projectId,str);
+                mainService.update(projectId,str);
 
                 System.out.println("修改权限" + (new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date()))+"\nprojectId："+projectId+"\n"+str+"\n\n");
                 return returnSuccess("保存成功！");

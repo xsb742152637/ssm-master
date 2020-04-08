@@ -300,11 +300,16 @@
       <version>1.0.2</version>
     </dependency>
 
-    <!-- https://mvnrepository.com/artifact/dom4j/dom4j -->
+    <!--dom4j和jaxen 用于授权中得document与xpath-->
     <dependency>
       <groupId>dom4j</groupId>
       <artifactId>dom4j</artifactId>
       <version>1.6.1</version>
+    </dependency>
+    <dependency>
+      <groupId>jaxen</groupId>
+      <artifactId>jaxen</artifactId>
+      <version>1.2.0</version>
     </dependency>
 
   </dependencies>

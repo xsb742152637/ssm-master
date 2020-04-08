@@ -23,7 +23,6 @@
 <master:ContentPage>
     <master:Content contentPlaceHolderId="title"><%=title%></master:Content>
     <master:Content contentPlaceHolderId="head">
-
         <link rel="stylesheet" href="/model/core/guide/res/index.css"/>
     </master:Content>
     <master:Content contentPlaceHolderId="body">
@@ -47,12 +46,11 @@
                             <i class="layui-icon layui-icon-add-1"></i>保存
                         </button>
                     </div>
-                    <div class="layui-card-body">
+                    <div class="layui-card-body guide-tree">
                         <div class="layui-row layui-col-space10">
-                            <div id="guide_menu_tree" class="layui-col-xs12 layui-col-sm6 layui-col-md6"></div>
-                            <div id="menuDebugTree" class="layui-col-xs12 layui-col-sm6 layui-col-md6"></div>
+                            <div id="guide_menu_tree" class="layui-col-xs12 layui-col-sm7 layui-col-md7"></div>
+                            <div id="menuDebugTree" class="layui-col-xs12 layui-col-sm5 layui-col-md5" style="display: none;"></div>
                         </div>
-
                     </div>
                 </div>
             </div>

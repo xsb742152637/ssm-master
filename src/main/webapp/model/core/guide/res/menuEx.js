@@ -306,9 +306,9 @@ let MenuEx = ( function () {
         }
     }
 
-    let _check = 'checkImg tree-icon  check';//全选
-    let _checkmix = 'checkImg tree-icon  checkmix';//半选
-    let _uncheck = 'checkImg tree-icon  uncheck';//不选
+    let _check = 'checkImg layui-icon layui-icon-ok-circle';//全选
+    let _checkmix = 'checkImg layui-icon layui-icon-radio';//半选
+    let _uncheck = 'checkImg layui-icon layui-icon-circle';//不选
 
     function getCheck() {
         return _check;

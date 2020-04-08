@@ -22,8 +22,9 @@ public class MenuEx extends Comm{
         Menu menuEntity = new Menu(projectId,null,null);
         Element menu = menuEntity.getMenuItem(menuId);
         for(String memberId : memberIds) {
-            if(StringUtils.isBlank(memberId))
+            if(StringUtils.isBlank(memberId)){
                 continue;
+            }
 
             boolean notFirst = false;
             if (memberId.contains("notFirst")) {
@@ -38,6 +39,7 @@ public class MenuEx extends Comm{
             }
         }
 
+        fileService.delete(projectId);
         fileService.insert(projectId,menuEntity.getContext());
         System.out.println("新增权限("+ sourceType +")" + (new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date()))+"\nprojectId："+projectId+"\nmenuId："+menuId+"\nmems："+ StringUtils.join(memberIds,";")+"\n");
     }
@@ -65,6 +67,7 @@ public class MenuEx extends Comm{
             }
         }
 
+        fileService.delete(projectId);
         fileService.insert(projectId,menuEntity.getContext());
 
         String eventData = "删除权限("+ sourceType +")" + (new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date()))+"\nprojectId："+projectId+"\nmenuId："+menuId+"\nmenuName："+menuEntity.getNameByItem(menu)+"\nmems："+ StringUtils.join(memberIds,";")+"\nmemNames："+ StringUtils.join(listMemName,";");
@@ -83,17 +86,19 @@ public class MenuEx extends Comm{
             return;
         }
 
-        fileService.IS_UPDATE = true;
+        CoreGuideFileServiceImpl.IS_UPDATE = true;
         String memberName = getNameByItem(oldMem.get(0));
         //更新成员树
         fileService.createMemberXml(sourceType + "-updateGuideByMemChange",memberId,null);
         //得到当前成员变更否的节点,只可能有一个(人员被移动时,所有兼职会被删除)
         Element newMem = memberEntity.getMemItem(memberId);
-        if(!isNull(newMem))
+        if(!isNull(newMem)){
             memberName = getNameByItem(newMem);
+        }
 
         //得到所有项目权限
         List<CoreGuideFileEntity> guideFileList = fileService.findAll();
+        List<CoreGuideFileEntity> listU = new ArrayList<>();
         for(CoreGuideFileEntity entity : guideFileList) {
             Menu menuEntity = new Menu(null,null,entity.getDocument());
             //在该项目根据旧的成员信息得到权限信息
@@ -128,31 +133,35 @@ public class MenuEx extends Comm{
                     menuEntity.removeMemDescendantAndSelf(menu,ogm,type);
                 }
             }
-            fileService.insert(entity.getGuideId(),menuEntity.getContext());
+            entity.setDocument(menuEntity.getContext().asXML());
+            listU.add(entity);
+        }
+        if(listU.size() > 0){
+            fileService.update(listU);
         }
 
         System.out.println("成员变更("+ sourceType +")" + (new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date()))+"\nmemberId："+memberId+"\nmemberName："+ memberName);
     }
 
-    public int copyPro(String[] copyProjects,String projectId,String memberId){
-        Menu menuEntity = new Menu(projectId,null,null);
-        List<Element> list = menuEntity.findMemsByMemAncestorAndSelf(memberEntity.getMemItems(memberId));
-        if(list.size() > 0){
-            Element thisMem = memberEntity.getMemItem(memberId);
-            for(String cProId : copyProjects){
-                menuEntity = new Menu(cProId,null,null);
-                for(Element mem : list){
-                    String type = mem.getName().toString();
-                    String menuId = getIdByItem(mem.getParent());
-                    select(menuEntity,menuEntity.getMenuItem(menuId),thisMem,type);
-                }
-                fileService.insert(cProId,menuEntity.getContext());
-            }
-
-            System.out.println("项目复制" + (new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date()))+"\nprojectId："+projectId+"\nmemberId："+memberId+"\ncopyProjects："+ StringUtils.join(copyProjects,";")+"\n");
-        }
-        return list.size();
-    }
+//    public int copyPro(String[] copyProjects,String projectId,String memberId){
+//        Menu menuEntity = new Menu(projectId,null,null);
+//        List<Element> list = menuEntity.findMemsByMemAncestorAndSelf(memberEntity.getMemItems(memberId));
+//        if(list.size() > 0){
+//            Element thisMem = memberEntity.getMemItem(memberId);
+//            for(String cProId : copyProjects){
+//                menuEntity = new Menu(cProId,null,null);
+//                for(Element mem : list){
+//                    String type = mem.getName().toString();
+//                    String menuId = getIdByItem(mem.getParent());
+//                    select(menuEntity,menuEntity.getMenuItem(menuId),thisMem,type);
+//                }
+//                fileService.insert(cProId,menuEntity.getContext());
+//            }
+//
+//            System.out.println("项目复制" + (new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date()))+"\nprojectId："+projectId+"\nmemberId："+memberId+"\ncopyProjects："+ StringUtils.join(copyProjects,";")+"\n");
+//        }
+//        return list.size();
+//    }
 
     public int copyMem(String copy_memberIds,String projectId,String memberId){
         Menu menuEntity = new Menu(projectId,null,null);
@@ -170,6 +179,7 @@ public class MenuEx extends Comm{
                     select(menuEntity,menuEntity.getMenuItem(menuId),cMem,type);
                 }
             }
+            fileService.delete(projectId);
             fileService.insert(projectId,menuEntity.getContext());
             System.out.println("成员复制" + (new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date()))+"\nprojectId："+projectId+"\ncopy_memberIds："+copy_memberIds+"\nmemberId："+ memberId+"\n");
         }
@@ -195,8 +205,9 @@ public class MenuEx extends Comm{
             List<String> sonMenuAuths = new ArrayList<>();
             Element m_p = getItem(menuAncestor, i);
             List<Element> sonMenus = getChildren(m_p, MENU_TAG);
-            if(getLength(sonMenus) == 0 )
+            if(getLength(sonMenus) == 0 ){
                 continue;
+            }
             for(Element sm : sonMenus) {
                 if(getLength(menuEntity.findMemAncestorAndSelfByMenuAndMem(sm, mem,type)) != 0) {
                     sonMenuAuths.add(getCheck());
@@ -263,7 +274,7 @@ public class MenuEx extends Comm{
         mergeMem(menuEntity,getDescendant(menu,MENU_TAG),mem,type);
 
         removeCache();//每次操作完成都需要清除缓存
-        fileService.IS_UPDATE = true;
+        CoreGuideFileServiceImpl.IS_UPDATE = true;
     }
     //取消选择
     private void reverseSelect(Menu menuEntity,Element menu,Element mem,String type) {
@@ -314,7 +325,7 @@ public class MenuEx extends Comm{
         }
 
         removeCache();//每次操作完成都需要清除缓存
-        fileService.IS_UPDATE = true;
+        CoreGuideFileServiceImpl.IS_UPDATE = true;
     }
 
     //从mem1中剥离出mem2
@@ -418,8 +429,9 @@ public class MenuEx extends Comm{
             List<Element> mems = menuEntity.findMemsByMenu(menuItem,type);
             // console.log("现有人员：");
             // console.log(mems);
-            if(getLength(mems) < 1)
+            if(getLength(mems) < 1){
                 continue;
+            }
             //得到该mem节点的所有上级
             List<Element> p_mems = memberEntity.getAncestor(mem);
             //从下往上循环
@@ -447,8 +459,9 @@ public class MenuEx extends Comm{
                         for(int n = getLength(menus2)-1;n >=0;n--){
                             Element menuItem2 = getItem(menus2,n);
                             List<Element> mems2 = menuEntity.findMemsByMenu(menuItem2,type);
-                            if(getLength(mems2) < 1)
+                            if(getLength(mems2) < 1){
                                 continue;
+                            }
                             for(int nn = getLength(mems2)-1;nn >=0;nn--){
                                 if(equals(p_c_m,getItem(mems2,nn))){
                                     j++;

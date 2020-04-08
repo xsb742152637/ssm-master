@@ -1,6 +1,7 @@
 package controller.core.memberinfo;
 
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import model.core.guide.service.CoreGuideFileService;
+import model.core.guide.service.core.MenuEx;
 import model.core.memberinfo.entity.CoreMemberInfoEntity;
 import model.core.memberinfo.service.CoreMemberInfoService;
 import model.core.treeinfo.TreeType;
@@ -14,8 +15,6 @@ import util.datamanage.GenericController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 @Controller
@@ -25,6 +24,8 @@ public class CoreMemberInfoController extends GenericController {
     private CoreMemberInfoService mainService;
     @Autowired
     private CoreTreeInfoService treeService;
+    @Autowired
+    private CoreGuideFileService guideFileService;
 
     @RequestMapping("findOneByTreeId")
     @ResponseBody
@@ -63,8 +64,11 @@ public class CoreMemberInfoController extends GenericController {
 
             if (StringUtils.isBlank(memberId)){
                 mainService.insert(entity);
+                //授权xml同步成员
+                guideFileService.createMemberXml("add",entity.getMemberId(),entity.getMemberName());
             }else {
                 mainService.update(entity);
+                MenuEx.getInstance().updateGuideByMemChange(entity.getMemberId(),"updateMem");
             }
             return GenericController.returnSuccess(null);
         }catch (Exception e){
@@ -72,7 +76,6 @@ public class CoreMemberInfoController extends GenericController {
             return GenericController.returnFaild(null);
         }
     }
-
 
     @RequestMapping("deleteMain")
     @ResponseBody
@@ -82,6 +85,7 @@ public class CoreMemberInfoController extends GenericController {
         try {
             treeService.delete(treeId);
             mainService.delete(mainId);
+            MenuEx.getInstance().updateGuideByMemChange(mainId,"deleteMem");
             return GenericController.returnSuccess(null);
         }catch (Exception e){
             e.printStackTrace();

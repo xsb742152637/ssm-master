@@ -35,8 +35,9 @@ public class Comm {
         return e.attributeValue("id").toString();
     }
     public String getNameByItem(Element e){
-        if(e != null)
+        if(e != null){
             return e.attributeValue("n").toString();
+        }
         return "";
     }
 
@@ -72,8 +73,9 @@ public class Comm {
 
     //判断一个e1节点是否包含e2节点
     public Boolean contains(Element e1,Element e2,String tag){
-        if(equals(e1,e2))
+        if(equals(e1,e2)){
             return true;
+        }
         return !isNull(e1.selectNodes(".//" + tag + "[@id='" + getIdByItem(e2) + "']"));
     }
     //判断两个节点是否相等
@@ -94,8 +96,9 @@ public class Comm {
     }
     //得到一个集合的某个节点
     public Element getItem(List<Element> li,int i){
-        if(li == null || li.size() <= i)
+        if(li == null || li.size() <= i){
             return null;
+        }
         return li.get(i);
     }
     //得到一个集合中的第一个节点
@@ -105,12 +108,14 @@ public class Comm {
 
     //判断两个Set是否相等
     public boolean isSetEqual(Set set1, Set set2){
-        if(set1 == null || set2 == null || set1.size() != set2.size())
+        if(set1 == null || set2 == null || set1.size() != set2.size()){
             return false;
+        }
         //Set会自动去重，如果不相等，set1等长度会变。
         set1.addAll(set2);
-        if(set1.size() != set2.size())
+        if(set1.size() != set2.size()){
             return false;
+        }
 
         return true;
     }

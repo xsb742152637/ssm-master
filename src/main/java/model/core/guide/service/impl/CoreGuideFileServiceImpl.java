@@ -20,9 +20,8 @@ import org.springframework.stereotype.Service;
 import util.context.ApplicationContext;
 import util.datamanage.GenericService;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.logging.Level;
 
 @Service
 public class CoreGuideFileServiceImpl extends GenericService<CoreGuideFileEntity> implements CoreGuideFileService {
@@ -90,8 +89,21 @@ public class CoreGuideFileServiceImpl extends GenericService<CoreGuideFileEntity
     }
 
     @Override
+    public CoreGuideFileEntity update(String projectId, String str) {// 保存
+        CoreGuideFileEntity en = new CoreGuideFileEntity();
+        en.setGuideId(projectId);
+        en.setDocument(str);
+
+        update(en);
+        return en;
+    }
+    @Override
     public int update(CoreGuideFileEntity entity) {
         return dao.update(convertList(entity));
+    }
+    @Override
+    public int update(List<CoreGuideFileEntity> list) {
+        return dao.update(convertList(list));
     }
 
     @Override
@@ -105,7 +117,8 @@ public class CoreGuideFileServiceImpl extends GenericService<CoreGuideFileEntity
     }
 
 
-    public String createMemberXml(String sourceType,String memberId,String memberName)throws Exception{
+    @Override
+    public String createMemberXml(String sourceType,String memberId,String memberName){
         Document _document = DocumentHelper.createDocument();
         if(_document == null){
             return "";
@@ -115,6 +128,7 @@ public class CoreGuideFileServiceImpl extends GenericService<CoreGuideFileEntity
         List<Map<String,Object>> list = treeService.getMainInfo(String.valueOf(TreeType.MemberInfo.getCode()),null);
         addMemEle(_document,null,list);
 
+        delete(Member.PROJECT_ID);
         insert(Member.PROJECT_ID,_document);
         memberEntity.removeCache();
 
@@ -123,7 +137,7 @@ public class CoreGuideFileServiceImpl extends GenericService<CoreGuideFileEntity
         return _document.asXML().toString();
     }
 
-    public String createMenuXml()throws Exception{
+    public String createMenuXml(){
         Document _document = DocumentHelper.createDocument();
         if(_document == null){
             return "";
@@ -132,12 +146,13 @@ public class CoreGuideFileServiceImpl extends GenericService<CoreGuideFileEntity
         List<Map<String,Object>> list = menuTreeService.getMenuTree(true,null);
         addMenuEle(_document,null,list);
 
+        delete(Menu.PROJECT_ID);
         insert(Menu.PROJECT_ID,_document);
         System.out.println("创建菜单树");
         return _document.asXML().toString();
     }
 
-    public String createProjectXml(String projectId)throws Exception{
+    public String createProjectXml(String projectId){
         String f = findOne(Menu.PROJECT_ID);
         if(StringUtils.isBlank(f)){
             f = createMenuXml();
@@ -159,6 +174,7 @@ public class CoreGuideFileServiceImpl extends GenericService<CoreGuideFileEntity
             addProEle(e,el.elements());
         }
 
+        delete(projectId);
         insert(projectId,_document);
         System.out.println("创建项目树");
         return _document.asXML().toString();
@@ -208,4 +224,74 @@ public class CoreGuideFileServiceImpl extends GenericService<CoreGuideFileEntity
         }
     }
 
+    @Override
+    public void addMenu(String parId,String menuId,String menuName){
+        IS_UPDATE = true;
+        List<CoreGuideFileEntity> list = dao.findAll();
+        List<CoreGuideFileEntity> listU = new ArrayList<>();
+        for(CoreGuideFileEntity entity : list){
+            if(Member.PROJECT_ID.equalsIgnoreCase(entity.getGuideId()) ){
+                continue;
+            }
+            Menu menuEntity = new Menu(null,null,entity.getDocument());
+            List<Element> listM = menuEntity.getMenuItems(menuId);
+            if(listM.size() > 0) {
+                for(Element e : listM){
+                    e.addAttribute("n",menuName);
+                    e.addAttribute("ut",Menu.sdf.format(new Date()));
+                }
+            }else {
+                //d1794973-0b31-47a5-a24e-a9ea52c3dedc
+                //d80e8493-c97e-4c51-83df-c4b143d66c5f
+                listM = menuEntity.getMenuItems(parId);
+                for (Element e : listM) {
+                    Element m = e.addElement(Menu.MENU_TAG);
+                    m.addAttribute("id", menuId);
+                    m.addAttribute("n", menuName);
+                    m.addAttribute("ut",Menu.sdf.format(new Date()));
+                }
+            }
+            entity.setDocument(menuEntity.getContext().asXML());
+            listU.add(entity);
+        }
+        update(listU);
+
+        System.out.println("调整菜单" + "parId："+parId+"，menuId："+menuId+"，menuName："+menuName);
+    }
+
+    @Override
+    public void deleteMenu(String menuId){
+        IS_UPDATE = true;
+        String menuName = "";
+        List<CoreGuideFileEntity> list = dao.findAll();
+        List<CoreGuideFileEntity> listU = new ArrayList<>();
+        for(CoreGuideFileEntity entity : list){
+            if(Member.PROJECT_ID.equalsIgnoreCase(entity.getGuideId()) || Menu.PROJECT_ID.equalsIgnoreCase(entity.getGuideId()) ){
+                continue;
+            }
+            Menu menuEntity = new Menu(null,null,entity.getDocument());
+            List<Element> listM = menuEntity.getMenuItems(menuId);
+            if(listM.size() > 0) {
+                for(Element e : listM){
+                    if(StringUtils.isBlank(menuName)){
+                        menuName = e.attributeValue("n");
+                    }
+                    Element ep = e.getParent();
+                    if(ep == null){
+                        continue;
+                    }
+                    //删除菜单
+                    ep.remove(e);
+                }
+            }
+            entity.setDocument(menuEntity.getContext().asXML());
+            listU.add(entity);
+        }
+        update(listU);
+        //删除菜单模板文件
+        delete(Menu.PROJECT_ID);
+        //新增菜单模板文件
+        createMenuXml();
+        System.out.println("删除菜单" + "menuId："+menuId+"，menuName："+menuName);
+    }
 }

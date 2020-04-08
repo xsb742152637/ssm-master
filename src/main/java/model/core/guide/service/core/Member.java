@@ -20,31 +20,32 @@ public class Member extends Comm{
     }
     //清空缓存
     public void removeCache(){
-        this.context = null;
-        this.root = null;
+        Member.context = null;
+        Member.root = null;
     }
 
     //得到成员对象
     public Document getContext(){
-        if(this.context == null){
-            this.context = getXml(CoreGuideFileServiceImpl.getInstance().findOne(PROJECT_ID));
+        if(Member.context == null){
+            Member.context = getXml(CoreGuideFileServiceImpl.getInstance().findOne(PROJECT_ID));
         }
-        return this.context;
+        return Member.context;
     }
     //得到成员树根节点
     public Element getRoot(){
-        if(this.root == null){
-            this.root = getContext().getRootElement();
+        if(Member.root == null){
+            Member.root = getContext().getRootElement();
         }
-        return this.root;
+        return Member.root;
     }
     //根据ID得到成员对象
     public Element getMemItem(String id){
         return getItem(getMemItems(id));
     }
     public List<Element> getMemItems(String id){
-        if(StringUtils.isBlank(id))
+        if(StringUtils.isBlank(id)){
             return new ArrayList<>();
+        }
         return getContext().selectNodes("//" + Comm.MEMBER_TAG + "[starts-with(@id,'"+ id +"')]");
     }
 

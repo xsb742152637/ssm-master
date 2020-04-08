@@ -1,5 +1,6 @@
 package controller.core.menutree;
 
+import model.core.guide.service.CoreGuideFileService;
 import model.core.menutree.entity.CoreMenuTreeInfoEntity;
 import model.core.menutree.service.CoreMenuTreeService;
 import org.apache.commons.lang3.StringUtils;
@@ -20,6 +21,8 @@ import java.util.UUID;
 public class CoreMenuTreeController extends GenericController {
     @Autowired
     private CoreMenuTreeService mainService;
+    @Autowired
+    private CoreGuideFileService guideFileService;
 
     //注解式：通过在执行的Java方法上放置相应的注解完成：
     //@RequiresRoles("admin")
@@ -61,6 +64,7 @@ public class CoreMenuTreeController extends GenericController {
         String mainId = request.getParameter("mainId");
         try{
             mainService.delete(mainId);
+            guideFileService.deleteMenu(mainId);
         }catch (Exception e){
             e.printStackTrace();
             return GenericController.returnFaild(null);
@@ -104,6 +108,7 @@ public class CoreMenuTreeController extends GenericController {
             }else {
                 mainService.update(entity);
             }
+            guideFileService.addMenu(parentId,entity.getMenuId(),entity.getTitle());
             return GenericController.returnSuccess(null);
         }catch (Exception e){
             e.printStackTrace();

@@ -1,0 +1,29 @@
+.guide-tree .layui-tree-entry{
+    display: flex;
+}
+.guide-tree .layui-tree-other{
+    flex: 1;
+}
+#menu_tree{
+    margin-top: 5px;
+}
+.tree-table{
+    color: black;
+    font-weight: bold;
+    font-family: tahoma, arial, helvetica;
+    display: inline-block;
+}
+
+.tree-table .three-th {
+    padding-left: 10px;
+    float: left;
+}
+.tree-table .first-th, .tree-table .two-th, .check-div{
+    width: 60px;
+    text-align: center;
+    float: right;
+}
+
+#menuDebugTree .layui-tree-pack{
+    display: block !important;
+}

@@ -15,7 +15,13 @@ public interface CoreGuideFileService {
     CoreGuideFileEntity insert(String projectId, Document d);
 
     int update(CoreGuideFileEntity entity);
+    int update(List<CoreGuideFileEntity> list);
+    CoreGuideFileEntity update(String projectId, String str);
 
-    int delete(String mainId);
     int deleteAll();
+    int delete(String mainId);
+    void deleteMenu(String menuId);
+
+    String createMemberXml(String sourceType,String memberId,String memberName);
+    void addMenu(String parId,String menuId,String menuName);
 }

@@ -67,8 +67,9 @@ public class Menu extends Comm{
     }
 
     public List<Element> getMenuItems(String id){
-        if(StringUtils.isBlank(id))
+        if(StringUtils.isBlank(id)){
             return new ArrayList<>();
+        }
         return getContext().selectNodes("//" + MENU_TAG + "[@id='"+ id +"']");
     }
     public Element getMenuItem(String id){
@@ -77,13 +78,15 @@ public class Menu extends Comm{
 
     //得到一个menu节点包含的所有mem节点
     public List<Element> findMemsByMenu(Element menu,String type){
-        if(menu == null)
+        if(menu == null) {
             return new ArrayList<>();
+        }
         return menu.selectNodes("./" + type);
     }
     public List<Element> findMemsByMenu(Element menu){
-        if(menu == null)
+        if(menu == null){
             return new ArrayList<>();
+        }
         List<Element> val = new ArrayList<>();
         for(GuideType gt : GuideType.values()){
             val.addAll(findMemsByMenu(menu,gt.getCode().toString()));
@@ -92,8 +95,9 @@ public class Menu extends Comm{
     }
 
     public Element findMemByMenuAndMem(Element menu,Element mem,String type) {
-        if(menu == null || mem == null)
+        if(menu == null || mem == null){
             return null;
+        }
         return getItem(menu.selectNodes("./" + type + "[@id='" + getIdByItem(mem) + "']"));
     }
     //得到一个成员在整个xml文件中存在的权限
@@ -149,33 +153,38 @@ public class Menu extends Comm{
 
     //得到一个menu节点包含的某个mem节点所有的父节点
     public List<Element> findMemAncestorByMenuAndMem(Element menu,Element mem,String type) {
-        if(menu == null || mem == null)
+        if(menu == null || mem == null){
             return new ArrayList<>();
+        }
         return findMemsByMenuAndMems(menu, member.getAncestor(mem),type);
     }
     //得到一个menu节点包含的某个mem节点所有的父节点（含自己）
     public List<Element> findMemAncestorAndSelfByMenuAndMem(Element menu,Element mem,String type) {
-        if(menu == null || mem == null)
+        if(menu == null || mem == null){
             return new ArrayList<>();
+        }
         return findMemsByMenuAndMems(menu, member.getAncestorAndSelf(mem),type);
     }
 
     public List<Element> findMemDescendantByMenuAndMem(Element menu,Element mem,String type) {
-        if(menu == null || mem == null)
+        if(menu == null || mem == null){
             return new ArrayList<>();
+        }
         return findMemsByMenuAndMems(menu, getDescendant(mem,MEMBER_TAG),type);
     }
 
     public List<Element> findMemDescendantAndSelfByMenuAndMem(Element menu,Element mem,String type) {
-        if(menu == null || mem == null)
+        if(menu == null || mem == null){
             return new ArrayList<>();
+        }
         return findMemsByMenuAndMems(menu, getDescendantAndSelf(mem,MEMBER_TAG),type);
     }
 
     //根据mem及其上级找到其所有存在的menu
     public List<Element> findMenusByMemAncestorAndSelf(Element mem,String type){
-        if(mem == null)
+        if(mem == null){
             return new ArrayList<>();
+        }
         List<Element> val = new ArrayList<>();
         List<Element> mems = getAncestorAndSelf(mem);
         for (Element m : mems) {
@@ -189,8 +198,9 @@ public class Menu extends Comm{
 
     //将一个mem节点加入menu节点中,加入之前先检查是否存在
     public void addMem(Element menu,Element mem,String type) {
-        if(menu == null || mem == null)
+        if(menu == null || mem == null){
             return;
+        }
         boolean isHave = true;
         for(Element pMenu : getAncestorAndSelf(menu)){
             //查找本级是否已经有mem或其上级，没有的话才增加
@@ -214,8 +224,9 @@ public class Menu extends Comm{
     }
     //将一组mem节点加入menu节点中,加入之前先检查是否存在
     public void addMem(Element menu,List<Element> memItems,String type) {
-        if(menu == null || memItems == null || memItems.size() < 1)
+        if(menu == null || memItems == null || memItems.size() < 1){
             return;
+        }
         for (Element mem : memItems) {
             addMem(menu, mem,type);
         }
@@ -223,8 +234,9 @@ public class Menu extends Comm{
 
     //将一个mem节点从menu节点中移除
     public void removeMem(Element menu,Element mem,String type) {
-        if(menu == null || mem == null)
+        if(menu == null || mem == null){
             return;
+        }
         Element memItem = findMemByMenuAndMem(menu, mem,type);
         if (memItem != null) {
             menu.remove(memItem);
@@ -243,8 +255,9 @@ public class Menu extends Comm{
 
     //将一个menu节点中的mem下级节点删除
     public void removeMemDescendant(Element menu,Element mem,String type) {
-        if(menu == null || mem == null)
+        if(menu == null || mem == null){
             return;
+        }
         //得到mem节点的所有下级
         List<Element> mems = findMemDescendantByMenuAndMem(menu, mem,type);
         for (int i = getLength(mems) - 1; i >= 0; i--) {
@@ -255,8 +268,9 @@ public class Menu extends Comm{
 
     //将一个menu节点中的mem下级及自己节点删除
     public void removeMemDescendantAndSelf(Element menu,Element mem,String type) {
-        if(menu == null || mem == null)
+        if(menu == null || mem == null){
             return;
+        }
         removeMem(menu, mem,type);
         //得到mem节点的所有下级
         List<Element> mems = findMemDescendantAndSelfByMenuAndMem(menu, mem,type);
