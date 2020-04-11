@@ -73,7 +73,7 @@ layui.use(['tree','layer','form'], function(){
             url: "/core/menuTree/moveMain.do",
             dataType: 'json',
             type: "POST",
-            data: {mainId: selData.menuId,type: type},
+            data: {primaryId: selData.menuId,type: type},
             success: function (rs) {
                 layer.res(rs);
                 layer.close();
@@ -99,7 +99,7 @@ layui.use(['tree','layer','form'], function(){
                     url: "/core/menuTree/deleteMain.do",
                     dataType: 'json',
                     type: "POST",
-                    data: {mainId: selData.menuId},
+                    data: {primaryId: selData.menuId},
                     success: function (rs) {
                         layer.res(rs);
                         layer.close();

@@ -135,7 +135,7 @@ layui.use(['tree','layer','form'], function(){
                     url: "/core/memberInfo/deleteMain.do",
                     dataType: 'json',
                     type: "POST",
-                    data: {treeId: selData.treeId,mainId: selData.memberId},
+                    data: {treeId: selData.treeId,primaryId: selData.memberId},
                     success: function (rs) {
                         layer.res(rs);
                         layer.close();
@@ -175,7 +175,7 @@ layui.use(['tree','layer','form'], function(){
             url: "/core/treeinfo/moveMain.do",
             dataType: 'json',
             type: "POST",
-            data: {mainId: selData.treeId,type: type},
+            data: {primaryId: selData.treeId,type: type},
             success: function (rs) {
                 layer.res(rs);
                 layer.close();

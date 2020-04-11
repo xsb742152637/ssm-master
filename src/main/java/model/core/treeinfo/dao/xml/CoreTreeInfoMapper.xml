@@ -17,7 +17,7 @@
         order by TREE_LEFT
     </select>
 
-    <select id="findOne" resultType="CoreTreeInfoEntity" parameterType="String">
+    <select id="findOne" resultType="CoreTreeInfoEntity">
         <include refid="GenericMapper.findOne"/>
     </select>
 
@@ -30,7 +30,7 @@
     <select id="findSons" resultType="CoreTreeInfoEntity">
         select temp.* from core_tree_info temp join core_tree_info temp_1
         on
-        temp_1.TREE_ID=#{mainId}
+        temp_1.TREE_ID=#{primaryId}
         and
         temp.TREE_LEFT &gt; temp_1.TREE_LEFT
         and
@@ -76,7 +76,7 @@
         delete temp
         from core_tree_info temp join core_tree_info temp_1
         on
-        temp_1.TREE_ID=#{mainId}
+        temp_1.TREE_ID=#{primaryId}
         and
         temp.TREE_LEFT &gt;= temp_1.TREE_LEFT
         and

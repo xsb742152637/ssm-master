@@ -12,8 +12,6 @@ layui.use(['table','layer','form'], function(){
         ,toolbar: 'default'
         ,loading: true //显示加载条
         ,page: true //开启分页
-        ,limit: 10 //每页条数
-        ,limits: [5,10,50,100] //每页条数
         ,cols: [[ //表头
             {field: 'order', title: '序号',type: 'numbers', width:80},
             {field: 'code', title: '应用编码', width: '20%',cellMinWidth: 100, sort: true},
@@ -55,7 +53,7 @@ layui.use(['table','layer','form'], function(){
                             url: "/core/menuurl/deleteMain.do",
                             dataType: 'json',
                             type: "POST",
-                            data: {mainId: dd.urlId},
+                            data: {primaryId: dd.urlId},
                             success: function (rs) {
                                 layer.close();
                                 layer.res(rs);

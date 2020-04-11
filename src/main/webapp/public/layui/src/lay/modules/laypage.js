@@ -156,7 +156,7 @@ layui.define(function(exports){
           options.push(
             '<option value="'+ item +'"'
             +(item === config.limit ? 'selected' : '') 
-            +'>'+ item +' 条/页</option>'
+            +'>'+ (item == -1 ? '全部' : (item + ' 条/页')) +'</option>'
           );
         });
         return options.join('') +'</select></span>';

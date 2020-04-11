@@ -1,6 +1,7 @@
 package model.core.dicinfo.service;
 
 import model.core.dicinfo.entity.CoreDicInfoEntity;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -12,9 +13,11 @@ import java.util.List;
  * @Version 1.0
  */
 public interface CoreDicInfoService {
+    List<CoreDicInfoEntity> getMainInfo(String searchKey,int page,int rows);
+    Integer getMainCount(String searchKey);
+    CoreDicInfoEntity findOne(String primaryId);
+
     int insert(CoreDicInfoEntity entity);
     int update(CoreDicInfoEntity entity);
-    int delete(String mainId);
-    CoreDicInfoEntity findOne(String mainId);
-    List<CoreDicInfoEntity> findAll();
+    int delete(String primaryId);
 }

@@ -18,7 +18,7 @@ import java.util.Map;
 public class GenericController {
     public Logger logger = LoggerFactory.getLogger(this.getClass());
     //将查询的数据转换成字符串返回
-    public static String getTable(Object list,int count){
+    public String getTable(Object list,int count){
         Map<String, Object> table = new HashMap<String, Object>();
 
         table.put("code", 0);
@@ -29,7 +29,7 @@ public class GenericController {
         return jsonObject.toString();
     }
 
-    public static JSONObject getWXParams(HttpServletRequest request){
+    public JSONObject getWXParams(HttpServletRequest request){
         JSONObject result = null;
         StringBuilder sb = new StringBuilder();
         try{
@@ -49,15 +49,20 @@ public class GenericController {
         return result;
     }
 
-    public static String returnStringByMap(Object obj) {
+    //将map转为string
+    public String returnStringByMap(Object obj) {
         return JSONObject.fromObject(obj).toString();
     }
-    public static String returnStringByList(Object obj) {
+    //将list转为string
+    public String returnStringByList(Object obj) {
         return JSONArray.fromObject(obj).toString();
     }
 
     //操作成功的返回
-    public static String returnSuccess(String msg) {
+    public String returnSuccess() {
+        return returnSuccess();
+    }
+    public String returnSuccess(String msg) {
         JSONObject re = new JSONObject();
         if(StringUtils.isBlank(msg)){
             msg="操作成功！";
@@ -68,7 +73,10 @@ public class GenericController {
     }
 
     //操作失败的返回
-    public static String returnFaild(String msg) {
+    public String returnFaild() {
+        return returnFaild();
+    }
+    public String returnFaild(String msg) {
         JSONObject re = new JSONObject();
         if(StringUtils.isBlank(msg)){
             msg="操作失败！";

@@ -42,6 +42,10 @@ public class CoreMemberInfoController extends GenericController {
         int treeType = TreeType.MemberInfo.getCode();
         String parentId = request.getParameter("parentId");
         String memberId = request.getParameter("memberId");
+        String account = request.getParameter("account");
+        if(mainService.checkAccount(account) > 0){
+            return returnFaild("账号已存在");
+        }
         String treeId = null;
 
         CoreMemberInfoEntity entity ;
@@ -54,7 +58,7 @@ public class CoreMemberInfoController extends GenericController {
         }
         entity.setMemberName(request.getParameter("memberName"));
         entity.setMemberType(Integer.parseInt(request.getParameter("memberType")));
-        entity.setAccount(request.getParameter("account"));
+        entity.setAccount(account);
         entity.setPassword(request.getParameter("password"));
         entity.setMemberState(Boolean.parseBoolean(request.getParameter("memberState")));
 
@@ -70,10 +74,10 @@ public class CoreMemberInfoController extends GenericController {
                 mainService.update(entity);
                 new MenuEx().updateGuideByMemChange(entity.getMemberId(),"updateMem");
             }
-            return GenericController.returnSuccess(null);
+            return returnSuccess();
         }catch (Exception e){
             e.printStackTrace();
-            return GenericController.returnFaild(null);
+            return returnFaild();
         }
     }
 
@@ -81,15 +85,15 @@ public class CoreMemberInfoController extends GenericController {
     @ResponseBody
     public String deleteMain(HttpServletRequest request){
         String treeId = request.getParameter("treeId");
-        String mainId = request.getParameter("mainId");
+        String primaryId = request.getParameter("primaryId");
         try {
             treeService.delete(treeId);
-            mainService.delete(mainId);
-            new MenuEx().updateGuideByMemChange(mainId,"deleteMem");
-            return GenericController.returnSuccess(null);
+            mainService.delete(primaryId);
+            new MenuEx().updateGuideByMemChange(primaryId,"deleteMem");
+            return returnSuccess();
         }catch (Exception e){
             e.printStackTrace();
-            return GenericController.returnFaild(null);
+            return returnFaild();
         }
     }
 }

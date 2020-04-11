@@ -14,8 +14,6 @@ layui.use(['table','layer','form','element'],function () {
         ,toolbar: 'default'
         ,loading: true //显示加载条,
         ,page: true //开启分页
-        ,limit: 10 //每页条数
-        ,limits: [5,10,50,100] //每页条数
         ,cols:[[
             {field: 'dicName', title: '字典名称', width:'50%', sort: true, fixed: 'left'}
             ,{field: 'dicCode', title: '字典编码', sort: true}

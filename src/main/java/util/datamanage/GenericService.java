@@ -20,7 +20,7 @@ public class GenericService<T>{
 		String primaryKey = "";
 		List<String> fields = new ArrayList<>();
 		List<LinkedHashMap<String,Object>> reList = new ArrayList<>();
-		List<Object> mainIds = new ArrayList<>();
+		List<Object> primaryIds = new ArrayList<>();
 		try{
 			if(list == null || list.size() < 1){
 				throw new Exception("对象转换失败！");
@@ -38,7 +38,7 @@ public class GenericService<T>{
 
 					//通过该字段的get方法判断其是否存在@Id注解
 					if(c.getMethod(underlineToHump("GET_" + name)).isAnnotationPresent(Id.class)){
-						mainIds.add(val);
+						primaryIds.add(val);
 						isMain = true;
 					}
 					if(i == 0){
@@ -60,7 +60,7 @@ public class GenericService<T>{
 		Map<String,Object> map = new HashMap<>();
 		//将驼峰命名的字段名转为下划线
 		map.put("primaryKey", primaryKey);
-		map.put("mainIds", mainIds);
+		map.put("primaryIds", primaryIds);
 		map.put("fields", fields);
 		map.put("list", reList);
 		return map;

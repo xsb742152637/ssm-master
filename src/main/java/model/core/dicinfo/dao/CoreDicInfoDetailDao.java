@@ -14,9 +14,11 @@ import java.util.Map;
  * @Version 1.0
  */
 public interface CoreDicInfoDetailDao {
+    List<CoreDicInfoDetailEntity> getDetailInfo(@Param("primaryId") String primaryId,@Param("searchKey") String searchKey,@Param("page") int page,@Param("rows") int rows);
+    Integer getDetailCount(@Param("primaryId") String primaryId,@Param("searchKey") String searchKey);
+
     int insert(@Param("map") Map<String,Object> map);
     int update(@Param("map") Map<String,Object> map);
-    int delete(@Param("mainId") String mainId);
-    CoreDicInfoDetailEntity findOne(@Param("mainId") String mainId);
-    List<CoreDicInfoDetailEntity> findAll(@Param("dicId")String dicId);
+    int delete(@Param("primaryId") String primaryId);
+    int deleteByDicId(@Param("dicId") String dicId);
 }

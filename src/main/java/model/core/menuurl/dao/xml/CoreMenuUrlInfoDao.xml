@@ -6,21 +6,11 @@
     <!--主键-->
     <sql id="primaryKey">URL_ID</sql>
 
-    <!--auto generated Code-->
-    <sql id="all_column">
-        `url_id`,
-        `title`,
-        `code`,
-        `url`,
-        `parameter`,
-        `sys_time`
-    </sql>
-
     <sql id="_main_info">
         select main.* from <include refid="tableName"/> main
         where 1=1
-        <if test="mainId != null">
-            and main.<include refid="primaryKey"/> = #{mainId},
+        <if test="primaryId != null">
+            and main.<include refid="primaryKey"/> = #{primaryId},
         </if>
         <if test="searchKey != null">
             and (locate(#{searchKey},main.TITLE)>0 or locate(#{searchKey},main.CODE)>0)
@@ -38,7 +28,7 @@
         select count(1) from (<include refid="_main_info"/>) c
     </select>
 
-    <select id="findOne" resultType="CoreMenuUrlInfoEntity" parameterType="String">
+    <select id="findOne" resultType="CoreMenuUrlInfoEntity">
         <include refid="GenericMapper.findOne"/>
     </select>
 
@@ -50,7 +40,7 @@
         <include refid="GenericMapper.update"/>
     </update>
 
-    <delete id="delete" parameterType="String">
+    <delete id="delete">
         <include refid="GenericMapper.delete"/>
     </delete>
 </mapper>

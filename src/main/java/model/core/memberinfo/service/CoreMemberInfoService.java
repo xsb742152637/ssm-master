@@ -15,11 +15,18 @@ public interface CoreMemberInfoService {
      * @return
      */
     CoreMemberInfoEntity loginCheck(String account, String password);
+
+    /**
+     * 用于判断账号是否存在
+     * @param account
+     * @return
+     */
+    int checkAccount(String account);
     CoreMemberInfoEntity findOneByTreeId(String treeId);
-    CoreMemberInfoEntity findOne(String mainId);
+    CoreMemberInfoEntity findOne(String primaryId);
     List<CoreMemberInfoEntity> findAll();
 
     void insert(CoreMemberInfoEntity entity);
     int update( CoreMemberInfoEntity entity);
-    void delete(String mainId);
+    void delete(String primaryId);
 }

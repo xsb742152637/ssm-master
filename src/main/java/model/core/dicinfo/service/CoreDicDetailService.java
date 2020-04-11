@@ -13,9 +13,11 @@ import java.util.List;
  */
 
 public interface CoreDicDetailService {
+    List<CoreDicInfoDetailEntity> getDetailInfo(String primaryId,String searchKey,int page,int rows);
+    Integer getDetailCount(String primaryId,String searchKey);
+
     int insert(CoreDicInfoDetailEntity entity);
     int update(CoreDicInfoDetailEntity entity);
-    int delete(String mainId);
-    CoreDicInfoDetailEntity findOne(String mainId);
-    List<CoreDicInfoDetailEntity> findAll(String dicId);
+    int delete(String primaryId);
+    int deleteByDicId(String dicId);
 }

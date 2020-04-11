@@ -118,8 +118,8 @@ public class CoreMenuTreeServiceImpl extends GenericService<CoreMenuTreeInfoEnti
     }
 
     @Override
-    public CoreMenuTreeInfoEntity findOne(String mainId) {
-        return dao.findOne(mainId);
+    public CoreMenuTreeInfoEntity findOne(String primaryId) {
+        return dao.findOne(primaryId);
     }
 
     /**
@@ -178,12 +178,12 @@ public class CoreMenuTreeServiceImpl extends GenericService<CoreMenuTreeInfoEnti
 
     @Override
     @Transactional
-    public void delete(String mainId) {
-        CoreMenuTreeInfoEntity entity = dao.findOne(mainId);
+    public void delete(String primaryId) {
+        CoreMenuTreeInfoEntity entity = dao.findOne(primaryId);
         String outlineLevel = entity.getOutlineLevel();
         String before = outlineLevel.substring(0,outlineLevel.lastIndexOf(".")+1);
         String after = outlineLevel.substring(outlineLevel.lastIndexOf(".")+1);
-        dao.delete(mainId);
+        dao.delete(primaryId);
         dao.updateAfterDelete(before,after);
     }
 }

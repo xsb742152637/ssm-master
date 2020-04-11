@@ -6,20 +6,23 @@
     <!--主键-->
     <sql id="primaryKey">MEMBER_ID</sql>
 
-    <select id="findOne" resultType="CoreMemberInfoEntity" parameterType="String">
+    <select id="findOne" resultType="CoreMemberInfoEntity">
         <include refid="GenericMapper.findOne"/>
     </select>
     <select id="findAll" resultType="CoreMemberInfoEntity">
         <include refid="GenericMapper.findAll"/>
     </select>
 
-    <select id="findOneByTreeId" resultType="CoreMemberInfoEntity" parameterType="String">
+    <select id="findOneByTreeId" resultType="CoreMemberInfoEntity">
         SELECT * FROM core_member_info WHERE TREE_ID = #{treeId}
     </select>
 
     <!-- 目的：为dao接口方法提供sql语句配置 -->
     <select id="loginCheck" resultType="CoreMemberInfoEntity" parameterType="String">
         SELECT * FROM core_member_info WHERE ACCOUNT = #{account} and PASSWORD = #{password}
+    </select>
+    <select id="checkAccount" resultType="Integer">
+        SELECT count(1) FROM core_member_info WHERE ACCOUNT = #{account}
     </select>
 
     <insert id="insert" >
@@ -30,7 +33,7 @@
         <include refid="GenericMapper.update"/>
     </update>
 
-    <delete id="delete" parameterType="String">
+    <delete id="delete">
         <include refid="GenericMapper.delete"/>
     </delete>
 </mapper>

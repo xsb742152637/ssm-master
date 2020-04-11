@@ -3,8 +3,8 @@
 <mapper namespace="GenericMapper">
 
     <!-- parameterType="String" -->
-    <sql id="findOne">select main.* from <include refid="tableName"/> main where main.<include refid="primaryKey"/> = #{mainId}</sql>
-    <sql id="findAll">select main.* from <include refid="tableName"/> main</sql>
+    <sql id="findOne">select * from <include refid="tableName"/> where <include refid="primaryKey"/> = #{primaryId}</sql>
+    <sql id="findAll">select * from <include refid="tableName"/></sql>
 
     <sql id="insert">
         INSERT INTO <include refid="tableName"/> (<foreach collection="map.fields" index="key" item="value" separator=",">${value}</foreach>) VALUES
@@ -26,19 +26,19 @@
                 end
             </foreach>
         </set>
-        where <include refid="primaryKey"/> in (<foreach collection="map.mainIds" item="value" separator=",">#{value}</foreach>)
+        where <include refid="primaryKey"/> in (<foreach collection="map.primaryIds" item="value" separator=",">#{value}</foreach>)
     </sql>
 
     <!-- parameterType="String" -->
-    <sql id="delete">delete main from <include refid="tableName"/> main where main.<include refid="primaryKey"/>=#{mainId}</sql>
+    <sql id="delete">delete from <include refid="tableName"/> where <include refid="primaryKey"/>=#{primaryId}</sql>
 
     <!-- parameterType = "java.util.List" -->
-    <sql id="deleteByMainIds">
-        delete main from <include refid="tableName"/> main where main.<include refid="primaryKey"/> in
+    <sql id="deleteByPrimaryIds">
+        delete from <include refid="tableName"/> where <include refid="primaryKey"/> in
         <foreach collection="list"  item="item" open="(" separator="," close=")"  >
             #{item}
         </foreach>
     </sql>
-    <sql id="deleteAll">delete main from <include refid="tableName"/> main</sql>
+    <sql id="deleteAll">delete from <include refid="tableName"/></sql>
 </mapper>
 

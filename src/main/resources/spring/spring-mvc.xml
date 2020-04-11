@@ -26,7 +26,7 @@
                 <prop key="butColor">bs-btn-norma</prop>
 
                 <!-- 圆角：默认(.bs-radius-sm) / 小圆角(bs-radius-md) / 大圆角(bs-radius-lg) -->
-                <prop key="radius">bs-radius-lg</prop>
+                <prop key="radius">bs-radius-md</prop>
 
             </props>
         </property>

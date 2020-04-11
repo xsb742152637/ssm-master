@@ -24,8 +24,8 @@ public class CoreMemberInfoServiceImpl extends GenericService<CoreMemberInfoEnti
     }
 
     @Override
-    public CoreMemberInfoEntity findOne(String mainId) {
-        return dao.findOne(mainId);
+    public CoreMemberInfoEntity findOne(String primaryId) {
+        return dao.findOne(primaryId);
     }
 
     @Override
@@ -39,6 +39,10 @@ public class CoreMemberInfoServiceImpl extends GenericService<CoreMemberInfoEnti
     @Override
     public CoreMemberInfoEntity loginCheck(String account, String password) {
         return dao.loginCheck(account,password);
+    }
+    @Override
+    public int checkAccount(String account) {
+        return dao.checkAccount(account);
     }
 
     @Override
@@ -55,7 +59,7 @@ public class CoreMemberInfoServiceImpl extends GenericService<CoreMemberInfoEnti
 
     @Override
     @Transactional
-    public void delete(String mainId) {
-        dao.delete(mainId);
+    public void delete(String primaryId) {
+        dao.delete(primaryId);
     }
 }

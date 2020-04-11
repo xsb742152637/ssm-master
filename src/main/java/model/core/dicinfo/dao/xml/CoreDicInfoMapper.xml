@@ -6,7 +6,25 @@
     <!--主键-->
     <sql id="primaryKey">DIC_ID</sql>
 
-    <select id="findOne" resultType="CoreDicInfoEntity" parameterType="String">
+    <sql id="_main_info">
+        select main.* from <include refid="tableName"/> main
+        <if test="searchKey != null">
+            where (locate(#{searchKey},main.DIC_NAME)>0 or locate(#{searchKey},main.DIC_CODE)>0 or locate(#{searchKey},main.DIC_DES)>0)
+        </if>
+    </sql>
+
+    <select id="getMainInfo" resultType="CoreDicInfoEntity">
+        <include refid="_main_info"/>
+        ORDER BY main.SYS_TIME desc
+        <if test="rows != -1">
+            LIMIT ${(page-1)*rows},${rows};
+        </if>
+    </select>
+    <select id="getMainCount" resultType="Integer">
+        select count(1) from (<include refid="_main_info"/>) c
+    </select>
+
+    <select id="findOne" resultType="CoreDicInfoEntity" >
         <include refid="GenericMapper.findOne"/>
     </select>
 
@@ -22,7 +40,7 @@
         <include refid="GenericMapper.update"/>
     </update>
 
-    <delete id="delete" parameterType="String">
+    <delete id="delete">
         <include refid="GenericMapper.delete"/>
     </delete>
 </mapper>

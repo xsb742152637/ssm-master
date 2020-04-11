@@ -10,10 +10,10 @@ public interface CoreTreeInfoDao {
 
     List<CoreTreeInfoEntity> getMainInfo(@Param("treeType") String treeType, @Param("parentId") String parentId);
 
-    CoreTreeInfoEntity findOne(@Param("mainId") String mainId);
+    CoreTreeInfoEntity findOne(@Param("primaryId") String primaryId);
 
     List<CoreTreeInfoEntity> findRoots();
-    List<CoreTreeInfoEntity> findSons(@Param("mainId") String mainId);
+    List<CoreTreeInfoEntity> findSons(@Param("primaryId") String primaryId);
     CoreTreeInfoEntity findNeighborEntity(@Param("entity") CoreTreeInfoEntity entity, @Param("moveOn") Boolean moveOn);
 
     int insert(@Param("map") Map<String, Object> map);
@@ -22,7 +22,7 @@ public interface CoreTreeInfoDao {
 
     int update(@Param("map") Map<String, Object> map);
 
-    int delete(@Param("mainId") String mainId);
+    int delete(@Param("primaryId") String primaryId);
     int delete_updateBefor(@Param("treeType") Integer treeType,@Param("left") Integer left, @Param("right") Integer right, @Param("sonCount") Integer sonCount);
     int delete_updateAfter(@Param("treeType") Integer treeType,@Param("left") Integer left, @Param("sonCount") Integer sonCount);
 

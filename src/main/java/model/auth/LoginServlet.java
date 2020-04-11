@@ -78,9 +78,9 @@ public class LoginServlet extends HttpServlet {
                     } else if (e instanceof LockedAccountException) {
                         lm.msg = "账号未启用";
                     } else {
-                        lm.msg = e.getMessage();
-                        response.sendRedirect("/theme/pc/login/index.jsp");
+                        lm.msg = "未知错误";
                     }
+                    e.printStackTrace();
                 } catch (Exception e) {
                     e.printStackTrace();
                     lm.msg = e.getMessage();

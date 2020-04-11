@@ -1,15 +1,22 @@
 package controller.core.dicinfo;
 
 import model.core.dicinfo.entity.CoreDicInfoDetailEntity;
+import model.core.dicinfo.entity.CoreDicInfoDetailEntity;
 import model.core.dicinfo.service.CoreDicDetailService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import util.context.Context;
 import util.datamanage.GenericController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.sql.Timestamp;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @ClassName CoreDicInfoController
@@ -20,22 +27,55 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("core/dicdetail/")
-public class CoreDicInfoDetailController {
+public class CoreDicInfoDetailController extends GenericController{
     @Autowired
     CoreDicDetailService detailService;
 
     @RequestMapping("getDetailInfo")
     @ResponseBody
-    public String getDetailInfo(HttpServletRequest request){
+    public String getDetailInfo(HttpServletRequest request, HttpServletResponse response, @RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10") Integer rows){
+        String primaryId = request.getParameter("primaryId");
+        String searchKey = request.getParameter("searchKey");
         try {
-            String dicId = request.getParameter("dicId");
-            String page = request.getParameter("page");
-            String rows = request.getParameter("rows");
-            List<CoreDicInfoDetailEntity> list = detailService.findAll(dicId);
-            return GenericController.getTable(list,list.size());
+            List<CoreDicInfoDetailEntity> list = detailService.getDetailInfo(primaryId,searchKey,page,rows);
+            Integer count = detailService.getDetailCount(primaryId,searchKey);
+            return getTable(list,count);
         }catch (Exception e){
             e.printStackTrace();
             return null;
+        }
+    }
+    
+    @RequestMapping("saveDetail")
+    @ResponseBody
+    public String saveDetail(CoreDicInfoDetailEntity entity)throws Exception{
+        if(entity == null){
+            return returnSuccess("没有接收到有效数据");
+        }
+        try{
+            if(StringUtils.isBlank(entity.getDetailId())){
+                entity.setDicId(UUID.randomUUID().toString());
+                detailService.insert(entity);
+            }else{
+                detailService.update(entity);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return returnFaild();
+        }
+        return returnSuccess();
+    }
+
+    @RequestMapping("deleteMain")
+    @ResponseBody
+    public String deleteMain(HttpServletRequest request, HttpServletResponse response)throws Exception{
+        String detailId = request.getParameter("detailId");
+        try {
+            detailService.delete(detailId);
+            return returnSuccess();
+        }catch (Exception e){
+            e.printStackTrace();
+            return returnFaild();
         }
     }
 }

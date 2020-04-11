@@ -6,12 +6,23 @@
     <!--主键-->
     <sql id="primaryKey">DETAIL_ID</sql>
 
-    <select id="findOne" resultType="CoreDicInfoDetailEntity" parameterType="String">
-        <include refid="GenericMapper.findOne"/>
-    </select>
+    <sql id="_detail_info">
+        select det.* from <include refid="tableName"/> det
+        where det.DIC_ID = #{primaryId}
+        <if test="searchKey != null">
+            and (locate(#{searchKey},det.DETAIL_NAME)>0 or locate(#{searchKey},det.DETAIL_CODE)>0 or locate(#{searchKey},det.DETAIL_VALUE)>0)
+        </if>
+    </sql>
 
-    <select id="findAll" resultType="CoreDicInfoDetailEntity">
-        select * from <include refid="tableName"/> det where det.DIC_ID = #{dicId}
+    <select id="getDetailInfo" resultType="CoreDicInfoDetailEntity">
+        <include refid="_detail_info"/>
+        ORDER BY det.DETAIL_LEVEL
+        <if test="rows != -1">
+            LIMIT ${(page-1)*rows},${rows};
+        </if>
+    </select>
+    <select id="getDetailCount" resultType="Integer">
+        select count(1) from (<include refid="_detail_info"/>) c
     </select>
 
     <insert id="insert" >
@@ -22,7 +33,10 @@
         <include refid="GenericMapper.update"/>
     </update>
 
-    <delete id="delete" parameterType="String">
+    <delete id="delete">
         <include refid="GenericMapper.delete"/>
+    </delete>
+    <delete id="deleteByDicId">
+        delete from <include refid="tableName"/> where DIC_ID=#{dicId}
     </delete>
 </mapper>

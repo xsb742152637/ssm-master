@@ -6,7 +6,7 @@ import org.dom4j.Document;
 import java.util.List;
 
 public interface CoreGuideFileService {
-    String findOne(String mainId);
+    String findOne(String primaryId);
     List<CoreGuideFileEntity> findAll();
 
     int insert(CoreGuideFileEntity entity);
@@ -19,7 +19,7 @@ public interface CoreGuideFileService {
     CoreGuideFileEntity update(String projectId, String str);
 
     int deleteAll();
-    int delete(String mainId);
+    int delete(String primaryId);
     void deleteMenu(String menuId);
 
     String createMemberXml(String sourceType,String memberId,String memberName);

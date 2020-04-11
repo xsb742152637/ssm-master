@@ -20,7 +20,7 @@ import java.util.UUID;
 
 @Controller
 @RequestMapping("/core/menuurl")
-public class CoreMenuUrlController extends GenericController {
+public class CoreMenuUrlController extends GenericController{
 
     @Autowired
     private CoreMenuUrlService mainService;
@@ -30,25 +30,11 @@ public class CoreMenuUrlController extends GenericController {
     @RequestMapping("getMainInfo")
     @ResponseBody
     public String getMainInfo(HttpServletRequest request, HttpServletResponse response, @RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10") Integer rows)throws Exception{
-//        List<CoreMenuUrlInfoEntity> li = new ArrayList<>();
-//        CoreMenuUrlInfoEntity entity = mainService.findOne("54298359-3964-459a-a094-7e0a43df1bc6");
-//        entity.setTitle("11");
-//        entity.setSysTime(new Timestamp(System.currentTimeMillis()));
-//        li.add(entity);
-//
-//        entity = mainService.findOne("5912065a-e275-4a4e-a00d-7057af2c54ff");
-//        entity.setTitle("22");
-//        li.add(entity);
-//
-//        mainService.update(li);
-
-
-
-        String mainId = request.getParameter("mainId");
+        String primaryId = request.getParameter("primaryId");
         String searchKey = request.getParameter("searchKey");
         try {
-            List<CoreMenuUrlInfoEntity> list = mainService.getMainInfo(mainId,searchKey,page,rows);
-            Integer count = mainService.getMainCount(mainId,searchKey);
+            List<CoreMenuUrlInfoEntity> list = mainService.getMainInfo(primaryId,searchKey,page,rows);
+            Integer count = mainService.getMainCount(primaryId,searchKey);
             return getTable(list,count);
         }catch (Exception e){
             e.printStackTrace();
@@ -68,34 +54,20 @@ public class CoreMenuUrlController extends GenericController {
         }
     }
 
-    @RequestMapping("deleteMain")
-    @ResponseBody
-    public String deleteMain(HttpServletRequest request, HttpServletResponse response)throws Exception{
-        String mainId = request.getParameter("mainId");
-        try {
-            mainService.delete(mainId);
-            return GenericController.returnSuccess(null);
-        }catch (Exception e){
-            e.printStackTrace();
-            return GenericController.returnFaild(null);
-        }
-
-    }
-
     @RequestMapping("saveMain")
     @ResponseBody
     public String saveMain(HttpServletRequest request, HttpServletResponse response)throws Exception{
-        String mainId = request.getParameter("urlId");
+        String primaryId = request.getParameter("urlId");
         String title = request.getParameter("title");
         String code = request.getParameter("code");
         String url = request.getParameter("url");
         String parameter = request.getParameter("parameter");
 
         CoreMenuUrlInfoEntity entity = new CoreMenuUrlInfoEntity();
-        if(StringUtils.isBlank(mainId)){
+        if(StringUtils.isBlank(primaryId)){
             entity.setUrlId(UUID.randomUUID().toString());
         }else{
-            entity = mainService.findOne(mainId);
+            entity = mainService.findOne(primaryId);
         }
         entity.setTitle(title);
         entity.setCode(code);
@@ -103,15 +75,28 @@ public class CoreMenuUrlController extends GenericController {
         entity.setParameter(parameter);
         entity.setSysTime(new Timestamp(System.currentTimeMillis()));
         try{
-            if(StringUtils.isBlank(mainId)){
+            if(StringUtils.isBlank(primaryId)){
                 mainService.insert(entity);
             }else{
                 mainService.update(entity);
             }
         }catch (Exception e){
             e.printStackTrace();
-            return GenericController.returnFaild(null);
+            return returnFaild();
         }
-        return GenericController.returnSuccess(null);
+        return returnSuccess();
+    }
+
+    @RequestMapping("deleteMain")
+    @ResponseBody
+    public String deleteMain(HttpServletRequest request, HttpServletResponse response)throws Exception{
+        String primaryId = request.getParameter("primaryId");
+        try {
+            mainService.delete(primaryId);
+            return returnSuccess();
+        }catch (Exception e){
+            e.printStackTrace();
+            return returnFaild();
+        }
     }
 }

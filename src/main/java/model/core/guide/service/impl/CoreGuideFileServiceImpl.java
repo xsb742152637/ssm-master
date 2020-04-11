@@ -114,8 +114,8 @@ public class CoreGuideFileServiceImpl extends GenericService<CoreGuideFileEntity
 
     @Override
     @Transactional
-    public int delete(String mainId) {
-        return dao.delete(mainId);
+    public int delete(String primaryId) {
+        return dao.delete(primaryId);
     }
 
     @Override

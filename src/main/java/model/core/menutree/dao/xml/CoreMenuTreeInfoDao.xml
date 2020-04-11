@@ -17,21 +17,21 @@
         order by convert(REPLACE(a.OUTLINE_LEVEL,'.',''),SIGNED)
     </select>
 
-    <select id="findOne" resultType="CoreMenuTreeInfoEntity" parameterType="String">
+    <select id="findOne" resultType="CoreMenuTreeInfoEntity">
         <include refid="GenericMapper.findOne"/>
     </select>
 
-    <select id="findOneByCode" resultType="CoreMenuTreeInfoEntity" parameterType="String">
+    <select id="findOneByCode" resultType="CoreMenuTreeInfoEntity">
         select a.* from core_menu_tree_info a join core_menu_url_info b on a.URL_ID=b.URL_ID where b.CODE=#{code}
     </select>
 
-    <select id="findOneByOutlineLevel" resultType="CoreMenuTreeInfoEntity" parameterType="String">
+    <select id="findOneByOutlineLevel" resultType="CoreMenuTreeInfoEntity">
         select a.MENU_ID,a.MENU_LEVEL,a.OUTLINE_LEVEL,a.TITLE,a.ICON,a.IS_SHOW
         from core_menu_tree_info a
         where a.OUTLINE_LEVEL = #{outlineLevel}
     </select>
 
-    <select id="getMenuLevelByParLevel" resultType="Integer" parameterType="String">
+    <select id="getMenuLevelByParLevel" resultType="Integer">
         select max(a.MENU_LEVEL)
         from core_menu_tree_info a
         where left(a.OUTLINE_LEVEL,length(#{outlineLevel}))=#{outlineLevel} and length(a.OUTLINE_LEVEL)>length(#{outlineLevel})
@@ -52,7 +52,7 @@
     </update>
 
 
-    <update id="updatebigBrother" parameterType="String">
+    <update id="updatebigBrother">
         update core_menu_tree_info a
         set a.OUTLINE_LEVEL=concat(#{outlineLevel},a.MENU_LEVEL-1),
         where
@@ -81,10 +81,10 @@
     </update>
 
 
-    <delete id="delete" parameterType="String">
+    <delete id="delete">
         delete a
         from core_menu_tree_info a,core_menu_tree_info b
-        where b.MENU_ID=#{mainId}
+        where b.MENU_ID=#{primaryId}
         and left(a.OUTLINE_LEVEL,length(b.OUTLINE_LEVEL))=b.OUTLINE_LEVEL
         and length(a.OUTLINE_LEVEL)>=length(b.OUTLINE_LEVEL)
     </delete>

@@ -23,6 +23,16 @@ public class CoreDicDetailServiceImpl extends GenericService implements CoreDicD
     CoreDicInfoDetailDao dao;
 
     @Override
+    public List<CoreDicInfoDetailEntity> getDetailInfo(String primaryId,String searchKey,int page,int rows) {
+        return dao.getDetailInfo(primaryId,searchKey,page,rows);
+    }
+
+    @Override
+    public Integer getDetailCount(String primaryId, String searchKey) {
+        return dao.getDetailCount(primaryId,searchKey);
+    }
+
+    @Override
     @Transactional
     public int insert(CoreDicInfoDetailEntity entity) {
         return dao.insert(convertList(entity));
@@ -36,17 +46,14 @@ public class CoreDicDetailServiceImpl extends GenericService implements CoreDicD
 
     @Override
     @Transactional
-    public int delete(String mainId) {
-        return dao.delete(mainId);
+    public int delete(String primaryId) {
+        return dao.delete(primaryId);
     }
 
     @Override
-    public CoreDicInfoDetailEntity findOne(String mainId) {
-        return dao.findOne(mainId);
+    @Transactional
+    public int deleteByDicId(String dicId) {
+        return dao.deleteByDicId(dicId);
     }
 
-    @Override
-    public List<CoreDicInfoDetailEntity> findAll(String dicId) {
-        return dao.findAll(dicId);
-    }
 }

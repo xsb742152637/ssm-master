@@ -9,15 +9,15 @@ import java.util.List;
 import java.util.Map;
 
 public interface CoreMenuUrlInfoDao {
-    List<CoreMenuUrlInfoEntity> getMainInfo(@Param("mainId") String mainId,@Param("searchKey") String searchKey,@Param("page") int page,@Param("rows") int rows);
-    Integer getMainCount(@Param("mainId") String mainId,@Param("searchKey") String searchKey);
+    List<CoreMenuUrlInfoEntity> getMainInfo(@Param("primaryId") String primaryId,@Param("searchKey") String searchKey,@Param("page") int page,@Param("rows") int rows);
+    Integer getMainCount(@Param("primaryId") String primaryId,@Param("searchKey") String searchKey);
 
-    CoreMenuUrlInfoEntity findOne(@Param("mainId") String mainId);
+    CoreMenuUrlInfoEntity findOne(@Param("primaryId") String primaryId);
 
     int insert(@Param("map") Map<String,Object> map);
 
     int update(@Param("map") Map<String,Object> map);
 
-    int delete(@Param("mainId") String mainId);
+    int delete(@Param("primaryId") String primaryId);
 
 }

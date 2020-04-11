@@ -2,6 +2,7 @@ package model.core.dicinfo.service.impl;
 
 import model.core.dicinfo.dao.CoreDicInfoDao;
 import model.core.dicinfo.entity.CoreDicInfoEntity;
+import model.core.dicinfo.service.CoreDicDetailService;
 import model.core.dicinfo.service.CoreDicInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,23 @@ import java.util.List;
 public class CoreDicInfoServiceImpl extends GenericService implements CoreDicInfoService {
     @Autowired
     CoreDicInfoDao dao;
+    @Autowired
+    CoreDicDetailService detailService;
+
+    @Override
+    public List<CoreDicInfoEntity> getMainInfo(String searchKey,int page,int rows) {
+        return dao.getMainInfo(searchKey,page,rows);
+    }
+
+    @Override
+    public Integer getMainCount(String searchKey) {
+        return dao.getMainCount(searchKey);
+    }
+
+    @Override
+    public CoreDicInfoEntity findOne(String primaryId) {
+        return dao.findOne(primaryId);
+    }
 
     @Override
     @Transactional
@@ -36,17 +54,9 @@ public class CoreDicInfoServiceImpl extends GenericService implements CoreDicInf
 
     @Override
     @Transactional
-    public int delete(String mainId) {
-        return dao.delete(mainId);
+    public int delete(String primaryId) {
+        detailService.deleteByDicId(primaryId);
+        return dao.delete(primaryId);
     }
 
-    @Override
-    public CoreDicInfoEntity findOne(String mainId) {
-        return dao.findOne(mainId);
-    }
-
-    @Override
-    public List<CoreDicInfoEntity> findAll() {
-        return dao.findAll();
-    }
 }

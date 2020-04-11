@@ -13,7 +13,7 @@ public interface CoreMenuTreeInfoDao {
 
     int update(@Param("map") Map<String,Object> map);
 
-    int delete(@Param("mainId") String mainId);
+    int delete(@Param("primaryId") String primaryId);
 
     int updateAfterDelete(@Param("before") String before,@Param("after") String after);
 
@@ -22,9 +22,9 @@ public interface CoreMenuTreeInfoDao {
     //当参数需要在if等标签中作为条件进行判断时，需要在此用@Param指定
     List<Map<String,Object>> getMenuTree(@Param(value = "isShow") Boolean isShow);
 
-    List<CoreMenuTreeInfoEntity> findOneByCode(String code);
+    List<CoreMenuTreeInfoEntity> findOneByCode(@Param(value = "code") String code);
 
-    CoreMenuTreeInfoEntity findOne(@Param("mainId") String mainId);
+    CoreMenuTreeInfoEntity findOne(@Param("primaryId") String primaryId);
 
     CoreMenuTreeInfoEntity findOneByOutlineLevel(@Param("outlineLevel") String outlineLevel);
 

@@ -47,42 +47,42 @@ public class CoreMenuTreeController extends GenericController {
     @RequestMapping("moveMain")
     @ResponseBody
     public String moveTree(HttpServletRequest request) throws Exception {
-        String mainId = request.getParameter("mainId");
+        String primaryId = request.getParameter("primaryId");
         String type = request.getParameter("type");
         try{
-            mainService.moveTree(mainId,Boolean.parseBoolean(type));
-            return GenericController.returnSuccess(null);
+            mainService.moveTree(primaryId,Boolean.parseBoolean(type));
+            return returnSuccess();
         }catch (Exception e){
             e.printStackTrace();
         }
-        return GenericController.returnFaild(null);
+        return returnFaild();
     }
 
     @RequestMapping("deleteMain")
     @ResponseBody
     public String deleteMain(HttpServletRequest request){
-        String mainId = request.getParameter("mainId");
+        String primaryId = request.getParameter("primaryId");
         try{
-            mainService.delete(mainId);
-            guideFileService.deleteMenu(mainId);
+            mainService.delete(primaryId);
+            guideFileService.deleteMenu(primaryId);
         }catch (Exception e){
             e.printStackTrace();
-            return GenericController.returnFaild(null);
+            return returnFaild();
         }
-        return GenericController.returnSuccess(null);
+        return returnSuccess();
     }
 
     @RequestMapping("saveMain")
     @ResponseBody
     public String saveMain(HttpServletRequest request){
         String parentId = request.getParameter("parentId");
-        String mainId = request.getParameter("menuId");
+        String primaryId = request.getParameter("menuId");
         String title = request.getParameter("title");
         String urlId = request.getParameter("urlId");
         String icon = request.getParameter("icon");
         String isShow = request.getParameter("isShow");
         CoreMenuTreeInfoEntity entity = new CoreMenuTreeInfoEntity();
-        if(StringUtils.isBlank(mainId)){
+        if(StringUtils.isBlank(primaryId)){
             //如果是新增，需要调整上级菜单
             CoreMenuTreeInfoEntity entityP = mainService.findOne(parentId);
             entityP.setType(false);
@@ -96,23 +96,23 @@ public class CoreMenuTreeController extends GenericController {
             entity.setOutlineLevel(entityP.getOutlineLevel() + "." + String.valueOf(entity.getMenuLevel()));
             entity.setType(true);
         }else{
-            entity = mainService.findOne(mainId);
+            entity = mainService.findOne(primaryId);
         }
         entity.setTitle(title);
         entity.setUrlId(urlId);
         entity.setIcon(icon);
         entity.setIsShow(Boolean.parseBoolean(isShow));
         try{
-            if(StringUtils.isBlank(mainId)){
+            if(StringUtils.isBlank(primaryId)){
                 mainService.insert(entity);
             }else {
                 mainService.update(entity);
             }
             guideFileService.addMenu(parentId,entity.getMenuId(),entity.getTitle());
-            return GenericController.returnSuccess(null);
+            return returnSuccess();
         }catch (Exception e){
             e.printStackTrace();
         }
-        return GenericController.returnFaild(null);
+        return returnFaild();
     }
 }

@@ -74,8 +74,8 @@ public class CoreTreeInfoServiceImpl extends GenericService implements CoreTreeI
         dao.insert(convertList(list));
     }
 
-    public CoreTreeInfoEntity findOne(String mainId) {
-        return dao.findOne(mainId);
+    public CoreTreeInfoEntity findOne(String primaryId) {
+        return dao.findOne(primaryId);
     }
 
     public List<CoreTreeInfoEntity> findRoots() {
@@ -112,13 +112,13 @@ public class CoreTreeInfoServiceImpl extends GenericService implements CoreTreeI
 
     @Override
     @Transactional
-    public void move(String mainId, Boolean moveOn) {
-        CoreTreeInfoEntity entity = findOne(mainId);
+    public void move(String primaryId, Boolean moveOn) {
+        CoreTreeInfoEntity entity = findOne(primaryId);
         CoreTreeInfoEntity neighborEntity = dao.findNeighborEntity(entity,moveOn);
         if(neighborEntity == null || entity == null){
             return;
         }
-        List<CoreTreeInfoEntity> moveEntitySons = dao.findSons(mainId);
+        List<CoreTreeInfoEntity> moveEntitySons = dao.findSons(primaryId);
         List<CoreTreeInfoEntity> neighborEntitySons = dao.findSons(neighborEntity.getTreeId());
         moveEntitySons.add(entity);
         neighborEntitySons.add(neighborEntity);
@@ -151,9 +151,9 @@ public class CoreTreeInfoServiceImpl extends GenericService implements CoreTreeI
 
     @Override
     @Transactional
-    public void delete(String mainId) {
-        CoreTreeInfoEntity entitySelf = findOne(mainId);
-        List<CoreTreeInfoEntity> list = dao.findSons(mainId);
+    public void delete(String primaryId) {
+        CoreTreeInfoEntity entitySelf = findOne(primaryId);
+        List<CoreTreeInfoEntity> list = dao.findSons(primaryId);
         CoreTreeInfoEntity entityLastSon;
         if(list.size()>0){
             entityLastSon = list.get(0);
@@ -163,7 +163,7 @@ public class CoreTreeInfoServiceImpl extends GenericService implements CoreTreeI
         Integer sonCount = list.size()+1;
 
         //删除自己及子孙节点
-        dao.delete(mainId);
+        dao.delete(primaryId);
         //改前面的左右值
         dao.delete_updateBefor(entitySelf.getTreeType(),entitySelf.getTreeLeft(),entitySelf.getTreeRight(),sonCount);
         //改后面的左右值

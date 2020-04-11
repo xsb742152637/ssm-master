@@ -7,10 +7,10 @@ import java.util.List;
 
 public interface CoreMenuUrlService {
 
-    List<CoreMenuUrlInfoEntity> getMainInfo(String mainId,String searchKey,int page,int rows);
-    Integer getMainCount(String mainId,String searchKey);
+    List<CoreMenuUrlInfoEntity> getMainInfo(String primaryId,String searchKey,int page,int rows);
+    Integer getMainCount(String primaryId,String searchKey);
 
-    CoreMenuUrlInfoEntity findOne(String mainId);
+    CoreMenuUrlInfoEntity findOne(String primaryId);
 
     int insert(CoreMenuUrlInfoEntity entity);
     int insert(List<CoreMenuUrlInfoEntity> list);
@@ -18,5 +18,5 @@ public interface CoreMenuUrlService {
     int update(CoreMenuUrlInfoEntity entity);
     int update(List<CoreMenuUrlInfoEntity> list);
 
-    int delete(String mainId);
+    int delete(String primaryId);
 }

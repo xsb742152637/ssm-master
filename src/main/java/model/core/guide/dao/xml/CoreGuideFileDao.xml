@@ -6,7 +6,7 @@
     <!--主键-->
     <sql id="primaryKey">GUIDE_ID</sql>
 
-    <select id="findOne" resultType="CoreGuideFileEntity" parameterType="String">
+    <select id="findOne" resultType="CoreGuideFileEntity">
         <include refid="GenericMapper.findOne"/>
     </select>
 
@@ -22,7 +22,7 @@
         <include refid="GenericMapper.update"/>
     </update>
 
-    <delete id="delete" parameterType="String">
+    <delete id="delete">
         <include refid="GenericMapper.delete"/>
     </delete>
     <delete id="deleteAll">

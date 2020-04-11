@@ -26,17 +26,17 @@ public class CoreMenuUrlServiceImpl extends GenericService<CoreMenuUrlInfoEntity
     }
 
     @Override
-    public List<CoreMenuUrlInfoEntity> getMainInfo(String mainId,String searchKey,int page,int rows){
-        return dao.getMainInfo(mainId,searchKey, page,rows);
+    public List<CoreMenuUrlInfoEntity> getMainInfo(String primaryId,String searchKey,int page,int rows){
+        return dao.getMainInfo(primaryId,searchKey, page,rows);
     }
     @Override
-    public Integer getMainCount(String mainId, String searchKey) {
-        return dao.getMainCount(mainId,searchKey);
+    public Integer getMainCount(String primaryId, String searchKey) {
+        return dao.getMainCount(primaryId,searchKey);
     }
 
     @Override
-    public CoreMenuUrlInfoEntity findOne(String mainId) {
-        return dao.findOne(mainId);
+    public CoreMenuUrlInfoEntity findOne(String primaryId) {
+        return dao.findOne(primaryId);
     }
 
     @Override
@@ -63,8 +63,8 @@ public class CoreMenuUrlServiceImpl extends GenericService<CoreMenuUrlInfoEntity
 
     @Override
     @Transactional
-    public int delete(String mainId) {
-        return dao.delete(mainId);
+    public int delete(String primaryId) {
+        return dao.delete(primaryId);
     }
 
 }

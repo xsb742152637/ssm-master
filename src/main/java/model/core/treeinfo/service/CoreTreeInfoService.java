@@ -11,7 +11,7 @@ public interface CoreTreeInfoService {
 
     String save(TreeType treeType, String parentId, String treeId, String treeName);
 
-    void move(String mainId, Boolean moveOn);
+    void move(String primaryId, Boolean moveOn);
 
-    void delete(String mainId);
+    void delete(String primaryId);
 }
