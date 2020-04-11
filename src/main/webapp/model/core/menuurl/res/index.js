@@ -2,16 +2,9 @@
 layui.use(['table','layer','form'], function(){
     let table = layui.table, form = layui.form,layer = layui.layer;
 
-    let mainTableId = 'mainTable';
     let mainTable = table.render({
-        elem: '#' + mainTableId
-        ,id: mainTableId
-        ,text: '暂无数据'
-        // ,height: 500
+        id: 'mainTable'
         ,url: '/core/menuurl/getMainInfo.do' //数据接口
-        ,toolbar: 'default'
-        ,loading: true //显示加载条
-        ,page: true //开启分页
         ,cols: [[ //表头
             {field: 'order', title: '序号',type: 'numbers', width:80},
             {field: 'code', title: '应用编码', width: '20%',cellMinWidth: 100, sort: true},
@@ -110,7 +103,8 @@ layui.use(['table','layer','form'], function(){
 
     //检查
     let _check = function(){
-        let d = table.getSelectedRow(mainTableId);//选中行
+        let d = mainTable.getSelectedRow();//选中行
+        console.log(d);
         if(d == null){
             layer.msg('请选择一行数据');
             return false;

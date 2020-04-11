@@ -34,11 +34,11 @@ public class CoreDicInfoDetailController extends GenericController{
     @RequestMapping("getDetailInfo")
     @ResponseBody
     public String getDetailInfo(HttpServletRequest request, HttpServletResponse response, @RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10") Integer rows){
-        String primaryId = request.getParameter("primaryId");
+        String dicId = request.getParameter("dicId");
         String searchKey = request.getParameter("searchKey");
         try {
-            List<CoreDicInfoDetailEntity> list = detailService.getDetailInfo(primaryId,searchKey,page,rows);
-            Integer count = detailService.getDetailCount(primaryId,searchKey);
+            List<CoreDicInfoDetailEntity> list = detailService.getDetailInfo(dicId,searchKey,page,rows);
+            Integer count = detailService.getDetailCount(dicId,searchKey);
             return getTable(list,count);
         }catch (Exception e){
             e.printStackTrace();
@@ -54,7 +54,7 @@ public class CoreDicInfoDetailController extends GenericController{
         }
         try{
             if(StringUtils.isBlank(entity.getDetailId())){
-                entity.setDicId(UUID.randomUUID().toString());
+                entity.setDetailId(UUID.randomUUID().toString());
                 detailService.insert(entity);
             }else{
                 detailService.update(entity);
@@ -66,7 +66,7 @@ public class CoreDicInfoDetailController extends GenericController{
         return returnSuccess();
     }
 
-    @RequestMapping("deleteMain")
+    @RequestMapping("deleteDetail")
     @ResponseBody
     public String deleteMain(HttpServletRequest request, HttpServletResponse response)throws Exception{
         String detailId = request.getParameter("detailId");

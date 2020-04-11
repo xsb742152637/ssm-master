@@ -60,7 +60,7 @@ public class GenericController {
 
     //操作成功的返回
     public String returnSuccess() {
-        return returnSuccess();
+        return returnSuccess(null);
     }
     public String returnSuccess(String msg) {
         JSONObject re = new JSONObject();

@@ -8,7 +8,7 @@
 
     <sql id="_detail_info">
         select det.* from <include refid="tableName"/> det
-        where det.DIC_ID = #{primaryId}
+        where det.DIC_ID = #{dicId}
         <if test="searchKey != null">
             and (locate(#{searchKey},det.DETAIL_NAME)>0 or locate(#{searchKey},det.DETAIL_CODE)>0 or locate(#{searchKey},det.DETAIL_VALUE)>0)
         </if>

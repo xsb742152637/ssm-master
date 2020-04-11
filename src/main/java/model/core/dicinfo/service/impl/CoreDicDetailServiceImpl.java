@@ -23,8 +23,8 @@ public class CoreDicDetailServiceImpl extends GenericService implements CoreDicD
     CoreDicInfoDetailDao dao;
 
     @Override
-    public List<CoreDicInfoDetailEntity> getDetailInfo(String primaryId,String searchKey,int page,int rows) {
-        return dao.getDetailInfo(primaryId,searchKey,page,rows);
+    public List<CoreDicInfoDetailEntity> getDetailInfo(String dicId,String searchKey,int page,int rows) {
+        return dao.getDetailInfo(dicId,searchKey,page,rows);
     }
 
     @Override

@@ -62,6 +62,9 @@ layui.define(['laytpl', 'laypage', 'layer', 'form', 'util'], function(exports){
       ,resize: function(){ //重置表格尺寸/结构
         that.resize.call(that);
       }
+      ,getSelectedRow: function(){
+        return that.getSelectedRow.call(that);
+      }
     }
   }
   
@@ -237,8 +240,10 @@ layui.define(['laytpl', 'laypage', 'layer', 'form', 'util'], function(exports){
   Class.prototype.config = {
     limit: 10 //每页显示的数量
     ,loading: true //请求数据时，是否显示loading
+    ,page: true //分页
     ,cellMinWidth: 60 //所有单元格默认最小宽度
     ,selectRow: true //能单击选择行
+    ,toolbar: 'default'//显示默认工具栏，也可以绑定为自定义的工具栏
     ,defaultToolbarLeft: ['reset','search', 'add', 'update','delete'] //工具栏右侧图标
     ,defaultToolbarRight: ['filter', 'exports', 'print'] //工具栏右侧图标
     ,autoSort: true //是否前端自动排序。如果否，则需自主排序（通常为服务端处理好排序）
@@ -251,6 +256,10 @@ layui.define(['laytpl', 'laypage', 'layer', 'form', 'util'], function(exports){
   Class.prototype.render = function(){
     var that = this
     ,options = that.config;
+
+    if(options.elem == undefined || options.elem == null){
+      options.elem = '#' + options.id;
+    }
 
     options.elem = $(options.elem);
     options.where = options.where || {};
@@ -460,7 +469,7 @@ layui.define(['laytpl', 'laypage', 'layer', 'form', 'util'], function(exports){
         layui.each(options.defaultToolbarLeft, function(i, item){
           var thisItem = typeof item === 'string' ? leftDefaultTemp[item] : item;
           if(thisItem){
-            elemToolTemp.append('<button class="layui-btn layui-btn-'+ item +'" title="'+ thisItem.title +'" lay-event="'+ thisItem.layEvent +'" '+ ('reset'.equals(item) ? ' style="display:none;"' : '') +'>'
+            elemToolTemp.append('<button class="layui-btn layui-btn-'+ item +'" title="'+ thisItem.title +'" lay-event="'+ thisItem.layEvent +'" '+ ('reset'.equals(item) ? ' style="display:none;"' : '') + ('search'.equals(item) ? ' style="margin-left: 0px;"' : '') +'>'
                 +'<i class="layui-icon '+ thisItem.icon +'"></i>' + '<span class="layui-table-tool-text">'+ thisItem.title +'</span>'
                 +'</button>');
             if('search'.equals(item)){
@@ -471,6 +480,7 @@ layui.define(['laytpl', 'laypage', 'layer', 'form', 'util'], function(exports){
                 layer.closeAll();
                 that.reload();
                 $('.layui-btn-reset').show();
+                $('.layui-btn-search').css({'margin-left': '10px'});
                 return false;
               });
 
@@ -479,6 +489,8 @@ layui.define(['laytpl', 'laypage', 'layer', 'form', 'util'], function(exports){
                 Function.setForm($('.search-model'),null,form);//表单填充
                 $('button[lay-filter="formSearch"]').trigger('click');
                 $('.layui-btn-reset').hide();
+                $('.layui-btn-search').css({'margin-left': '0px'});
+
               });
 
               let model = $('.search-model');

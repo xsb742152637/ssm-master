@@ -13,8 +13,8 @@ import java.util.List;
  */
 
 public interface CoreDicDetailService {
-    List<CoreDicInfoDetailEntity> getDetailInfo(String primaryId,String searchKey,int page,int rows);
-    Integer getDetailCount(String primaryId,String searchKey);
+    List<CoreDicInfoDetailEntity> getDetailInfo(String dicId,String searchKey,int page,int rows);
+    Integer getDetailCount(String dicId,String searchKey);
 
     int insert(CoreDicInfoDetailEntity entity);
     int update(CoreDicInfoDetailEntity entity);

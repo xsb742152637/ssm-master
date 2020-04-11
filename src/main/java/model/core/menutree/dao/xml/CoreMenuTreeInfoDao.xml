@@ -26,7 +26,7 @@
     </select>
 
     <select id="findOneByOutlineLevel" resultType="CoreMenuTreeInfoEntity">
-        select a.MENU_ID,a.MENU_LEVEL,a.OUTLINE_LEVEL,a.TITLE,a.ICON,a.IS_SHOW
+        select a.*
         from core_menu_tree_info a
         where a.OUTLINE_LEVEL = #{outlineLevel}
     </select>
