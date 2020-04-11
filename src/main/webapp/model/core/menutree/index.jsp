@@ -44,10 +44,10 @@
                     <div class="layui-card-header">
                         <!-- 按钮栏 -->
                         <button type="button" class="layui-btn btn-add">
-                            <i class="layui-icon layui-icon-add-1"></i>新增下级菜单
+                            <i class="layui-icon layui-icon-add-1"></i>新增菜单
                         </button>
                         <button type="button" class="layui-btn btn-del">
-                            <i class="layui-icon layui-icon-delete"></i>删除当前菜单
+                            <i class="layui-icon layui-icon-delete"></i>删除菜单
                         </button>
                     </div>
                     <div class="layui-card-body">

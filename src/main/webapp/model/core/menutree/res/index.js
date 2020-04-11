@@ -41,7 +41,6 @@ layui.use(['tree','layer','form'], function(){
     form.on('submit(formDemo)', function(data){
         if(!_check())
             return;
-        console.log(data.field);
         layer.load();
         $.ajax({
             url: "/core/menuTree/saveMain.do",
@@ -50,7 +49,6 @@ layui.use(['tree','layer','form'], function(){
             data: data.field,
             success: function (rs) {
                 layer.res(rs);
-                console.log(rs);
                 layer.close();
                 if(!rs.error){
                     loadTree();
@@ -122,6 +120,8 @@ layui.use(['tree','layer','form'], function(){
     $('.btn-add').on('click',function(){
         if(!_check())
             return;
+        $('.layui-form *[name="urlId"]').removeProp('disabled');
+        $('.layui-form *[name="title"]').removeProp('disabled');
         let data = {isShow: true,parentId: selData.menuId};
         Function.setForm($('.layui-form'),data,form);
     });
@@ -130,6 +130,15 @@ layui.use(['tree','layer','form'], function(){
     let tree_edit = function(){
         if(!_check())
             return;
+        if(Boolean.parse(selData.readonly)){
+            $('.layui-form *[name="urlId"]').prop('disabled',true);
+            $('.layui-form *[name="title"]').prop('disabled',true);
+            $('.btn-del').hide();
+        }else{
+            $('.layui-form *[name="urlId"]').removeProp('disabled');
+            $('.layui-form *[name="title"]').removeProp('disabled');
+            $('.btn-del').show();
+        }
         let data = $.extend({}, selData);
         Function.setForm($('.layui-form'),data,form);
     };
@@ -174,7 +183,6 @@ layui.use(['tree','layer','form'], function(){
                 $('.layui-form input[name="title"]').val($(this).text());
             }
         });
-        console.log(data);
     });
 
     //图标选择器
@@ -182,7 +190,6 @@ layui.use(['tree','layer','form'], function(){
         layer.iconSelector($('.layui-form input[name="icon"]'));
     });
     let _check = function(){
-        console.log(selData);
         if(selData == null){
 
             layer.msg('请先选中一个菜单节点');

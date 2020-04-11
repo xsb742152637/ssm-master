@@ -44,6 +44,7 @@ public class CoreMenuTreeServiceImpl extends GenericService<CoreMenuTreeInfoEnti
             }
             if("root".equals(map.get("menuId").toString())) {
                 //根节点默认展开
+                map.put("readonly",true);
                 map.put("spread",true);
             }
             map.put("id",map.get("menuId"));
@@ -58,6 +59,9 @@ public class CoreMenuTreeServiceImpl extends GenericService<CoreMenuTreeInfoEnti
                 List<Map<String,Object>> listC = mp.get("children") == null ? new ArrayList<Map<String, Object>>() : (List<Map<String,Object>>) mp.get("children");
                 listC.add(map);
                 mp.put("children",listC);
+                if(listC.size() > 0){
+                    mp.put("url","");//如果存在下级，则不允许有路径。作用于左侧菜单
+                }
             }
             //自己很有可能有儿子,所有先到当爹的列表中等着儿子来找.
             mapP.put(outlineLevel,map);
