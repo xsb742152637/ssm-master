@@ -20,8 +20,7 @@ public class CoreTreeInfoTest extends BaseTest {
         //List<Map<String,Object>> list = core.getMenuTree();
         //System.out.println(list.size() + "---------------");
         String treeType = "1";
-        String parentId = null;
-        List<Map<String,Object>> list = core.getMainInfo(treeType,parentId);
+        List<Map<String,Object>> list = core.getMainInfo(treeType);
 
         System.out.println("\n\n-------------------------------------------------------");
         while (list != null && list.size() > 0){

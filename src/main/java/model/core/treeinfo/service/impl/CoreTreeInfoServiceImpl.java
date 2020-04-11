@@ -12,6 +12,7 @@ import model.core.treeinfo.service.CoreTreeInfoService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import util.context.ApplicationContext;
 import util.datamanage.GenericService;
 
@@ -83,6 +84,7 @@ public class CoreTreeInfoServiceImpl extends GenericService implements CoreTreeI
     }
 
     @Override
+    @Transactional
     public String save(TreeType treeType, String parentId,String treeId, String treeName){
         if(StringUtils.isBlank(treeId)){
             treeId = UUID.randomUUID().toString();
@@ -110,6 +112,7 @@ public class CoreTreeInfoServiceImpl extends GenericService implements CoreTreeI
     }
 
     @Override
+    @Transactional
     public void move(String mainId, Boolean moveOn) {
         CoreTreeInfoEntity entity = findOne(mainId);
         CoreTreeInfoEntity neighborEntity = dao.findNeighborEntity(entity,moveOn);
@@ -148,6 +151,7 @@ public class CoreTreeInfoServiceImpl extends GenericService implements CoreTreeI
     }
 
     @Override
+    @Transactional
     public void delete(String mainId) {
         CoreTreeInfoEntity entitySelf = findOne(mainId);
         List<CoreTreeInfoEntity> list = dao.findSons(mainId);
@@ -168,7 +172,11 @@ public class CoreTreeInfoServiceImpl extends GenericService implements CoreTreeI
     }
 
     @Override
-    public List<Map<String, Object>> getMainInfo(String treeType,String parentId) {
+    public List<Map<String, Object>> getMainInfo(String treeType) {
+        return getMainInfo(treeType,null,1);
+    }
+    @Override
+    public List<Map<String, Object>> getMainInfo(String treeType,String parentId,int openLevel) {
 
         Map<String,Map<String,Object>> mapOther = new HashMap<>();
         if(String.valueOf(TreeType.MemberInfo.getCode()).equals(treeType)){
@@ -197,16 +205,22 @@ public class CoreTreeInfoServiceImpl extends GenericService implements CoreTreeI
             li.add(m);
             map.put(entity.getParentId(), li);
         }
-        getTrees(listRoot,map,mapOther);
+        int thisLevel = 0;
+
+        getTrees(listRoot,map,mapOther,openLevel,thisLevel);
         return listRoot;
     }
 
-    private void getTrees(List<Map<String, Object>> listPar,LinkedHashMap<String,List<Map<String, Object>>> map,Map<String,Map<String,Object>> mapOther){
+    private void getTrees(List<Map<String, Object>> listPar,LinkedHashMap<String,List<Map<String, Object>>> map,Map<String,Map<String,Object>> mapOther,int openLevel,int thisLevel){
+        thisLevel++;
         for(Map<String, Object> parMap : listPar){
             String treeId = parMap.get("treeId").toString();
             List<Map<String, Object>> ch = map.get(treeId);
             if(ch != null && ch.size() > 0){
-                getTrees(ch,map,mapOther);
+                getTrees(ch,map,mapOther,openLevel,thisLevel);
+            }
+            if(thisLevel <= openLevel){
+                parMap.put("spread",true);
             }
             parMap.put("children", ch);
             if(mapOther.get(treeId) != null){

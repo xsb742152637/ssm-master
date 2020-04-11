@@ -59,7 +59,7 @@ layui.use(['table','layer','form','element'],function () {
 
 
     //监听行单击事件（双击事件为：rowDouble）
-    table.on('row(test)', function(obj){
+    table.on('row(main)', function(obj){
         var data = obj.data;
         dicdetailTable.reload({
             where:{"dicId":data.dicId}

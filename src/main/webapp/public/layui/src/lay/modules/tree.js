@@ -86,6 +86,8 @@ layui.define('form', function(exports){
 
   //默认配置
   Class.prototype.config = {
+    url: '',
+    where: {},
     data: []  //数据
     
     ,showIcon: true  //是否显示复选框
@@ -122,69 +124,112 @@ layui.define('form', function(exports){
     
     that.checkids = [];
 
-    var temp = $('<div class="layui-tree'+ (options.showCheckbox ? " layui-form" : "") + (options.showLine ? " layui-tree-line" : "") +'" lay-filter="LAY-tree-'+ that.index +'"></div>');
-    that.tree(temp);
+    var render_1 = function(){
+      var temp = $('<div class="layui-tree'+ (options.showCheckbox ? " layui-form" : "") + (options.showLine ? " layui-tree-line" : "") +'" lay-filter="LAY-tree-'+ that.index +'"></div>');
+      that.tree(temp);
 
-    var othis = options.elem = $(options.elem);
-    if(!othis[0]) return;
+      var othis = options.elem = $(options.elem);
+      if(!othis[0]) return;
 
-    //索引
-    that.key = options.id || that.index;
-    
-    //插入组件结构
-    that.elem = temp;
-    that.elemNone = $('<div class="layui-tree-emptyText">'+ options.text.none +'</div>');
-    othis.html(that.elem);
+      //索引
+      that.key = options.id || that.index;
 
-    if(that.elem.find('.layui-tree-set').length == 0){
-      return that.elem.append(that.elemNone);
-    };
-    
-    //复选框渲染
-    if(options.showCheckbox){
-      that.renderForm('checkbox');
-    };
+      //插入组件结构
+      that.elem = temp;
+      that.elemNone = $('<div class="layui-tree-emptyText">'+ options.text.none +'</div>');
+      othis.html(that.elem);
 
-    that.elem.find('.layui-tree-set').each(function(){
-      var othis = $(this);
-      //最外层
-      if(!othis.parent('.layui-tree-pack')[0]){
-        othis.addClass('layui-tree-setHide');
+      if(that.elem.find('.layui-tree-set').length == 0){
+        return that.elem.append(that.elemNone);
       };
 
-      //没有下一个节点 上一层父级有延伸线
-      if(!othis.next()[0] && othis.parents('.layui-tree-pack').eq(1).hasClass('layui-tree-lineExtend')){
-        othis.addClass(ELEM_LINE_SHORT);
-      };
-      
-      //没有下一个节点 外层最后一个
-      if(!othis.next()[0] && !othis.parents('.layui-tree-set').eq(0).next()[0]){
-        othis.addClass(ELEM_LINE_SHORT);
+      //复选框渲染
+      if(options.showCheckbox){
+        that.renderForm('checkbox');
       };
 
-      //默认选中
-      if(options.selectedId != '' && options.selectedId == $(this).data('id')){
-        $(this).find(".layui-tree-entry:first").addClass(ACTIVE_ITEM);
-        //展开所有上级
-        let ps = $(this).parents('.layui-tree-set');
-        for(let iii = (ps.length - 1) ; iii >= 0 ; iii--){
-          //没有展开
-          if(!that.isOpen($(ps[iii]))){
-            let entry = $(ps[iii]).children('.'+ELEM_ENTRY)
-                ,elemMain = entry.children('.'+ ELEM_MAIN)
-                ,elemIcon = entry.find('.'+ ICON_CLICK)
-                ,touchOpen = options.onlyIconControl ? elemIcon : elemMain //判断展开通过节点还是箭头图标
+      that.elem.find('.layui-tree-set').each(function(){
+        var othis = $(this);
+        //最外层
+        if(!othis.parent('.layui-tree-pack')[0]){
+          othis.addClass('layui-tree-setHide');
+        };
 
-            touchOpen.trigger('click');
+        //没有下一个节点 上一层父级有延伸线
+        if(!othis.next()[0] && othis.parents('.layui-tree-pack').eq(1).hasClass('layui-tree-lineExtend')){
+          othis.addClass(ELEM_LINE_SHORT);
+        };
+
+        //没有下一个节点 外层最后一个
+        if(!othis.next()[0] && !othis.parents('.layui-tree-set').eq(0).next()[0]){
+          othis.addClass(ELEM_LINE_SHORT);
+        };
+
+        //默认选中
+        if(options.selectedId != '' && options.selectedId == $(this).data('id')){
+          $(this).find(".layui-tree-entry:first").addClass(ACTIVE_ITEM);
+          //展开所有上级
+          let ps = $(this).parents('.layui-tree-set');
+          for(let iii = (ps.length - 1) ; iii >= 0 ; iii--){
+            //没有展开
+            if(!that.isOpen($(ps[iii]))){
+              let entry = $(ps[iii]).children('.'+ELEM_ENTRY)
+                  ,elemMain = entry.children('.'+ ELEM_MAIN)
+                  ,elemIcon = entry.find('.'+ ICON_CLICK)
+                  ,touchOpen = options.onlyIconControl ? elemIcon : elemMain //判断展开通过节点还是箭头图标
+
+              touchOpen.trigger('click');
+            }
           }
         }
+      });
+
+      that.events();
+
+      //加载完成产生的回调
+      options.loadSuccess && options.loadSuccess({elem: that.elem});
+    };
+
+    if(options.url) { //Ajax请求
+      var params = {};
+      //参数
+      var data = $.extend(params, options.where);
+      if(options.contentType && options.contentType.indexOf("application/json") == 0){ //提交 json 格式
+        data = JSON.stringify(data);
       }
-    });
 
-    that.events();
+      layer.load();
+      $.ajax({
+        type: options.method || 'post'
+        ,url: options.url
+        ,contentType: options.contentType
+        ,data: data
+        ,dataType: 'json'
+        ,headers: options.headers || {}
+        ,success: function(res){
+          layer.close();
+          if (res != null && res.length > 0) {
+            //如果有数据解析的回调，则获得其返回的数据
+            if(typeof options.parseData === 'function'){
+              res = options.parseData(res) || res;
+            }
+            console.log('加载完成');
+            that.config.data = res;
+            render_1();
+          }else{
+            layer.msg('无数据');
+          }
+        }
+        ,error: function(e, m){
+          that.errorView('数据接口请求异常：'+ m);
 
-    //加载完成产生的回调
-    options.loadSuccess && options.loadSuccess({elem: that.elem});
+          that.renderForm();
+          that.setColsWidth();
+        }
+      });
+    }else{
+      render_1();
+    }
   };
   
   //渲染表单

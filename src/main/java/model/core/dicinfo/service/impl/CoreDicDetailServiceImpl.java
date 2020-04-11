@@ -5,6 +5,7 @@ import model.core.dicinfo.entity.CoreDicInfoDetailEntity;
 import model.core.dicinfo.service.CoreDicDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import util.datamanage.GenericService;
 
 import java.util.List;
@@ -22,16 +23,19 @@ public class CoreDicDetailServiceImpl extends GenericService implements CoreDicD
     CoreDicInfoDetailDao dao;
 
     @Override
+    @Transactional
     public int insert(CoreDicInfoDetailEntity entity) {
         return dao.insert(convertList(entity));
     }
 
     @Override
+    @Transactional
     public int update(CoreDicInfoDetailEntity entity) {
         return dao.update(convertList(entity));
     }
 
     @Override
+    @Transactional
     public int delete(String mainId) {
         return dao.delete(mainId);
     }

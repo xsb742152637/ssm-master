@@ -5,6 +5,7 @@ import model.core.guide.entity.CoreGuideFileEntity;
 import model.core.guide.service.impl.CoreGuideFileServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Element;
+import org.springframework.stereotype.Service;
 import util.context.ApplicationContext;
 
 import java.text.SimpleDateFormat;
@@ -522,8 +523,8 @@ public class MenuEx extends Comm{
         }
         return true;
     }
-
-    public static MenuEx getInstance() {
-        return ApplicationContext.getCurrent().getBean(MenuEx.class);
-    }
+//
+//    public static MenuEx getInstance() {
+//        return ApplicationContext.getCurrent().getBean(MenuEx.class);
+//    }
 }

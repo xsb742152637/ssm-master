@@ -85,7 +85,7 @@ public class CoreGuideFileController extends GenericController {
         if(StringUtils.isBlank(copy_memberIds)){
             return returnFaild("请至少选择一个需要复制授权的成员！");
         }else{
-            int r = MenuEx.getInstance().copyMem(copy_memberIds,projectId,memberId);
+            int r = new MenuEx().copyMem(copy_memberIds,projectId,memberId);
             return returnSuccess("成功复制" + r + "条权限！");
         }
     }

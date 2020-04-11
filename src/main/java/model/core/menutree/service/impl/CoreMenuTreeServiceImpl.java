@@ -6,6 +6,7 @@ import model.core.menutree.service.CoreMenuTreeService;
 import model.core.menuurl.entity.CoreMenuUrlInfoEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import util.context.ApplicationContext;
 import util.datamanage.GenericService;
 
@@ -81,15 +82,19 @@ public class CoreMenuTreeServiceImpl extends GenericService<CoreMenuTreeInfoEnti
     }
 
     @Override
+    @Transactional
     public int insert(CoreMenuTreeInfoEntity entity){ return dao.insert(convertList(entity)); }
     @Override
+    @Transactional
     public int insert(List<CoreMenuTreeInfoEntity> list) {
         return dao.insert(convertList(list));
     }
 
     @Override
+    @Transactional
     public int update(CoreMenuTreeInfoEntity entity){ return dao.update(convertList(entity)); }
     @Override
+    @Transactional
     public int update(List<CoreMenuTreeInfoEntity> list) {
         return dao.update(convertList(list));
     }
@@ -119,6 +124,7 @@ public class CoreMenuTreeServiceImpl extends GenericService<CoreMenuTreeInfoEnti
      * @param type(上移)、false(下移)
      */
     @Override
+    @Transactional
     public void moveTree(String treeId, boolean type) {
         CoreMenuTreeInfoEntity entity = dao.findOne(treeId);
         if(entity == null) {
@@ -161,11 +167,13 @@ public class CoreMenuTreeServiceImpl extends GenericService<CoreMenuTreeInfoEnti
 
 
     @Override
+    @Transactional
     public int updateAfterDelete(String before, String after) {
         return dao.updateAfterDelete(before,after);
     }
 
     @Override
+    @Transactional
     public void delete(String mainId) {
         CoreMenuTreeInfoEntity entity = dao.findOne(mainId);
         String outlineLevel = entity.getOutlineLevel();

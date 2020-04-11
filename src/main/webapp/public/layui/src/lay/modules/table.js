@@ -1113,8 +1113,13 @@ layui.define(['laytpl', 'laypage', 'layer', 'form', 'util'], function(exports){
     ,options = that.config
     ,ELEM_CLICK = 'layui-table-click'
     ,tr = that.layBody.find('tr[data-index="'+ index +'"]');
-    
-    tr.addClass(ELEM_CLICK).siblings('tr').removeClass(ELEM_CLICK);
+
+    if(tr.is('.' + ELEM_CLICK)){
+      tr.removeClass(ELEM_CLICK);
+    }else{
+      tr.addClass(ELEM_CLICK).siblings('tr').removeClass(ELEM_CLICK);
+    }
+
   };
   //标记当前行选中状态
   Class.prototype.getSelectedRow = function(){

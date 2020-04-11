@@ -5,6 +5,7 @@ import model.core.menuurl.entity.CoreMenuUrlInfoEntity;
 import model.core.menuurl.service.CoreMenuUrlService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import util.context.ApplicationContext;
 import util.datamanage.GenericService;
 
@@ -39,24 +40,29 @@ public class CoreMenuUrlServiceImpl extends GenericService<CoreMenuUrlInfoEntity
     }
 
     @Override
+    @Transactional
     public int insert(CoreMenuUrlInfoEntity entity){
         return dao.insert(convertList(entity));
     }
     @Override
+    @Transactional
     public int insert(List<CoreMenuUrlInfoEntity> list) {
         return dao.insert(convertList(list));
     }
 
     @Override
+    @Transactional
     public int update(CoreMenuUrlInfoEntity entity) {
         return dao.update(convertList(entity));
     }
     @Override
+    @Transactional
     public int update(List<CoreMenuUrlInfoEntity> list) {
         return dao.update(convertList(list));
     }
 
     @Override
+    @Transactional
     public int delete(String mainId) {
         return dao.delete(mainId);
     }

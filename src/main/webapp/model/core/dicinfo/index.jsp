@@ -24,12 +24,12 @@
             <div class="layui-row layui-col-space10">
                 <div class="ayui-col-xs12 layui-col-sm6 layui-col-md4">
                     <div class="layui-card">
-                        <table id="dicinfoTable" lay-filter="test"></table>
+                        <table id="dicinfoTable" lay-filter="main"></table>
                     </div>
                 </div>
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md8">
                     <div class="layui-card">
-                        <table id="dicdetailTable" lay-filter="test"></table>
+                        <table id="dicdetailTable" lay-filter="det"></table>
                     </div>
                 </div>
             </div>

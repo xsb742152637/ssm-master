@@ -17,6 +17,7 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import util.context.ApplicationContext;
 import util.datamanage.GenericService;
 
@@ -75,6 +76,7 @@ public class CoreGuideFileServiceImpl extends GenericService<CoreGuideFileEntity
     }
 
     @Override
+    @Transactional
     public CoreGuideFileEntity insert(String projectId, String str) {// 保存
         CoreGuideFileEntity en = new CoreGuideFileEntity();
         en.setGuideId(projectId);
@@ -84,11 +86,13 @@ public class CoreGuideFileServiceImpl extends GenericService<CoreGuideFileEntity
         return en;
     }
     @Override
+    @Transactional
     public CoreGuideFileEntity insert(String projectId, Document d) {// 保存
         return insert(projectId,d.asXML());
     }
 
     @Override
+    @Transactional
     public CoreGuideFileEntity update(String projectId, String str) {// 保存
         CoreGuideFileEntity en = new CoreGuideFileEntity();
         en.setGuideId(projectId);
@@ -98,20 +102,24 @@ public class CoreGuideFileServiceImpl extends GenericService<CoreGuideFileEntity
         return en;
     }
     @Override
+    @Transactional
     public int update(CoreGuideFileEntity entity) {
         return dao.update(convertList(entity));
     }
     @Override
+    @Transactional
     public int update(List<CoreGuideFileEntity> list) {
         return dao.update(convertList(list));
     }
 
     @Override
+    @Transactional
     public int delete(String mainId) {
         return dao.delete(mainId);
     }
 
     @Override
+    @Transactional
     public int deleteAll() {
         return dao.deleteAll();
     }
@@ -125,7 +133,7 @@ public class CoreGuideFileServiceImpl extends GenericService<CoreGuideFileEntity
         }
 
         //得到成员树
-        List<Map<String,Object>> list = treeService.getMainInfo(String.valueOf(TreeType.MemberInfo.getCode()),null);
+        List<Map<String,Object>> list = treeService.getMainInfo(String.valueOf(TreeType.MemberInfo.getCode()));
         addMemEle(_document,null,list);
 
         delete(Member.PROJECT_ID);
@@ -225,6 +233,7 @@ public class CoreGuideFileServiceImpl extends GenericService<CoreGuideFileEntity
     }
 
     @Override
+    @Transactional
     public void addMenu(String parId,String menuId,String menuName){
         IS_UPDATE = true;
         List<CoreGuideFileEntity> list = dao.findAll();
@@ -260,6 +269,7 @@ public class CoreGuideFileServiceImpl extends GenericService<CoreGuideFileEntity
     }
 
     @Override
+    @Transactional
     public void deleteMenu(String menuId){
         IS_UPDATE = true;
         String menuName = "";

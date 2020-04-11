@@ -3,54 +3,39 @@ layui.use(['tree','layer','form'], function(){
         form = layui.form,
         layer = layui.layer;
     let selData = null;//菜单树选中的信息
+    let treeId = 'myTree';
     //加载树
-    let loadTree = function(){
-        layer.load();
-        $.ajax({
-            url: "/core/treeinfo/getMainInfo.do",
-            data: {treeType: treeType},
-            dataType: 'json',
-            type: "POST",
-            success: function (data) {
-                layer.close();
-                if (data != null && data.length > 0) {
-                    //渲染
-                    let inst1 = tree.render({
-                        id: 'myTree',
-                        elem: '#my-tree',  //绑定元素
-                        // accordion: true,//开启手风琴模式
-                        onlyIconControl: true,//是否仅允许节点左侧图标控制展开收缩
-                        selectedId: (selData == null ? '' : selData.treeId),//默认选中
-                        data: data,
-                        loadSuccess: function(e){
-                            $(e.elem).find('.layui-tree-set').each(function(){
-                                let data = $(this).data('data');
-                                //停用的标签暗字显示
-                                if(data != null && !data.isShow){
-                                    $(this).find('.layui-tree-txt:first').addClass('layui-tree-color2');
-                                }
-                            });
-                        },
-                        click: function(e) { //节点选中状态改变事件监听，全选框有自己的监听事件
-                            if(e.selected){
-                                selData = e.data;
-                                tree_edit();
-                            }else{
-                                selData = null;
-                                // Function.setForm($('.layui-form'),null,form);
-                            }
-                        }
-                    });
+    tree.render({
+        id: treeId,
+        elem: '#my-tree',  //绑定元素
+        url: "/core/treeinfo/getMainInfo.do",
+        where: {treeType: treeType},
+        // accordion: true,//开启手风琴模式
+        onlyIconControl: true,//是否仅允许节点左侧图标控制展开收缩
+        selectedId: (selData == null ? '' : selData.treeId),//默认选中
+        loadSuccess: function(e){
+            $(e.elem).find('.layui-tree-set').each(function(){
+                let data = $(this).data('data');
+                //停用的标签暗字显示
+                if(data != null && !data.isShow){
+                    $(this).find('.layui-tree-txt:first').addClass('layui-tree-color2');
                 }
-            },
-            error: function (jqXHR) {
-                layer.close();
-                console.log(jqXHR);
+            });
+        },
+        click: function(e) { //节点选中状态改变事件监听，全选框有自己的监听事件
+            if(e.selected){
+                selData = e.data;
+                tree_edit();
+            }else{
+                selData = null;
+                // Function.setForm($('.layui-form'),null,form);
             }
-        });
-    };
+        }
+    });
 
-    loadTree();
+    let loadTree = function(){
+        tree.reload(treeId,{selectedId: (selData == null ? '' : selData.treeId)});
+    };
 
     let _check = function(){
         if(selData == null){
@@ -64,6 +49,18 @@ layui.use(['tree','layer','form'], function(){
     let tree_edit = function(){
         if(!_check())
             return;
+
+        if(String.isNullOrWhiteSpace(selData.parentId)){
+            $('.btn-del').hide();
+        }else{
+            $('.btn-del').show();
+        }
+        if(selData.memberType == memberType){
+            $('.btn-add').hide();
+        }else{
+            $('.btn-add').show();
+        }
+
         layer.load();
         $.ajax({
             url: "/core/memberInfo/findOneByTreeId.do",
@@ -100,6 +97,7 @@ layui.use(['tree','layer','form'], function(){
                         layer.res(rs);
                         layer.close();
                         if(!rs.error){
+                            tree.reload(treeId);
                             loadTree();
                         }
                     },

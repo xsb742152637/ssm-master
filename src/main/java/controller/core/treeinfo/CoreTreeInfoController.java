@@ -28,8 +28,12 @@ public class CoreTreeInfoController extends GenericController {
     public String getMainInfo(HttpServletRequest request){
         String treeType = request.getParameter("treeType");
         String parentId = request.getParameter("parentId");
+        String openLevel = request.getParameter("openLevel");
+        if(StringUtils.isBlank(openLevel)){
+            openLevel = "1";
+        }
         try {
-            List<Map<String,Object>> list = mainService.getMainInfo(treeType,parentId);
+            List<Map<String,Object>> list = mainService.getMainInfo(treeType,parentId, Integer.parseInt(openLevel));
             return GenericController.returnStringByList(list);
         }catch (Exception e){
             e.printStackTrace();

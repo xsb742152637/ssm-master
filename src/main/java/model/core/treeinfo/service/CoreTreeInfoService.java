@@ -6,7 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 public interface CoreTreeInfoService {
-    List<Map<String,Object>> getMainInfo(String treeType, String parentId);
+    List<Map<String,Object>> getMainInfo(String treeType);
+    List<Map<String,Object>> getMainInfo(String treeType, String parentId,int openLevel);
 
     String save(TreeType treeType, String parentId, String treeId, String treeName);
 

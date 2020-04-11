@@ -42,16 +42,19 @@ public class CoreMemberInfoServiceImpl extends GenericService<CoreMemberInfoEnti
     }
 
     @Override
+    @Transactional
     public void insert(CoreMemberInfoEntity entity) {
         dao.insert(convertList(entity));
     }
 
     @Override
+    @Transactional
     public int update(CoreMemberInfoEntity entity) {
         return dao.update(convertList(entity));
     }
 
     @Override
+    @Transactional
     public void delete(String mainId) {
         dao.delete(mainId);
     }

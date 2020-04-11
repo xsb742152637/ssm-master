@@ -68,7 +68,7 @@ public class CoreMemberInfoController extends GenericController {
                 guideFileService.createMemberXml("add",entity.getMemberId(),entity.getMemberName());
             }else {
                 mainService.update(entity);
-                MenuEx.getInstance().updateGuideByMemChange(entity.getMemberId(),"updateMem");
+                new MenuEx().updateGuideByMemChange(entity.getMemberId(),"updateMem");
             }
             return GenericController.returnSuccess(null);
         }catch (Exception e){
@@ -85,7 +85,7 @@ public class CoreMemberInfoController extends GenericController {
         try {
             treeService.delete(treeId);
             mainService.delete(mainId);
-            MenuEx.getInstance().updateGuideByMemChange(mainId,"deleteMem");
+            new MenuEx().updateGuideByMemChange(mainId,"deleteMem");
             return GenericController.returnSuccess(null);
         }catch (Exception e){
             e.printStackTrace();
