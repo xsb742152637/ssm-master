@@ -46,20 +46,14 @@ public class AuthRealm extends AuthorizingRealm {
         String username = token.getUsername();
         String pwd = new String(token.getPassword());
 
-        try{
-            CoreMemberInfoEntity entity = service.loginCheck(username,pwd);
-            if(entity == null){
-                throw new UnknownAccountException();
-            }else if(entity.getIsFrozen()){
-                // 帐号未启用(或账号被锁定)
-                throw new LockedAccountException();
-            }else{
-                return new SimpleAuthenticationInfo(entity, token.getCredentials(), AuthRealm.class.getName());
-            }
-        }catch (Exception e){
-            e.printStackTrace();
+        CoreMemberInfoEntity entity = service.loginCheck(username,pwd);
+        if(entity == null){
+            throw new UnknownAccountException();
+        }else if(!entity.getMemberState()){
+            // 帐号未启用(或账号被锁定)
+            throw new LockedAccountException();
+        }else{
+            return new SimpleAuthenticationInfo(entity, token.getCredentials(), AuthRealm.class.getName());
         }
-
-        return null;
     }
 }

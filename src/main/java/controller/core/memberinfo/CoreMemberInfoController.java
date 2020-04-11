@@ -56,7 +56,7 @@ public class CoreMemberInfoController extends GenericController {
         entity.setMemberType(Integer.parseInt(request.getParameter("memberType")));
         entity.setAccount(request.getParameter("account"));
         entity.setPassword(request.getParameter("password"));
-        entity.setIsFrozen(Boolean.parseBoolean(request.getParameter("isFrozen")));
+        entity.setMemberState(Boolean.parseBoolean(request.getParameter("memberState")));
 
         try {
             treeId = treeService.save(TreeType.getTreeTypeByCode(treeType),parentId,treeId,entity.getMemberName());

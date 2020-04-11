@@ -71,10 +71,12 @@ public class LoginServlet extends HttpServlet {
                     SecurityUtils.getSubject().checkPermission("user:add");
                     lm.error = false;
                 } catch (AuthenticationException e) {
-                    if(e instanceof IncorrectCredentialsException || e instanceof UnknownAccountException){
-                        lm.msg = "账号或密码不正确.";
+                    if(e instanceof IncorrectCredentialsException){
+                        lm.msg = "账号或密码不正确";
+                    } else if(e instanceof UnknownAccountException){
+                        lm.msg = "帐号不存在";
                     } else if (e instanceof LockedAccountException) {
-                        lm.msg = "账号已被冻结.";
+                        lm.msg = "账号未启用";
                     } else {
                         lm.msg = e.getMessage();
                         response.sendRedirect("/theme/pc/login/index.jsp");

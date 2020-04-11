@@ -5,9 +5,8 @@ package model.core.memberinfo;
  */
 
 public enum MemberType {
-    Dept(1,"部门"),
-    Post(2,"岗位"),
-    Person(3,"人员");
+    Person(1,"人员"),
+    Group(2,"群组");
 
     private Integer code;
     private String name;

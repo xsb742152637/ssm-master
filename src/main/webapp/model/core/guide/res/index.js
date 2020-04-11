@@ -3,58 +3,43 @@ var isUpdate = false;//是否有未保存的修改
 
 layui.use(['tree','layer','form'], function(){
     let tree = layui.tree, form = layui.form,layer = layui.layer;
+    let treeId = 'myTree';
 
+    tree.render({
+        id: treeId,
+        elem: '#my-tree',  //绑定元素
+        url: "/core/treeinfo/getMainInfo.do",
+        where: {treeType: treeType,openLevel: -1},//展开全部
+        accordion: false,//开启手风琴模式
+        onlyIconControl: true,//是否仅允许节点左侧图标控制展开收缩
+        selectedId: (selData == null ? '' : selData.treeId),//默认选中
+        loadSuccess: function(e){
+            $(e.elem).find('.layui-tree-set').each(function(){
+                let data = $(this).data('data');
+                //停用的标签暗字显示
+                if(data != null && !data.isShow){
+                    $(this).find('.layui-tree-txt:first').addClass('layui-tree-color2');
+                }
+            });
+        },
+        click: function(e) { //节点选中状态改变事件监听，全选框有自己的监听事件
+            if(e.selected){
+                selData = e.data;
+                if(Boolean.parse(selData.isFrozen)){
+                    layer.msg('当前成员已冻结，无法授权');
+                }else{
+                    checkMem();
+                }
+                // tree_edit();
+            }else{
+                selData = null;
+            }
+        }
+    });
     //加载树
     let loadTree = function(){
-        layer.load();
-        $.ajax({
-            url: "/core/treeinfo/getMainInfo.do",
-            data: {treeType: treeType},
-            dataType: 'json',
-            type: "POST",
-            success: function (data) {
-                layer.close();
-                if (data != null && data.length > 0) {
-                    //渲染
-                    let inst1 = tree.render({
-                        id: 'myTree',
-                        elem: '#my-tree',  //绑定元素
-                        accordion: false,//开启手风琴模式
-                        onlyIconControl: true,//是否仅允许节点左侧图标控制展开收缩
-                        selectedId: (selData == null ? '' : selData.treeId),//默认选中
-                        data: data,
-                        loadSuccess: function(e){
-                            $(e.elem).find('.layui-tree-set').each(function(){
-                               let data = $(this).data('data');
-                               //停用的标签暗字显示
-                               if(data != null && !data.isShow){
-                                   $(this).find('.layui-tree-txt:first').addClass('layui-tree-color2');
-                               }
-                            });
-                        },
-                        click: function(e) { //节点选中状态改变事件监听，全选框有自己的监听事件
-                            if(e.selected){
-                                selData = e.data;
-                                if(Boolean.parse(selData.isFrozen)){
-                                    layer.msg('当前成员已冻结，无法授权');
-                                }else{
-                                    checkMem();
-                                }
-                                // tree_edit();
-                            }else{
-                                selData = null;
-                            }
-                        }
-                    });
-                }
-            },
-            error: function (jqXHR) {
-                layer.close();
-                console.log(jqXHR);
-            }
-        });
+        tree.reload(treeId,{selectedId: (selData == null ? '' : selData.treeId)});
     };
-    loadTree();
 
     //保存
     $('.btn-save').on('click',function(){

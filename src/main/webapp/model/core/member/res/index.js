@@ -17,7 +17,7 @@ layui.use(['tree','layer','form'], function(){
             $(e.elem).find('.layui-tree-set').each(function(){
                 let data = $(this).data('data');
                 //停用的标签暗字显示
-                if(data != null && !data.isShow){
+                if(data != null && !data.memberState){
                     $(this).find('.layui-tree-txt:first').addClass('layui-tree-color2');
                 }
             });
@@ -28,6 +28,7 @@ layui.use(['tree','layer','form'], function(){
                 tree_edit();
             }else{
                 selData = null;
+                $('.div-items').empty().append('<div class="msg-item">请选择一个节点</div>');
                 // Function.setForm($('.layui-form'),null,form);
             }
         }
@@ -56,10 +57,16 @@ layui.use(['tree','layer','form'], function(){
             $('.btn-del').show();
         }
         if(selData.memberType == memberType){
-            $('.btn-add').hide();
+            $('.btn-add,.btn-del').hide();
         }else{
             $('.btn-add').show();
         }
+        if(Boolean.parse(selData.readonly)){
+            $(".save-div").hide();
+            $('.div-items').empty().append('<div class="msg-item">当前节点不允许修改</div>');
+            return;
+        }
+        $(".save-div").show();
 
         layer.load();
         $.ajax({
@@ -70,6 +77,7 @@ layui.use(['tree','layer','form'], function(){
             success: function (rs) {
                 layer.close();
 
+                load_item(selData.memberType);
                 $.extend(selData, rs);
                 Function.setForm($('.layui-form'),selData,form);
             },
@@ -81,11 +89,46 @@ layui.use(['tree','layer','form'], function(){
 
     };
 
+    let load_item = function(type){
+        $('.div-items').empty();
+        if(type == 2){
+            $('.div-items').append('<div class="layui-form-item"><label class="layui-form-label">群组名称：</label><div class="layui-input-block"><input type="text" name="memberName" required  lay-verify="required" placeholder="请输入群组名称" class="layui-input"></div></div>');
+        }else{
+            $('.div-items').append('<div class="layui-form-item"><label class="layui-form-label">用户名称：</label><div class="layui-input-block"><input type="text" name="memberName" required  lay-verify="required" placeholder="请输入用户名称" class="layui-input"></div></div>');
+            $('.div-items').append('<div class="layui-form-item"><label class="layui-form-label">用户账户：</label><div class="layui-input-block"><input type="text" name="account" required  lay-verify="required" placeholder="请输入用户账户" class="layui-input"></div></div>');
+            $('.div-items').append('<div class="layui-form-item"><label class="layui-form-label">用户密码：</label><div class="layui-input-block"><input type="text" name="password" required  lay-verify="required" placeholder="请输入用户密码" class="layui-input"></div></div>');
+            $('.div-items').append('<div class="layui-form-item"><label class="layui-form-label">用户状态：</label><div class="layui-input-block"><input type="checkbox" name="memberState" value="true" lay-skin="switch" lay-text="启用|停用"></div></div>');
+        }
+        $(".save-div").show();
+    };
     //删除当前菜单
     $('.btn-del').on('click',function(){
         if(!_check())
             return;
-        layer.confirm('确认删除当前人员及其下级？', {btn: ['确定','取消']},
+        let d = $.extend({},selData);
+        let isHave = false;
+        let li = [];
+        li.push(d);
+        while (li.length > 0){
+            let li2 = [];
+            for(let i = 0 ; i < li.length ; i++){
+                if(memberType == li[i].memberType){
+                    isHave = true;
+                    break
+                }else if(li[i].children != null){
+                    li2 = li2.concat(li[i].children);
+                }
+            }
+            if(isHave){
+                break;
+            }
+            li = li2;
+        }
+        if(isHave){
+            layer.msg('当前群组下存在账号，不允许删除');
+            return;
+        }
+        layer.confirm('确认删除当前群组及其下级？', {btn: ['确定','取消']},
             function(){
                 layer.load();
                 $.ajax({
@@ -114,7 +157,10 @@ layui.use(['tree','layer','form'], function(){
     $('.btn-add').on('click',function(){
         if(!_check())
             return;
-        let data = {isShow: true,parentId: selData.treeId};
+        let type = $(this).data('type');
+
+        load_item(type);
+        let data = {memberState: true,parentId: selData.treeId,memberType: type};
         Function.setForm($('.layui-form'),data,form);
     });
 

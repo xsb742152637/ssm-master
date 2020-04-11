@@ -43,7 +43,7 @@
                     <div class="layui-card-header">
                         <!-- 按钮栏 -->
                         <button type="button" class="layui-btn btn-save">
-                            <i class="layui-icon layui-icon-add-1"></i>保存
+                            <i class="layui-icon layui-icon-auz"></i>保存
                         </button>
                     </div>
                     <div class="layui-card-body guide-tree">

@@ -4,7 +4,6 @@ import model.core.memberinfo.MemberType;
 import model.core.memberinfo.entity.CoreMemberInfoEntity;
 import model.core.memberinfo.service.CoreMemberInfoService;
 import model.core.memberinfo.service.impl.CoreMemberInfoServiceImpl;
-import model.core.menuurl.service.impl.CoreMenuUrlServiceImpl;
 import model.core.treeinfo.TreeType;
 import model.core.treeinfo.dao.CoreTreeInfoDao;
 import model.core.treeinfo.entity.CoreTreeInfoEntity;
@@ -54,8 +53,8 @@ public class CoreTreeInfoServiceImpl extends GenericService implements CoreTreeI
                     mem = new CoreMemberInfoEntity();
                     mem.setMemberId(en.toString());
                     mem.setMemberName(name);
-                    mem.setMemberType(MemberType.Dept.getCode());
-                    mem.setIsFrozen(false);
+                    mem.setMemberType(MemberType.Group.getCode());
+                    mem.setMemberState(true);
                     mem.setTreeId(entity.getTreeId());
                 }
             }
@@ -177,13 +176,18 @@ public class CoreTreeInfoServiceImpl extends GenericService implements CoreTreeI
     }
     @Override
     public List<Map<String, Object>> getMainInfo(String treeType,String parentId,int openLevel) {
-
         Map<String,Map<String,Object>> mapOther = new HashMap<>();
         if(String.valueOf(TreeType.MemberInfo.getCode()).equals(treeType)){
             //得到全部成员
             List<CoreMemberInfoEntity> memList= memberService.findAll();
             for(CoreMemberInfoEntity entity : memList){
-                mapOther.put(entity.getTreeId(),entityToMap(entity));
+                Map<String,Object> m = entityToMap(entity);
+                if(String.valueOf(MemberType.Group.getCode()).equals(m.get("memberType").toString())){
+                    m.put("icon","layui-icon-group");
+                }if(String.valueOf(MemberType.Person.getCode()).equals(m.get("memberType").toString())){
+                    m.put("icon","layui-icon-username");
+                }
+                mapOther.put(entity.getTreeId(),m);
             }
         }
 
@@ -195,6 +199,8 @@ public class CoreTreeInfoServiceImpl extends GenericService implements CoreTreeI
             m.put("id", m.get("treeId"));
             m.put("title",m.get("treeName")+"  ("+m.get("treeLeft")+"-"+m.get("treeRight")+")");
             if(StringUtils.isBlank(entity.getParentId())){
+                m.put("readonly",true);
+                m.put("icon", "layui-icon-tree");
                 listRoot.add(m);
                 continue;
             }
@@ -219,12 +225,14 @@ public class CoreTreeInfoServiceImpl extends GenericService implements CoreTreeI
             if(ch != null && ch.size() > 0){
                 getTrees(ch,map,mapOther,openLevel,thisLevel);
             }
-            if(thisLevel <= openLevel){
+            if(openLevel== -1 || thisLevel <= openLevel){
                 parMap.put("spread",true);
             }
             parMap.put("children", ch);
             if(mapOther.get(treeId) != null){
-                parMap.putAll(mapOther.get(treeId));
+                Map<String,Object> m = mapOther.get(treeId);
+                m.putAll(parMap);
+                parMap.putAll(m);
             }
         }
     }

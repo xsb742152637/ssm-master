@@ -20,7 +20,7 @@ public class CoreMemberInfoEntity {
     private byte[] photo;
     private String account;
     private String password;
-    private Boolean isFrozen;
+    private Boolean memberState;
     private String treeId;
 
     @Id
@@ -82,13 +82,13 @@ public class CoreMemberInfoEntity {
     }
 
     @Basic
-    @Column(name = "IS_FROZEN")
-    public Boolean getIsFrozen() {
-        return this.isFrozen;
+    @Column(name = "MEMBER_STATE")
+    public Boolean getMemberState() {
+        return memberState;
     }
 
-    public void setIsFrozen(Boolean isFrozen) {
-        this.isFrozen = isFrozen;
+    public void setMemberState(Boolean memberState) {
+        this.memberState = memberState;
     }
 
     @Basic
