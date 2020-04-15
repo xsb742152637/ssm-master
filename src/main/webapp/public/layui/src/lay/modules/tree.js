@@ -96,6 +96,7 @@ layui.define('form', function(exports){
     ,accordion: false  //是否开启手风琴模式
     ,onlyIconControl: false  //是否仅允许节点左侧图标控制展开收缩
     ,selectedId: ''  //默认选中的节点ID
+    ,canCancelSelected: true //是否能够取消节点选中状态
     ,isJump: false  //是否允许点击节点时弹出新窗口跳转
     ,edit: false  //是否开启节点的操作图标
     
@@ -181,6 +182,22 @@ layui.define('form', function(exports){
               touchOpen.trigger('click');
             }
           }
+
+          let state = 'close';
+          //判断展开收缩状态
+          if($(this).hasClass(ELEM_SPREAD)){
+              state = options.onlyIconControl ? 'open' : 'close';
+          } else {
+              state = options.onlyIconControl ? 'close' : 'open';
+          }
+
+          //点击产生的回调
+          options.click && options.click({
+              elem: that.elem
+              ,state: state
+              ,selected: true
+              ,data: $(this).data("data")
+          });
         }
       });
 
@@ -213,7 +230,6 @@ layui.define('form', function(exports){
             if(typeof options.parseData === 'function'){
               res = options.parseData(res) || res;
             }
-            console.log('加载完成');
             that.config.data = res;
             render_1();
           }else{
@@ -402,7 +418,10 @@ layui.define('form', function(exports){
       }
 
       //是否选中
-      let isS = $(elem).find(".layui-tree-entry:first").hasClass(ACTIVE_ITEM);
+      let isS = false;
+      if(options.canCancelSelected){
+          isS = $(elem).find(".layui-tree-entry:first").hasClass(ACTIVE_ITEM);
+      }
       $(elem).parents('.layui-tree').find('.layui-tree-entry').removeClass(ACTIVE_ITEM);
       if(!isS){
         $(elem).find(".layui-tree-entry:first").addClass(ACTIVE_ITEM);

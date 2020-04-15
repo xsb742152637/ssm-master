@@ -27,6 +27,7 @@ public interface CoreMemberInfoService {
     List<CoreMemberInfoEntity> findAll();
 
     void insert(CoreMemberInfoEntity entity);
+    void insert(List<CoreMemberInfoEntity> entity);
     int update( CoreMemberInfoEntity entity);
     void delete(String primaryId);
 }

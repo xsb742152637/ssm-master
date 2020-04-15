@@ -78,6 +78,7 @@
         </div>
 
         <script type="text/javascript">
+            var rootId = "<%=TreeType.MemberInfo.toString()%>";
             var treeType = "<%=TreeType.MemberInfo.getCode()%>";
             var memberType = <%=MemberType.Person.getCode()%>;
         </script>

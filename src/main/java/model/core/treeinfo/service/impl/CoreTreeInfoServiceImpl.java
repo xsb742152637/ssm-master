@@ -19,6 +19,11 @@ import java.util.*;
 
 @Service
 public class CoreTreeInfoServiceImpl extends GenericService implements CoreTreeInfoService {
+    //默认管理员分组
+    public final static String ADMINI_GROUP_ID = "11111111-1111-1111-1111-111111111111";
+    //默认管理员
+    public final static String ADMINI_MEMBER_ID = "22222222-2222-2222-2222-222222222222";
+
     @Autowired
     private CoreTreeInfoDao dao;
     @Autowired
@@ -34,7 +39,8 @@ public class CoreTreeInfoServiceImpl extends GenericService implements CoreTreeI
         for(CoreTreeInfoEntity entity : list){
             rootIds.add(entity.getTreeId());
         }
-        CoreMemberInfoEntity mem = null;
+
+        List<CoreMemberInfoEntity> addMemList = new ArrayList<>();
         List<CoreTreeInfoEntity> addList = new ArrayList<>();
         for(TreeType en : TreeType.values()){
             if(!rootIds.contains(en.toString())){
@@ -44,25 +50,70 @@ public class CoreTreeInfoServiceImpl extends GenericService implements CoreTreeI
                 entity.setParentId(null);
                 entity.setTreeName(name);
                 entity.setTreeLeft(1);
-                entity.setTreeRight(entity.getTreeLeft() + 1);
+                entity.setTreeRight(6);
                 entity.setTreeType(en.getCode());
+                entity.setCanUpdate(false);
+                entity.setCanDelete(false);
                 addList.add(entity);
 
                 //为根成员新增信息
                 if(TreeType.MemberInfo.toString().equals(en.toString())){
-                    mem = new CoreMemberInfoEntity();
+                    CoreMemberInfoEntity mem = new CoreMemberInfoEntity();
                     mem.setMemberId(en.toString());
                     mem.setMemberName(name);
                     mem.setMemberType(MemberType.Group.getCode());
                     mem.setMemberState(true);
                     mem.setTreeId(entity.getTreeId());
+                    addMemList.add(mem);
+
+                    String parentId = entity.getTreeId().toString();
+                    entity = new CoreTreeInfoEntity();
+                    entity.setTreeId(ADMINI_GROUP_ID);
+                    entity.setParentId(parentId);
+                    entity.setTreeName("管理员");
+                    entity.setTreeLeft(2);
+                    entity.setTreeRight(5);
+                    entity.setTreeType(en.getCode());
+                    entity.setCanUpdate(false);
+                    entity.setCanDelete(false);
+                    addList.add(entity);
+
+                    mem = new CoreMemberInfoEntity();
+                    mem.setMemberId(ADMINI_GROUP_ID);
+                    mem.setMemberName("管理员");
+                    mem.setMemberType(MemberType.Group.getCode());
+                    mem.setMemberState(true);
+                    mem.setTreeId(entity.getTreeId());
+                    addMemList.add(mem);
+
+                    parentId = entity.getTreeId().toString();
+                    entity = new CoreTreeInfoEntity();
+                    entity.setTreeId(ADMINI_MEMBER_ID);
+                    entity.setParentId(parentId);
+                    entity.setTreeName("admini");
+                    entity.setTreeLeft(3);
+                    entity.setTreeRight(4);
+                    entity.setTreeType(en.getCode());
+                    entity.setCanUpdate(true);
+                    entity.setCanDelete(false);
+                    addList.add(entity);
+
+                    mem = new CoreMemberInfoEntity();
+                    mem.setMemberId(ADMINI_MEMBER_ID);
+                    mem.setMemberName("admini");
+                    mem.setMemberType(MemberType.Person.getCode());
+                    mem.setAccount("admini");
+                    mem.setPassword("111");
+                    mem.setMemberState(true);
+                    mem.setTreeId(entity.getTreeId());
+                    addMemList.add(mem);
                 }
             }
         }
         if(addList.size() > 0){
             that.insert(addList);
-        }if(mem != null){
-            CoreMemberInfoServiceImpl.getInstance().insert(mem);
+        }if(addMemList.size() > 0){
+            CoreMemberInfoServiceImpl.getInstance().insert(addMemList);
         }
     }
 
@@ -84,18 +135,14 @@ public class CoreTreeInfoServiceImpl extends GenericService implements CoreTreeI
 
     @Override
     @Transactional
-    public String save(TreeType treeType, String parentId,String treeId, String treeName){
-        if(StringUtils.isBlank(treeId)){
-            treeId = UUID.randomUUID().toString();
-            CoreTreeInfoEntity parEntity = findOne(parentId);
+    public String save(CoreTreeInfoEntity entity){
+        if(StringUtils.isBlank(entity.getTreeId())){
+            CoreTreeInfoEntity parEntity = findOne(entity.getParentId());
 
-            CoreTreeInfoEntity entity = new CoreTreeInfoEntity();
-            entity.setTreeId(treeId);
+            entity.setTreeId(UUID.randomUUID().toString());
             entity.setParentId(parEntity.getTreeId());
-            entity.setTreeName(treeName);
             entity.setTreeLeft(parEntity.getTreeRight());
             entity.setTreeRight(entity.getTreeLeft() + 1);
-            entity.setTreeType(treeType.getCode());
 
             dao.insert(convertList(entity));
             //改前面的
@@ -103,11 +150,11 @@ public class CoreTreeInfoServiceImpl extends GenericService implements CoreTreeI
             //改后面的
             dao.insert_updateAfter(parEntity.getTreeType(),entity.getTreeLeft());
         }else{
-            CoreTreeInfoEntity entity = findOne(treeId);
-            entity.setTreeName(treeName);
-            dao.update(convertList(entity));
+            CoreTreeInfoEntity entitytemp = findOne(entity.getTreeId());
+            entitytemp.setTreeName(entity.getTreeName());
+            dao.update(convertList(entitytemp));
         }
-        return treeId;
+        return entity.getTreeId();
     }
 
     @Override
@@ -199,7 +246,6 @@ public class CoreTreeInfoServiceImpl extends GenericService implements CoreTreeI
             m.put("id", m.get("treeId"));
             m.put("title",m.get("treeName")+"  ("+m.get("treeLeft")+"-"+m.get("treeRight")+")");
             if(StringUtils.isBlank(entity.getParentId())){
-                m.put("readonly",true);
                 m.put("icon", "layui-icon-tree");
                 listRoot.add(m);
                 continue;

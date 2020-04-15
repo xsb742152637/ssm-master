@@ -1,6 +1,12 @@
 .layui-tree-iconClick2 .layui-icon-tree,.layui-tree-iconClick2 .layui-icon-group{
     color: #1E9FFF;
 }
+.layui-form-label{
+    width: 110px;
+}
+.layui-input-block{
+    margin-left: 140px;
+}
 .msg-item{
      text-align: center;
      padding: 40px;

@@ -43,7 +43,7 @@ public class CoreTreeInfoTest extends BaseTest {
         String treeId = "cad28b8f-7451-4173-bfeb-29d410d38b43";
         String treeName = "三";
 
-        core.save(TreeType.getTreeTypeByCode(Integer.parseInt(treeType)),parentId,treeId,treeName);
+        //core.save(TreeType.getTreeTypeByCode(Integer.parseInt(treeType)),parentId,treeId,treeName);
     }
 
     @Test

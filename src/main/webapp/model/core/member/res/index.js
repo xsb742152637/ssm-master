@@ -12,7 +12,8 @@ layui.use(['tree','layer','form'], function(){
         where: {treeType: treeType},
         // accordion: true,//开启手风琴模式
         onlyIconControl: true,//是否仅允许节点左侧图标控制展开收缩
-        selectedId: (selData == null ? '' : selData.treeId),//默认选中
+        selectedId: (selData == null ? rootId : selData.treeId),//默认选中
+        canCancelSelected: false, //不允许取消选中
         loadSuccess: function(e){
             $(e.elem).find('.layui-tree-set').each(function(){
                 let data = $(this).data('data');
@@ -50,25 +51,20 @@ layui.use(['tree','layer','form'], function(){
     let tree_edit = function(){
         if(!_check())
             return;
-
-        if(String.isNullOrWhiteSpace(selData.parentId)){
-            $('.btn-del').hide();
-        }else{
-            $('.btn-del').show();
-        }
+        layer.load();
         if(selData.memberType == memberType){
-            $('.btn-add,.btn-del').hide();
+            $('.btn-add').hide();
         }else{
             $('.btn-add').show();
         }
-        if(Boolean.parse(selData.readonly)){
-            $(".save-div").hide();
-            $('.div-items').empty().append('<div class="msg-item">当前节点不允许修改</div>');
-            return;
-        }
-        $(".save-div").show();
 
-        layer.load();
+        if(selData.canDelete){
+            $('.btn-del').show();
+        }else{
+            $('.btn-del').hide();
+        }
+
+        load_item(selData);
         $.ajax({
             url: "/core/memberInfo/findOneByTreeId.do",
             dataType: 'json',
@@ -76,8 +72,6 @@ layui.use(['tree','layer','form'], function(){
             data: {treeId: selData.treeId},
             success: function (rs) {
                 layer.close();
-
-                load_item(selData.memberType);
                 $.extend(selData, rs);
                 Function.setForm($('.layui-form'),selData,form);
             },
@@ -89,17 +83,24 @@ layui.use(['tree','layer','form'], function(){
 
     };
 
-    let load_item = function(type){
+    let load_item = function(data){
         $('.div-items').empty();
-        if(type == 2){
-            $('.div-items').append('<div class="layui-form-item"><label class="layui-form-label">群组名称：</label><div class="layui-input-block"><input type="text" name="memberName" required  lay-verify="required" placeholder="请输入群组名称" class="layui-input"></div></div>');
+        if(data.memberType == 2){
+            $('.div-items').append('<div class="layui-form-item"><label class="layui-form-label">群组名称：</label><div class="layui-input-block"><input type="text" name="memberName" required  lay-verify="required" placeholder="请输入群组名称" class="layui-input" '+ (data.canUpdate ? '' : 'disabled="true"') +'></div></div>');
         }else{
-            $('.div-items').append('<div class="layui-form-item"><label class="layui-form-label">用户名称：</label><div class="layui-input-block"><input type="text" name="memberName" required  lay-verify="required" placeholder="请输入用户名称" class="layui-input"></div></div>');
-            $('.div-items').append('<div class="layui-form-item"><label class="layui-form-label">用户账户：</label><div class="layui-input-block"><input type="text" name="account" required  lay-verify="required" placeholder="请输入用户账户" class="layui-input"></div></div>');
-            $('.div-items').append('<div class="layui-form-item"><label class="layui-form-label">用户密码：</label><div class="layui-input-block"><input type="text" name="password" required  lay-verify="required" placeholder="请输入用户密码" class="layui-input"></div></div>');
-            $('.div-items').append('<div class="layui-form-item"><label class="layui-form-label">用户状态：</label><div class="layui-input-block"><input type="checkbox" name="memberState" value="true" lay-skin="switch" lay-text="启用|停用"></div></div>');
+            $('.div-items').append('<div class="layui-form-item"><label class="layui-form-label">用户名称：</label><div class="layui-input-block"><input type="text" name="memberName" required  lay-verify="required" placeholder="请输入用户名称" class="layui-input" '+ (data.canUpdate ? '' : 'disabled="true"') +'></div></div>');
+            $('.div-items').append('<div class="layui-form-item"><label class="layui-form-label">用户账户：</label><div class="layui-input-block"><input type="text" name="account" required  lay-verify="required" placeholder="请输入用户账户" class="layui-input" '+ (data.canUpdate ? '' : 'disabled="true"') +'></div></div>');
+            $('.div-items').append('<div class="layui-form-item"><label class="layui-form-label">用户密码：</label><div class="layui-input-block"><input type="text" name="password" required  lay-verify="required" placeholder="请输入用户密码" class="layui-input" '+ (data.canUpdate ? '' : 'disabled="true"') +'></div></div>');
+            $('.div-items').append('<div class="layui-form-item"><label class="layui-form-label">用户状态：</label><div class="layui-input-block"><input type="checkbox" name="memberState" value="true" lay-skin="switch" lay-text="启用|停用" '+ (data.canUpdate ? '' : 'disabled="true"') +'></div></div>');
         }
-        $(".save-div").show();
+
+        $('.div-items').append('<div class="layui-form-item"><label class="layui-form-label">是否可修改：</label><div class="layui-input-block"><input type="checkbox" name="canUpdate" value="true" lay-skin="switch" lay-text="是|否" '+ (data.canUpdate ? '' : 'disabled="true"') +'></div></div>');
+        $('.div-items').append('<div class="layui-form-item"><label class="layui-form-label">是否可删除：</label><div class="layui-input-block"><input type="checkbox" name="canDelete" value="true" lay-skin="switch" lay-text="是|否" '+ (data.canUpdate ? '' : 'disabled="true"') +'></div></div>');
+        if(data.canUpdate){
+            $(".save-div").show();
+        }else{
+            $(".save-div").hide();
+        }
     };
     //删除当前菜单
     $('.btn-del').on('click',function(){
@@ -159,8 +160,8 @@ layui.use(['tree','layer','form'], function(){
             return;
         let type = $(this).data('type');
 
-        load_item(type);
-        let data = {memberState: true,parentId: selData.treeId,memberType: type};
+        let data = {canUpdate: true,canDelete: true,memberState: true,parentId: selData.treeId,memberType: type};
+        load_item(data);
         Function.setForm($('.layui-form'),data,form);
     });
 
@@ -195,16 +196,37 @@ layui.use(['tree','layer','form'], function(){
         if(!_check())
             return;
         layer.load();
+
         $.ajax({
-            url: "/core/memberInfo/saveMain.do",
+            url: "/core/treeinfo/saveMain.do",
             dataType: 'json',
             type: "POST",
-            data: data.field,
+            data: {treeType: treeType,parentId: data.field.parentId, treeId: data.field.memberId,treeName: data.field.memberName},
             success: function (rs) {
-                layer.res(rs);
-                layer.close();
                 if(!rs.error){
-                    loadTree();
+                    let memData = $.extend({},data.field);
+                    memData.treeId = rs.msg;
+                    $.ajax({
+                        url: "/core/memberInfo/saveMain.do",
+                        dataType: 'json',
+                        type: "POST",
+                        data: memData,
+                        success: function (rs) {
+                            layer.res(rs);
+                            layer.close();
+                            if(!rs.error){
+                                loadTree();
+                            }
+                        },
+                        error: function (jqXHR) {
+                            layer.close();
+                            layer.res('保存失败！');
+                            console.log(jqXHR);
+                        }
+                    });
+                }else{
+                    layer.res(rs);
+                    layer.close();
                 }
             },
             error: function (jqXHR) {
@@ -213,6 +235,7 @@ layui.use(['tree','layer','form'], function(){
                 console.log(jqXHR);
             }
         });
+
         return false;
     });
 

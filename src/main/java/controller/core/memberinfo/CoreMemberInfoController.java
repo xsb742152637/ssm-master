@@ -4,7 +4,6 @@ import model.core.guide.service.CoreGuideFileService;
 import model.core.guide.service.core.MenuEx;
 import model.core.memberinfo.entity.CoreMemberInfoEntity;
 import model.core.memberinfo.service.CoreMemberInfoService;
-import model.core.treeinfo.TreeType;
 import model.core.treeinfo.service.CoreTreeInfoService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,35 +37,16 @@ public class CoreMemberInfoController extends GenericController {
 
     @RequestMapping("saveMain")
     @ResponseBody
-    public String saveMainInfo(HttpServletRequest request){
-        int treeType = TreeType.MemberInfo.getCode();
-        String parentId = request.getParameter("parentId");
-        String memberId = request.getParameter("memberId");
-        String account = request.getParameter("account");
-        if(mainService.checkAccount(account) > 0){
+    public String saveMainInfo(CoreMemberInfoEntity entity){
+        if(StringUtils.isNotBlank(entity.getAccount()) && mainService.checkAccount(entity.getAccount()) > 0){
             return returnFaild("账号已存在");
+        }else if(StringUtils.isBlank(entity.getTreeId())){
+            return returnFaild("没有找到当前成员的树形编号");
         }
-        String treeId = null;
-
-        CoreMemberInfoEntity entity ;
-        if (StringUtils.isBlank(memberId)){
-            entity = new CoreMemberInfoEntity();
-            entity.setMemberId(UUID.randomUUID().toString());
-        }else {
-            entity = mainService.findOne(memberId);
-            treeId = entity.getTreeId();
-        }
-        entity.setMemberName(request.getParameter("memberName"));
-        entity.setMemberType(Integer.parseInt(request.getParameter("memberType")));
-        entity.setAccount(account);
-        entity.setPassword(request.getParameter("password"));
-        entity.setMemberState(Boolean.parseBoolean(request.getParameter("memberState")));
 
         try {
-            treeId = treeService.save(TreeType.getTreeTypeByCode(treeType),parentId,treeId,entity.getMemberName());
-            entity.setTreeId(treeId);
-
-            if (StringUtils.isBlank(memberId)){
+            if (StringUtils.isBlank(entity.getMemberId())){
+                entity.setMemberId(UUID.randomUUID().toString());
                 mainService.insert(entity);
                 //授权xml同步成员
                 guideFileService.createMemberXml("add",entity.getMemberId(),entity.getMemberName());

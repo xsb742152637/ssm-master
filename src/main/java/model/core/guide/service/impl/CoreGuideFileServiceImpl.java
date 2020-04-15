@@ -196,6 +196,9 @@ public class CoreGuideFileServiceImpl extends GenericService<CoreGuideFileEntity
             }else{
                 newEle = parEle.addElement(Member.MEMBER_TAG);
             }
+            if(map.get("memberId") == null || StringUtils.isNotBlank(map.get("memberId").toString())){
+                continue;
+            }
             newEle.addAttribute("id",map.get("memberId").toString() + (String.valueOf(MemberType.Person.getCode()).equals(map.get("memberType").toString()) ? (";" + map.get("parentId").toString()) : ""));
             newEle.addAttribute("n",map.get("memberName").toString());
             newEle.addAttribute("p",map.get("memberType").toString());//是person
