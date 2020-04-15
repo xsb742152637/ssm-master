@@ -12,13 +12,83 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class MenuEx extends Comm{
+    private static Map<String,Set<String>> mapAuth = null;
     protected Member memberEntity = new Member();
     protected CoreGuideFileServiceImpl fileService = CoreGuideFileServiceImpl.getInstance();
 
     private void removeCache(){
         //menuEntity.removeCache();
         memberEntity.removeCache();
+        mapAuth = null;
     }
+
+    public Map<String,Set<String>> getGuides(){
+        mapAuth = null;
+        if(mapAuth == null){
+            mapAuth = new HashMap<>();
+            List<CoreGuideFileEntity> guideFileList = fileService.findAll();
+            //得到所有项目的权限
+            for(CoreGuideFileEntity entity : guideFileList){
+                if(Member.PROJECT_ID.equalsIgnoreCase(entity.getGuideId()) || Menu.PROJECT_ID.equalsIgnoreCase(entity.getGuideId())){
+                    continue;
+                }
+                Menu menuEntity = new Menu(null,null,entity.getDocument());
+                List<Element> listMem = menuEntity.findMems();
+                for(Element mem : listMem){
+                    String guideType = mem.getName().toString();
+                    String menuId = menuEntity.getIdByItem(mem.getParent());
+                    String memberId = memberEntity.getIdByItem(mem).split(" ")[0];
+                    if("root".equalsIgnoreCase(menuId)){
+                        List<Element> listM = menuEntity.getRoot().elements();
+                        Set<String> set = mapAuth.get(memberId);
+                        if(set == null)
+                            set = new HashSet<>();
+                        for(Element menu : listM){
+                            if(Menu.MENU_TAG.equalsIgnoreCase(menu.getName().toString())){
+                                menuId = menuEntity.getIdByItem(menu);
+                                //得到当前菜单的所有上级菜单
+                                List<Element> liMenus = menuEntity.getAncestor(menu);
+                                for(Element m2 : liMenus){
+                                    set.add(menuEntity.getIdByItem(m2));
+                                }
+                                //得到当前菜单的所有下级菜单与自己
+                                liMenus = menuEntity.getDescendantAndSelf(menu,Menu.MENU_TAG);
+                                for(Element m2 : liMenus){
+                                    set.add(menuEntity.getIdByItem(m2));
+                                    if(m2.elements().size() == 0){
+                                        System.out.println(menuEntity.getNameByItem(m2) + " 拥有权限：" + guideType);
+                                        set.add(menuEntity.getIdByItem(m2) + ":" + guideType);
+                                    }
+                                }
+                            }
+                        }
+                        mapAuth.put(memberId,set);
+                    }else{
+                        Set<String> set = mapAuth.get(memberId);
+                        if(set == null)
+                            set = new HashSet<>();
+                        //得到当前菜单的所有上级菜单
+                        List<Element> liMenus = menuEntity.getAncestor(mem.getParent());
+                        for(Element m2 : liMenus){
+                            set.add(menuEntity.getIdByItem(m2));
+                        }
+                        //得到当前菜单的所有下级菜单与自己
+                        liMenus = menuEntity.getDescendantAndSelf(mem.getParent(),Menu.MENU_TAG);
+                        for(Element m2 : liMenus){
+                            set.add(menuEntity.getIdByItem(m2));
+                            if(m2.elements().size() == 0){
+                                System.out.println(menuEntity.getNameByItem(m2) + " 拥有权限：" + guideType);
+                                set.add(menuEntity.getIdByItem(m2) + ":" + guideType);
+                            }
+                        }
+                        mapAuth.put(memberId,set);
+                    }
+                }
+            }
+        }
+        return mapAuth;
+    }
+
     public void addMemByMenu(String projectId,String menuId,Set<String> memberIds,String sourceType){
         Menu menuEntity = new Menu(projectId,null,null);
         Element menu = menuEntity.getMenuItem(menuId);

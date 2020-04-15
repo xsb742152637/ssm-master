@@ -11,7 +11,7 @@ layui.use(['element','layer'], function(){
     !function() {
         $.ajax({
             url: "/core/menuTree/getMenuTree.do",
-            data:{isTop: false,isShow: true},//不显示顶级节点，不显示隐藏节点
+            data:{needGuide: false,isTop: false,isShow: true},//区分权限,不显示顶级节点，不显示隐藏节点
             dataType: 'json',
             type: "POST",
             success: function (data) {
@@ -45,6 +45,13 @@ layui.use(['element','layer'], function(){
         for(let i = 0 ; i < data.length ; i++){
             let isHave2 = false;
             let d = data[i];
+
+            //无权限的菜单不加载
+            if(!d.isHaveGuide){
+                console.log(d.title + ' 无权限');
+                continue;
+            }
+
             if(d.menuId == thisMenuId)
                 isHave2 = true;
 

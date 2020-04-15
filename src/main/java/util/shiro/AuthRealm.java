@@ -1,5 +1,6 @@
 package util.shiro;
 
+import model.core.guide.service.core.MenuEx;
 import model.core.memberinfo.entity.CoreMemberInfoEntity;
 import model.core.memberinfo.service.CoreMemberInfoService;
 import org.apache.shiro.authc.*;
@@ -8,6 +9,9 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.Map;
+import java.util.Set;
 
 public class AuthRealm extends AuthorizingRealm {
 
@@ -22,6 +26,14 @@ public class AuthRealm extends AuthorizingRealm {
         //Set<Role> roles = user.getRoles();//当前用户拥有的角色，根据自己的entity
         ////指示当前用户能访问的资源
         //授权类
+        if(member != null){
+            Map<String,Set<String>> mapAuth = new MenuEx().getGuides();
+            Set<String> set = mapAuth.get(member.getMemberId());
+            if(set != null && set.size() > 0){
+
+            }
+
+        }
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         //if ("谢世兵".equals(member.getMemberName())) {
             //获取所有权限集合，循环添加

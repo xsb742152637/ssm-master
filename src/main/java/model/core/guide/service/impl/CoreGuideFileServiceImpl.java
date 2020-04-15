@@ -151,7 +151,7 @@ public class CoreGuideFileServiceImpl extends GenericService<CoreGuideFileEntity
             return "";
         }
 
-        List<Map<String,Object>> list = menuTreeService.getMenuTree(true,null);
+        List<Map<String,Object>> list = menuTreeService.getMenuTree(false,true,null);
         addMenuEle(_document,null,list);
 
         delete(Menu.PROJECT_ID);
@@ -196,7 +196,8 @@ public class CoreGuideFileServiceImpl extends GenericService<CoreGuideFileEntity
             }else{
                 newEle = parEle.addElement(Member.MEMBER_TAG);
             }
-            if(map.get("memberId") == null || StringUtils.isNotBlank(map.get("memberId").toString())){
+            if(map.get("memberId") == null || StringUtils.isBlank(map.get("memberId").toString())){
+                System.out.println("没有找到成员：" + map.get("treeName").toString());
                 continue;
             }
             newEle.addAttribute("id",map.get("memberId").toString() + (String.valueOf(MemberType.Person.getCode()).equals(map.get("memberType").toString()) ? (";" + map.get("parentId").toString()) : ""));

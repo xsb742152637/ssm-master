@@ -1,5 +1,6 @@
 package model.core.menutree.service.impl;
 
+import model.core.guide.service.core.MenuEx;
 import model.core.menutree.dao.CoreMenuTreeInfoDao;
 import model.core.menutree.entity.CoreMenuTreeInfoEntity;
 import model.core.menutree.service.CoreMenuTreeService;
@@ -8,12 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import util.context.ApplicationContext;
+import util.context.Context;
 import util.datamanage.GenericService;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class CoreMenuTreeServiceImpl extends GenericService<CoreMenuTreeInfoEntity> implements CoreMenuTreeService {
@@ -29,7 +28,14 @@ public class CoreMenuTreeServiceImpl extends GenericService<CoreMenuTreeInfoEnti
 
     //@Cacheable(value = "cacheManager", key = "'CoreMenuTreeServiceImpl.getMenuTree'")
     @Override
-    public List<Map<String,Object>> getMenuTree(Boolean isTop,Boolean isShow) {
+    public List<Map<String,Object>> getMenuTree(Boolean needGuide,Boolean isTop,Boolean isShow) {
+        //得到权限
+        Set<String> set = null;
+        if(needGuide){
+            Map<String,Set<String>> mapAuth = new MenuEx().getGuides();
+            set = mapAuth.get(Context.getCurrent().getMember().getMemberId());
+        }
+
         //1. 得到全部显示的菜单树的列表
         List<Map<String,Object>> list = underlineToHump(dao.getMenuTree(isShow));
         //2. 将列表转换为树形结构
@@ -48,6 +54,14 @@ public class CoreMenuTreeServiceImpl extends GenericService<CoreMenuTreeInfoEnti
                 map.put("spread",true);
             }
             map.put("id",map.get("menuId"));
+
+            //该菜单是否有权限
+            boolean isHaveGuide = !needGuide;
+            if(needGuide && set != null && set.size() > 0){
+                isHaveGuide = set.contains(map.get("menuId").toString());
+            }
+            map.put("isHaveGuide",isHaveGuide);
+
             String outlineLevel = map.get("outlineLevel").toString();
             String parentLevel = outlineLevel.contains(".") ? outlineLevel.substring(0,outlineLevel.lastIndexOf(".")) : "";
 

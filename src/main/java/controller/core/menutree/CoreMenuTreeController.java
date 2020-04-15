@@ -29,17 +29,21 @@ public class CoreMenuTreeController extends GenericController {
     @RequestMapping("getMenuTree")
     @ResponseBody
     public String getMenuTree(HttpServletRequest request, HttpServletResponse response)throws Exception{
+        String needGuide = request.getParameter("needGuide");
         String isTop = request.getParameter("isTop");
         String isShow = request.getParameter("isShow");
 
         Boolean isShow2 = null;
+        if(StringUtils.isBlank(needGuide)){
+            needGuide = "false";
+        }
         if(StringUtils.isBlank(isTop)){
             isTop = "true";
         }
         if(StringUtils.isNotBlank(isShow)){
             isShow2 = Boolean.parseBoolean(isShow);
         }
-        List<Map<String,Object>> list = mainService.getMenuTree(Boolean.parseBoolean(isTop),isShow2);
+        List<Map<String,Object>> list = mainService.getMenuTree(Boolean.parseBoolean(needGuide),Boolean.parseBoolean(isTop),isShow2);
         return returnStringByList(list);
     }
 
