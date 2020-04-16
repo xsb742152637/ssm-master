@@ -69,6 +69,9 @@
         <property name="basePackage" value="model.**.dao" />
     </bean>
 
+<!--    <bean id="baseHolder" class="util.context.ApplicationContext" lazy-init="false" />-->
+
     <!-- 扫描service包下所有使用注解的类型 -->
     <context:component-scan base-package="model.**.service" />
+    <context:component-scan base-package="util.context"/>
 </beans>

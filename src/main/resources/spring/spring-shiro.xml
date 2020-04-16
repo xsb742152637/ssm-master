@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:mvc="http://www.springframework.org/schema/mvc"
-       xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:tx="http://www.springframework.org/schema/tx"
-       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:cache="http://www.springframework.org/schema/cache"
        xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
-        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
 
     <!-- 配置Spring整合shiro -->
     <!-- 配置安全管理器 -->
@@ -85,10 +81,33 @@
     </bean>
 
 
+
+
+    <!-- 配置ehcache的对象EhCacheManager -->
+    <bean id="ehCacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+        <!-- 注入ehcache核心配置文件的位置 Default is "ehcache.xml" in the root of the class
+            path, or if not found, "ehcache-failsafe.xml" in the EhCache jar (default
+            EhCache initialization). 可以不配置，默认找类路径下的ehcache.xml -->
+        <property name="configLocation" value="classpath:ehcache.xml"/>
+        <property name="shared" value="true"></property> <!-- 这里是关键！！！没有必错  -->
+    </bean>
+    <!-- Spring整合Ehache -->
+    <!-- Spring的平台缓存管理器 -->
+    <bean id="springCacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+        <!-- 注入ehcache的对象 -->
+        <property name="cacheManager" ref="ehCacheManager"></property>
+    </bean>
+    <!-- spring的缓存注解驱动 -->
+    <cache:annotation-driven cache-manager="springCacheManager"/>
+
     <!-- shiro整合echcache的缓存配置 -->
     <!-- 配置Shiro的平台缓存管理 -->
     <bean id="shiroCacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
         <!-- 注入ehcache的对象 -->
         <property name="cacheManager" ref="ehCacheManager"/>
     </bean>
+
+
+    <!-- 产生shiro核心控制器的方式，使用cglib生成代理 -->
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
 </beans>

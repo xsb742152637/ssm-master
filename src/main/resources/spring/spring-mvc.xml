@@ -11,28 +11,9 @@
 	http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
     http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
 
-    <bean id="applicationSettings"
-          class="org.springframework.beans.factory.config.PropertiesFactoryBean">
-        <property name="properties">
-            <props>
-                <!--是否自动登录-->
-                <prop key="isAutoLogin">true</prop>
-                <prop key="name">好管家</prop>
-                <!-- 附件目录 -->
-                <prop key="fileStorage">fileStorage</prop>
 
-                <!--按钮大小：大型(bs-btn-lg) / 默认() / 小型(bs-btn-sm) / 迷你(bs-btn-xs) -->
-                <prop key="butSize"></prop>
-
-                <!-- 各模块主页面按钮颜色：原始(bs-btn-primary) / 默认() / 百搭(bs-btn-normal) / 暖色(bs-btn-warm) / 警告(bs-btn-danger) / 禁用(bs-btn-disabled) -->
-                <prop key="butColor">bs-btn-norma</prop>
-
-                <!-- 圆角：默认(.bs-radius-sm) / 小圆角(bs-radius-md) / 大圆角(bs-radius-lg) -->
-                <prop key="radius">bs-radius-md</prop>
-
-            </props>
-        </property>
-    </bean>
+    <!-- 4.扫描controller相关的bean -->
+    <context:component-scan base-package="controller" />
 
 
     <!-- 配置SpringMVC -->
@@ -56,40 +37,14 @@
         <property name="suffix" value=".jsp" />
     </bean>
 
-    <!-- 4.扫描controller相关的bean -->
-    <context:component-scan base-package="controller" />
 
 
-    <!-- 使用ehcache缓存  -->
-    <!-- 缓存管理器 使用Ehcache实现 -->
-    <bean id="shiroCacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
-        <property name="cacheManager" ref="ehCacheManager" />
-    </bean>
 
-    <!-- 配置ehcache的对象EhCacheManager -->
-    <bean id="ehCacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
-        <!-- 注入ehcache核心配置文件的位置 Default is "ehcache.xml" in the root of the class
-            path, or if not found, "ehcache-failsafe.xml" in the EhCache jar (default
-            EhCache initialization). 可以不配置，默认找类路径下的ehcache.xml -->
-        <property name="configLocation" value="classpath:ehcache.xml"/>
-        <property name="shared" value="true"></property> <!-- 这里是关键！！！没有必错  -->
-    </bean>
-    <!-- Spring整合Ehache -->
-    <!-- Spring的平台缓存管理器 -->
-    <bean id="springCacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
-        <!-- 注入ehcache的对象 -->
-        <property name="cacheManager" ref="ehCacheManager"></property>
-    </bean>
-    <!-- spring的缓存注解驱动 -->
-    <cache:annotation-driven cache-manager="springCacheManager"/>
 
-    <!--全局异常捕捉 -->
-    <bean class="util.GlobalExceptionResolver" />
 
-    <import resource="classpath:spring/spring-shiro.xml"/>
-    <import resource="classpath:spring/spring-mybatis.xml"/>
-    <import resource="classpath:spring/spring-quartz.xml"/>
 
-    <!-- 产生shiro核心控制器的方式，使用cglib生成代理 -->
-    <aop:aspectj-autoproxy proxy-target-class="true"/>
+<!--    <import resource="classpath:spring/spring-shiro.xml"/>-->
+<!--    <import resource="classpath:spring/spring-mybatis.xml"/>-->
+<!--    <import resource="classpath:spring/spring-quartz.xml"/>-->
+
 </beans>

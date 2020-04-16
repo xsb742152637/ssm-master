@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+
+
+    <bean id="applicationSettings"
+          class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="properties">
+            <props>
+                <prop key="name">好管家</prop>
+                <!-- 附件目录 -->
+                <prop key="fileStorage">fileStorage</prop>
+
+                <!--按钮大小：大型(bs-btn-lg) / 默认() / 小型(bs-btn-sm) / 迷你(bs-btn-xs) -->
+                <prop key="butSize"></prop>
+
+                <!-- 各模块主页面按钮颜色：原始(bs-btn-primary) / 默认() / 百搭(bs-btn-normal) / 暖色(bs-btn-warm) / 警告(bs-btn-danger) / 禁用(bs-btn-disabled) -->
+                <prop key="butColor">bs-btn-norma</prop>
+
+                <!-- 圆角：默认(.bs-radius-sm) / 小圆角(bs-radius-md) / 大圆角(bs-radius-lg) -->
+                <prop key="radius">bs-radius-md</prop>
+
+            </props>
+        </property>
+    </bean>
+
+
+
+    <!--全局异常捕捉 -->
+    <bean class="util.GlobalExceptionResolver" />
+
+
+    <import resource="spring-mybatis.xml"></import>
+    <import resource="spring-shiro.xml"></import>
+    <import resource="spring-quartz.xml"></import>
+</beans>

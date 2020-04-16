@@ -29,9 +29,12 @@ public class CoreTreeInfoServiceImpl extends GenericService implements CoreTreeI
     @Autowired
     private CoreMemberInfoService memberService;
 
+    public static CoreTreeInfoServiceImpl getInstance() {
+        return ApplicationContext.getCurrent().getBean(CoreTreeInfoServiceImpl.class);
+    }
+
     static {
         String name = ApplicationContext.get("name");
-
         System.out.println("初始化树，系统名称：" + name);
         CoreTreeInfoServiceImpl that = CoreTreeInfoServiceImpl.getInstance();
         List<CoreTreeInfoEntity> list = that.findRoots();
@@ -117,9 +120,7 @@ public class CoreTreeInfoServiceImpl extends GenericService implements CoreTreeI
         }
     }
 
-    public static CoreTreeInfoServiceImpl getInstance() {
-        return ApplicationContext.getCurrent().getBean(CoreTreeInfoServiceImpl.class);
-    }
+
 
     public void insert(List<CoreTreeInfoEntity> list){
         dao.insert(convertList(list));
