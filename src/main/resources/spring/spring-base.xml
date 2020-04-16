@@ -11,7 +11,7 @@
         <property name="properties">
             <props>
                 <!--是否自动登录-->
-                <prop key="isAutoLogin">true</prop>
+                <prop key="isAutoLogin">false</prop>
 
                 <prop key="name">好管家</prop>
                 <!-- 附件目录 -->
