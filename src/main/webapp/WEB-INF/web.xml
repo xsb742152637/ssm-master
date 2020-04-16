@@ -11,6 +11,13 @@
     <welcome-file>/theme/pc/login/index.jsp</welcome-file>
   </welcome-file-list>
 
+  <context-param>
+    <description>配置Spring配置文件路径</description>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>classpath:spring/spring-base.xml</param-value>
+  </context-param>
+
+
   <error-page>
     <error-code>401</error-code>
     <location>/theme/pc/error/401.jsp</location>
@@ -24,6 +31,11 @@
     <location>/theme/pc/error/500.jsp</location>
   </error-page>
 
+
+  <listener>
+    <description>配置Spring上下文监听器</description>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
   <!-- 防止spring内存溢出监听器，比如quartz -->
   <listener>
     <listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
@@ -31,6 +43,8 @@
   <listener>
     <listener-class>model.core.listener.MyListener</listener-class>
   </listener>
+
+
 
   <!-- Shiro核心控制器，表示由spring管理生命周期 -->
   <filter>
