@@ -10,6 +10,9 @@
           class="org.springframework.beans.factory.config.PropertiesFactoryBean">
         <property name="properties">
             <props>
+                <!--是否自动登录-->
+                <prop key="isAutoLogin">true</prop>
+
                 <prop key="name">好管家</prop>
                 <!-- 附件目录 -->
                 <prop key="fileStorage">fileStorage</prop>

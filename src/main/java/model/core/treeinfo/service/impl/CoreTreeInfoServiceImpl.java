@@ -23,6 +23,7 @@ public class CoreTreeInfoServiceImpl extends GenericService implements CoreTreeI
     public final static String ADMINI_GROUP_ID = "11111111-1111-1111-1111-111111111111";
     //默认管理员
     public final static String ADMINI_MEMBER_ID = "22222222-2222-2222-2222-222222222222";
+    private static Boolean isInto = false;
 
     @Autowired
     private CoreTreeInfoDao dao;
@@ -33,7 +34,13 @@ public class CoreTreeInfoServiceImpl extends GenericService implements CoreTreeI
         return ApplicationContext.getCurrent().getBean(CoreTreeInfoServiceImpl.class);
     }
 
-    static {
+    @Override
+    @Transactional
+    public void intoTrees(){
+        if(isInto){
+            return;
+        }
+        isInto = true;
         String name = ApplicationContext.get("name");
         System.out.println("初始化树，系统名称：" + name);
         CoreTreeInfoServiceImpl that = CoreTreeInfoServiceImpl.getInstance();
@@ -114,14 +121,11 @@ public class CoreTreeInfoServiceImpl extends GenericService implements CoreTreeI
             }
         }
         if(addList.size() > 0){
-            that.insert(addList);
+            this.insert(addList);
         }if(addMemList.size() > 0){
-            CoreMemberInfoServiceImpl.getInstance().insert(addMemList);
+            memberService.insert(addMemList);
         }
     }
-
-
-
     public void insert(List<CoreTreeInfoEntity> list){
         dao.insert(convertList(list));
     }

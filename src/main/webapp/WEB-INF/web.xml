@@ -92,6 +92,14 @@
   </servlet-mapping>
 
   <servlet>
+    <servlet-name>IntoServlet</servlet-name>
+    <servlet-class>model.auth.IntoServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>IntoServlet</servlet-name>
+    <url-pattern>/anon/intoservlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
     <servlet-name>LoginServlet</servlet-name>
     <servlet-class>model.auth.LoginServlet</servlet-class>
   </servlet>

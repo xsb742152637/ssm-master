@@ -1,3 +1,18 @@
+$(function(){
+    //初始化树形
+    $.ajax({
+        url: "/anon/intoservlet",
+        dataType: 'json',
+        type: "POST",
+        success: function (data) {
+            console.log(data);
+        },
+        error: function (jqXHR) {
+            console.log(jqXHR);
+        }
+    });
+});
+
 layui.use('form', function(){
     let $ = layui.jquery;
     let form = layui.form;

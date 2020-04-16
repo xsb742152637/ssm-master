@@ -1,11 +1,9 @@
 package model.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import model.core.memberinfo.service.CoreMemberInfoService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import util.context.Context;
 
 import javax.servlet.ServletException;
@@ -16,9 +14,6 @@ import java.io.IOException;
 
 
 public class LoginServlet extends HttpServlet {
-    @Autowired
-    private CoreMemberInfoService service;
-
     static class LoginMessage {
         public String msg;
         public boolean error;

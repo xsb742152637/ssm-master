@@ -36,7 +36,6 @@ public class CoreTreeInfoController extends GenericController {
             e.printStackTrace();
             return " ";
         }
-
     }
 
     @RequestMapping("saveMain")

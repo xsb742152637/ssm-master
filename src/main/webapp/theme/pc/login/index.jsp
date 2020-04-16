@@ -15,7 +15,8 @@
         response.sendRedirect(Context.SUCCESS_URL);
         return;
     }
-    String isAutoLogin = ApplicationContext.get("isAutoLogin");
+//    String isAutoLogin = ApplicationContext.get("isAutoLogin");
+    String isAutoLogin = "false";
     String username = "";
     String password = "";
     if(StringUtils.isNotBlank(isAutoLogin) && Boolean.parseBoolean(isAutoLogin)){

@@ -39,6 +39,7 @@
                     </property>
                     <!-- quartz任务执行表达式 ,每隔三十分钟执行一次任务-->
                     <property name="cronExpression" value="0 0/30 * * * ?"></property>
+                    <!--<property name="cronExpression" value="0 */1 * * * ?"></property>-->
                 </bean>
             </list>
         </property>
