@@ -5,7 +5,7 @@ layui.use('form', function(){
     xz();
 
     let dlInfo = window.localStorage.getItem('dlInfo');
-    if(dlInfo != null){
+    if(dlInfo != null && !isAutoLogin){
         dlInfo = JSON.parse(dlInfo);
         $("input[name='username']").val(dlInfo.username);
         $("input[name='password']").val(dlInfo.password);
@@ -39,6 +39,10 @@ layui.use('form', function(){
         });
         return false;
     });
+
+    if(isAutoLogin){
+        $('button[lay-filter="formDemo"]').trigger('click');
+    }
 });
 
 let xz = function(){

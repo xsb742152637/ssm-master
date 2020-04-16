@@ -5,9 +5,8 @@ import model.core.guide.entity.CoreGuideFileEntity;
 import model.core.guide.service.CoreGuideFileService;
 import model.core.guide.service.core.Member;
 import model.core.guide.service.core.Menu;
+import model.core.guide.service.core.MenuEx;
 import model.core.memberinfo.MemberType;
-import model.core.memberinfo.entity.CoreMemberInfoEntity;
-import model.core.memberinfo.service.CoreMemberInfoService;
 import model.core.menutree.service.CoreMenuTreeService;
 import model.core.treeinfo.TreeType;
 import model.core.treeinfo.service.CoreTreeInfoService;
@@ -21,8 +20,10 @@ import org.springframework.transaction.annotation.Transactional;
 import util.context.ApplicationContext;
 import util.datamanage.GenericService;
 
-import java.util.*;
-import java.util.logging.Level;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class CoreGuideFileServiceImpl extends GenericService<CoreGuideFileEntity> implements CoreGuideFileService {
@@ -72,6 +73,7 @@ public class CoreGuideFileServiceImpl extends GenericService<CoreGuideFileEntity
     }
     @Override
     public int insert(CoreGuideFileEntity entity){
+        new MenuEx().removeCache();
         return dao.insert(convertList(entity));
     }
 
@@ -104,6 +106,7 @@ public class CoreGuideFileServiceImpl extends GenericService<CoreGuideFileEntity
     @Override
     @Transactional
     public int update(CoreGuideFileEntity entity) {
+        new MenuEx().removeCache();
         return dao.update(convertList(entity));
     }
     @Override

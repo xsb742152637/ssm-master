@@ -5,8 +5,6 @@ import model.core.guide.entity.CoreGuideFileEntity;
 import model.core.guide.service.impl.CoreGuideFileServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Element;
-import org.springframework.stereotype.Service;
-import util.context.ApplicationContext;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -16,14 +14,13 @@ public class MenuEx extends Comm{
     protected Member memberEntity = new Member();
     protected CoreGuideFileServiceImpl fileService = CoreGuideFileServiceImpl.getInstance();
 
-    private void removeCache(){
+    public void removeCache(){
         //menuEntity.removeCache();
         memberEntity.removeCache();
         mapAuth = null;
     }
 
     public Map<String,Set<String>> getGuides(){
-        mapAuth = null;
         if(mapAuth == null){
             mapAuth = new HashMap<>();
             List<CoreGuideFileEntity> guideFileList = fileService.findAll();
@@ -55,9 +52,9 @@ public class MenuEx extends Comm{
                                 liMenus = menuEntity.getDescendantAndSelf(menu,Menu.MENU_TAG);
                                 for(Element m2 : liMenus){
                                     set.add(menuEntity.getIdByItem(m2));
+                                    System.out.println(menuEntity.getNameByItem(m2) + " 拥有权限：" + guideType);
                                     if(m2.elements().size() == 0){
-                                        System.out.println(menuEntity.getNameByItem(m2) + " 拥有权限：" + guideType);
-                                        set.add(menuEntity.getIdByItem(m2) + ":" + guideType);
+                                        //set.add(menuEntity.getIdByItem(m2) + ":" + guideType);
                                     }
                                 }
                             }
@@ -76,13 +73,27 @@ public class MenuEx extends Comm{
                         liMenus = menuEntity.getDescendantAndSelf(mem.getParent(),Menu.MENU_TAG);
                         for(Element m2 : liMenus){
                             set.add(menuEntity.getIdByItem(m2));
+                            System.out.println(menuEntity.getNameByItem(m2) + " 拥有权限：" + guideType);
                             if(m2.elements().size() == 0){
-                                System.out.println(menuEntity.getNameByItem(m2) + " 拥有权限：" + guideType);
-                                set.add(menuEntity.getIdByItem(m2) + ":" + guideType);
+                                //set.add(menuEntity.getIdByItem(m2) + ":" + guideType);
                             }
                         }
                         mapAuth.put(memberId,set);
                     }
+                }
+            }
+
+            for(String memberId : mapAuth.keySet()){
+                Element mem = memberEntity.getMemItem(memberId);
+                if(mem.elements().size() > 0){
+                    List<Element> liP = memberEntity.getDescendantPerson(mem);
+                    for(Element m : liP){
+                        Set<String> set = new HashSet<>();
+                        set.addAll(mapAuth.get(memberId));
+                        mapAuth.put(memberEntity.getIdByItem(m).split(";")[0], set);
+                        System.out.println(memberEntity.getNameByItem(m) +  " 继承到权限");
+                    }
+                    mapAuth.remove(memberId);
                 }
             }
         }

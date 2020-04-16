@@ -1,16 +1,20 @@
 package util.context;
 
+import model.core.guide.service.core.Member;
 import model.core.memberinfo.entity.CoreMemberInfoEntity;
 import model.core.menutree.entity.CoreMenuTreeInfoEntity;
 import model.core.menutree.service.impl.CoreMenuTreeServiceImpl;
+import model.core.treeinfo.service.impl.CoreTreeInfoServiceImpl;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
+import org.dom4j.Element;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.nio.charset.Charset;
+import java.util.List;
 import java.util.UUID;
 
 public class Context {
@@ -175,5 +179,23 @@ public class Context {
 
     public String getRequestPath(){
         return getRequest().getRequestURI();
+    }
+
+    public boolean isAdmini(){
+        CoreMemberInfoEntity member = getMember();
+        if(member != null){
+            try{
+                Member memberEntity = new Member();
+                List<Element> list = memberEntity.getAncestor(memberEntity.getMemItem(member.getMemberId()));
+                for(Element mem : list){
+                    if(CoreTreeInfoServiceImpl.ADMINI_GROUP_ID.equals(memberEntity.getIdByItem(mem))){
+                        return true;
+                    }
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        return false;
     }
 }

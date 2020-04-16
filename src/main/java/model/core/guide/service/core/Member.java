@@ -1,6 +1,7 @@
 package model.core.guide.service.core;
 
 import model.core.guide.service.impl.CoreGuideFileServiceImpl;
+import model.core.memberinfo.MemberType;
 import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Document;
 import org.dom4j.Element;
@@ -51,7 +52,7 @@ public class Member extends Comm{
 
     //得到一个节点的所有兄弟节点
     public List<Element> getDescendantPerson(Element e){
-        return e.selectNodes(".//" + Comm.MEMBER_TAG + "[@p='1']");
+        return e.selectNodes(".//" + Comm.MEMBER_TAG + "[@p='"+ MemberType.Person.getCode() +"']");
     }
 
     //根据成员ID判断是否为人
@@ -60,7 +61,7 @@ public class Member extends Comm{
         List<Element> list = getMemItems(memberId);
         for(Element mem : list){
             String p = mem.attributeValue("p").toString();
-            isPerson = StringUtils.isNotBlank(p) && Integer.parseInt(p) == 1;
+            isPerson = StringUtils.isNotBlank(p) && Integer.parseInt(p) == MemberType.Person.getCode();
             if(isPerson){
                 break;
             }

@@ -68,7 +68,7 @@ public class LoginServlet extends HttpServlet {
                 UsernamePasswordToken token = new UsernamePasswordToken(username, password);
                 try {
                     SecurityUtils.getSubject().login(token);
-                    SecurityUtils.getSubject().checkPermission("user:add");
+                    //SecurityUtils.getSubject().checkPermission("user:add");
                     lm.error = false;
                 } catch (AuthenticationException e) {
                     if(e instanceof IncorrectCredentialsException){

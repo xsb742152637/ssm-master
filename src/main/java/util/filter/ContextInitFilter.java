@@ -1,12 +1,16 @@
 package util.filter;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.*;
+import util.context.ApplicationContext;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class ContextInitFilter implements Filter {
+    private static boolean isAutoLogin = false;
 
     @Override
     public void destroy() {

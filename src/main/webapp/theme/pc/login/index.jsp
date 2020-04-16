@@ -1,6 +1,8 @@
 <%@ page import="org.apache.shiro.SecurityUtils" %>
 <%@ page import="util.context.Context" %>
-<%@ page import="model.core.basesetting.CoreBaseSetting" %><%--
+<%@ page import="model.core.basesetting.CoreBaseSetting" %>
+<%@ page import="util.context.ApplicationContext" %>
+<%@ page import="org.apache.commons.lang3.StringUtils" %><%--
   Created by IntelliJ IDEA.
   User: xiucai
   Date: 2020/1/13
@@ -11,8 +13,17 @@
 <%
     if (SecurityUtils.getSubject().isAuthenticated()) {
         response.sendRedirect(Context.SUCCESS_URL);
+        return;
     }
-
+    String isAutoLogin = ApplicationContext.get("isAutoLogin");
+    String username = "";
+    String password = "";
+    if(StringUtils.isNotBlank(isAutoLogin) && Boolean.parseBoolean(isAutoLogin)){
+        username = "admini";
+        password = "111";
+    }else{
+        isAutoLogin = "false";
+    }
 %>
 <html>
 <head>
@@ -42,13 +53,13 @@
                         <div class="layui-input-block">
                             <!-- lay-verify="required" 表示验证类型为必填 -->
                             <!-- autocomplete="off" 表示表单不使用缓存信息 -->
-                            <input type="text" name="username" required  lay-verify="required" placeholder="请输入用户名" class="layui-input">
+                            <input type="text" name="username" value="<%=username%>" required  lay-verify="required" placeholder="请输入用户名" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">密码：</label>
                         <div class="layui-input-block">
-                            <input type="password" name="password" required lay-verify="required" placeholder="请输入密码" class="layui-input">
+                            <input type="password" name="password" value="<%=password%>" required lay-verify="required" placeholder="请输入密码" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-form-item">
@@ -70,6 +81,7 @@
     </div>
 
     <script type="text/javascript">
+        const isAutoLogin = Boolean.parse("<%=isAutoLogin%>");
         const successUrl = "<%=Context.SUCCESS_URL%>";
     </script>
 </body>
