@@ -17,7 +17,6 @@ public class CoreMemberInfoEntity {
     private String memberId;
     private String memberName;
     private int memberType;
-    private byte[] photo;
     private String account;
     private String password;
     private Boolean memberState;
@@ -49,16 +48,6 @@ public class CoreMemberInfoEntity {
 
     public void setMemberType(int memberType) {
         this.memberType = memberType;
-    }
-
-    @Basic
-    @Column(name = "PHOTO")
-    public byte[] getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(byte[] photo) {
-        this.photo = photo;
     }
 
     @Basic

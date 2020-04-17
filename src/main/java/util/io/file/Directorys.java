@@ -188,6 +188,102 @@ public class Directorys {
     }
 
 
+    public static Collection<Path> getFiles(Path dir, boolean recursive) throws IOException {
+        return getFiles(dir, (DirectoryStream.Filter)null, recursive);
+    }
+
+    public static Collection<Path> getFiles(Path dir, DirectoryStream.Filter<? super Path> filter, boolean recursive) throws IOException {
+        return getPaths(dir, filter, true, recursive);
+    }
+
+    public static Collection<Path> getPaths(Path dir, boolean recursive) throws IOException {
+        return getPaths(dir, (DirectoryStream.Filter)null, recursive);
+    }
+
+    public static Collection<Path> getPaths(Path dir, DirectoryStream.Filter<? super Path> filter, boolean recursive) throws IOException {
+        return getPaths(dir, filter, false, recursive);
+    }
+
+    private static Collection<Path> getPaths(Path dir, final DirectoryStream.Filter<? super Path> filter, final boolean excludeDir, boolean recursive) throws IOException {
+        final DirectoryStream.Filter<? super Path> filter2 = new DirectoryStream.Filter<Path>() {
+            public boolean accept(Path entry) throws IOException {
+                return true;
+            }
+        };
+        if (Files.notExists(dir, new LinkOption[0])) {
+            throw new NoSuchFileException(dir.toString());
+        } else if (!Files.isDirectory(dir, new LinkOption[0])) {
+            throw new NotDirectoryException(dir.toString());
+        } else {
+
+            final List<Path> pathList = new ArrayList();
+            if (recursive) {
+                Files.walkFileTree(dir, new SimpleFileVisitor<Path>() {
+                    public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
+                        if (!excludeDir && (filter != null && filter.accept(dir) || filter2.accept(dir))) {
+                            pathList.add(dir);
+                        }
+
+                        return FileVisitResult.CONTINUE;
+                    }
+
+                    public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                        if (filter != null && filter.accept(file) || filter2.accept(file)) {
+                            pathList.add(file);
+                        }
+
+                        return FileVisitResult.CONTINUE;
+                    }
+                });
+            } else {
+                DirectoryStream<Path> directoryStream;
+                if(filter == null){
+                    directoryStream = Files.newDirectoryStream(dir, filter2);
+                }else{
+                    directoryStream = Files.newDirectoryStream(dir, filter);
+                }
+                Throwable var7 = null;
+
+                try {
+                    Iterator i$ = directoryStream.iterator();
+
+                    label115:
+                    while(true) {
+                        Path tmpPath;
+                        do {
+                            if (!i$.hasNext()) {
+                                break label115;
+                            }
+
+                            tmpPath = (Path)i$.next();
+                        } while(excludeDir && Files.isDirectory(tmpPath, new LinkOption[0]));
+
+                        pathList.add(tmpPath);
+                    }
+                } catch (Throwable var17) {
+                    var7 = var17;
+                    throw var17;
+                } finally {
+                    if (directoryStream != null) {
+                        if (var7 != null) {
+                            try {
+                                directoryStream.close();
+                            } catch (Throwable var16) {
+                                var7.addSuppressed(var16);
+                            }
+                        } else {
+                            directoryStream.close();
+                        }
+                    }
+
+                }
+            }
+
+            pathList.remove(dir);
+            return pathList;
+        }
+    }
+
     public static boolean deleteIfEmpty(Path path) throws IOException {
         if (Files.notExists(path, new LinkOption[0])) {
             throw new NoSuchFileException(path.toString());

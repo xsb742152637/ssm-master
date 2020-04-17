@@ -2,6 +2,7 @@ package controller.core.memberinfo;
 
 import model.core.guide.service.CoreGuideFileService;
 import model.core.guide.service.core.MenuEx;
+import model.core.memberarchives.service.CoreMemberArchivesService;
 import model.core.memberinfo.entity.CoreMemberInfoEntity;
 import model.core.memberinfo.service.CoreMemberInfoService;
 import model.core.treeinfo.service.CoreTreeInfoService;
@@ -23,6 +24,8 @@ public class CoreMemberInfoController extends GenericController {
     private CoreMemberInfoService mainService;
     @Autowired
     private CoreTreeInfoService treeService;
+    @Autowired
+    private CoreMemberArchivesService memberArchivesService;
     @Autowired
     private CoreGuideFileService guideFileService;
 
@@ -67,9 +70,10 @@ public class CoreMemberInfoController extends GenericController {
         String treeId = request.getParameter("treeId");
         String primaryId = request.getParameter("primaryId");
         try {
-            treeService.delete(treeId);
-            mainService.delete(primaryId);
-            new MenuEx().updateGuideByMemChange(primaryId,"deleteMem");
+            treeService.delete(treeId);//删除树形
+            memberArchivesService.delete(primaryId);//删除成员档案
+            mainService.delete(primaryId);//删除成员信息
+            new MenuEx().updateGuideByMemChange(primaryId,"deleteMem");//更新授权信息
             return returnSuccess();
         }catch (Exception e){
             e.printStackTrace();

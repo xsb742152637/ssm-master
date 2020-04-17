@@ -48,8 +48,8 @@
                 <ul class="layui-nav layui-layout-right">
                     <li class="layui-nav-item">
                         <a href="javascript:;">
-                            <%--<img src="http://t.cn/RCzsdCq" class="layui-nav-img">--%>
-                            <i class="layui-icon layui-icon-username"></i>
+                            <img src="/core/memberArchives/getPhoto.do?memberId=<%=Context.getCurrent().getMember().getMemberId()%>" class="layui-nav-img">
+                            <%--<i class="layui-icon layui-icon-username"></i>--%>
                             <shiro:user>
                                 <shiro:principal property="memberName"/>
                             </shiro:user>

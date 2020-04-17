@@ -91,6 +91,7 @@
     <url-pattern>*.do</url-pattern>
   </servlet-mapping>
 
+  <!-- 初始化项目数据 -->
   <servlet>
     <servlet-name>IntoServlet</servlet-name>
     <servlet-class>model.auth.IntoServlet</servlet-class>
@@ -99,6 +100,7 @@
     <servlet-name>IntoServlet</servlet-name>
     <url-pattern>/anon/intoservlet</url-pattern>
   </servlet-mapping>
+  <!-- 登录 -->
   <servlet>
     <servlet-name>LoginServlet</servlet-name>
     <servlet-class>model.auth.LoginServlet</servlet-class>
@@ -107,14 +109,7 @@
     <servlet-name>LoginServlet</servlet-name>
     <url-pattern>/anon/loginservlet</url-pattern>
   </servlet-mapping>
-  <servlet>
-    <servlet-name>CheckLoginServlet</servlet-name>
-    <servlet-class>model.auth.CheckLoginServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>CheckLoginServlet</servlet-name>
-    <url-pattern>/anon/checkloginservlet</url-pattern>
-  </servlet-mapping>
+  <!-- 退出 -->
   <servlet>
     <servlet-name>LogoutServlet</servlet-name>
     <servlet-class>model.auth.LogoutServlet</servlet-class>
@@ -122,5 +117,16 @@
   <servlet-mapping>
     <servlet-name>LogoutServlet</servlet-name>
     <url-pattern>/anon/logoutServlet</url-pattern>
+  </servlet-mapping>
+
+  <!-- 保存文件 -->
+  <servlet>
+    <servlet-name>SaveServlet</servlet-name>
+    <servlet-class>util.io.file.SaveServlet</servlet-class>
+    <multipart-config></multipart-config>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SaveServlet</servlet-name>
+    <url-pattern>/file/save/*</url-pattern>
   </servlet-mapping>
 </web-app>

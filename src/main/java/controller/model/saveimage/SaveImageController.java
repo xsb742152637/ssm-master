@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import util.converter.BlobAndImageConverter;
 import util.datamanage.GenericController;
 import util.file.FileUtils;
 
@@ -25,7 +26,7 @@ public class SaveImageController extends GenericController {
         //获取保存路径
         try {
             String image=request.getParameter("image");
-            FileUtils.base64ToFile(image,"图片.png");
+            BlobAndImageConverter.getFileByBase64(image,"图片.png");
 
         }catch (Exception e){
             System.out.println("手写签章失败："+e.getMessage());

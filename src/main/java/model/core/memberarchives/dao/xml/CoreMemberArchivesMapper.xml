@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="model.core.memberarchives.dao.CoreMemberArchivesDao">
+    <!--表名-->
+    <sql id="tableName">core_member_archives</sql>
+    <!--主键-->
+    <sql id="primaryKey">MEMBER_ID</sql>
+
+    <select id="findOne" resultType="CoreMemberArchivesEntity">
+        <include refid="GenericMapper.findOne"/>
+    </select>
+
+    <insert id="insert" >
+        <include refid="GenericMapper.insert"/>
+    </insert>
+
+    <update id="update">
+        <include refid="GenericMapper.update"/>
+    </update>
+
+    <delete id="delete">
+        <include refid="GenericMapper.delete"/>
+    </delete>
+</mapper>
