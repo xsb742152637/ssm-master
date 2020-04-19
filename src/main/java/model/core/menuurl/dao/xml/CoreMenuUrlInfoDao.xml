@@ -31,6 +31,9 @@
     <select id="findOne" resultType="CoreMenuUrlInfoEntity">
         <include refid="GenericMapper.findOne"/>
     </select>
+    <select id="findOneByCode" resultType="CoreMenuUrlInfoEntity">
+        select * from <include refid="tableName"/> where CODE = #{code} limit 0,1
+    </select>
 
     <insert id="insert" >
         <include refid="GenericMapper.insert"/>

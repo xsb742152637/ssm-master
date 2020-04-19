@@ -74,7 +74,7 @@ public class GenericController {
 
     //操作失败的返回
     public String returnFaild() {
-        return returnFaild();
+        return returnFaild(null);
     }
     public String returnFaild(String msg) {
         JSONObject re = new JSONObject();

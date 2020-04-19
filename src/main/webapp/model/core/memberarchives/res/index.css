@@ -1,0 +1,13 @@
+
+.div-left-item{
+    text-align: center;
+
+}
+.div-left-item .member-photo{
+    margin-bottom: 10px;
+}
+.div-left-item .member-photo img{
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+}

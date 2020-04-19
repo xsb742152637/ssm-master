@@ -11,6 +11,7 @@ public interface CoreMenuUrlService {
     Integer getMainCount(String primaryId,String searchKey);
 
     CoreMenuUrlInfoEntity findOne(String primaryId);
+    CoreMenuUrlInfoEntity findOneByCode(String code);
 
     int insert(CoreMenuUrlInfoEntity entity);
     int insert(List<CoreMenuUrlInfoEntity> list);

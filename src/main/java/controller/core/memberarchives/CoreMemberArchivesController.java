@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import util.converter.BlobAndImageConverter;
 import util.converter.BlobImpl;
 import util.datamanage.GenericController;
+import util.io.Attachment;
+import util.io.AttachmentUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -58,19 +60,23 @@ public class CoreMemberArchivesController extends GenericController {
     @ResponseBody
     public String saveMainInfo(HttpServletRequest request, HttpServletResponse response){
         String memberId = request.getParameter("memberId");
-        String photo = request.getParameter("photo");
+        String photoUrl = request.getParameter("photoUrl");
 
         if(StringUtils.isBlank(memberId)){
             return returnFaild("没有正确接收到参数");
         }
-        CoreMemberArchivesEntity entity = mainService.findOne(memberId);
-        if(entity == null){
-            entity = new CoreMemberArchivesEntity();
-            entity.setMemberId(memberId);
-        }
+
         try{
-            entity.setPhoto(new BlobImpl(BlobAndImageConverter.getBlobByPath(photo)).getBytes());
-            mainService.update(entity);
+            CoreMemberArchivesEntity entity = mainService.findOne(memberId);
+            if(entity == null){
+                entity = new CoreMemberArchivesEntity();
+                entity.setMemberId(memberId);
+                entity.setPhoto(BlobAndImageConverter.getBytesByPath(photoUrl));
+                mainService.insert(entity);
+            }else{
+                entity.setPhoto(BlobAndImageConverter.getBytesByPath(photoUrl));
+                mainService.update(entity);
+            }
         }catch (Exception e){
             e.printStackTrace();
         }

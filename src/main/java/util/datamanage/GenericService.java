@@ -23,7 +23,7 @@ public class GenericService<T>{
 		List<Object> primaryIds = new ArrayList<>();
 		try{
 			if(list == null || list.size() < 1){
-				throw new Exception("对象转换失败！");
+				throw new Exception("没有需要转换的对象！");
 			}
 			int i = 0;
 			for(Object obj : list){

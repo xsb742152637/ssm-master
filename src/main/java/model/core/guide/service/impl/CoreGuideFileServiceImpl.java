@@ -115,6 +115,9 @@ public class CoreGuideFileServiceImpl extends GenericService<CoreGuideFileEntity
     @Override
     @Transactional
     public int update(List<CoreGuideFileEntity> list) {
+        if(list == null || list.size() < 1){
+            return 0;
+        }
         return dao.update(convertList(list));
     }
 

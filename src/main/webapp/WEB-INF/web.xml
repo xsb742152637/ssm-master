@@ -127,6 +127,6 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>SaveServlet</servlet-name>
-    <url-pattern>/file/save/*</url-pattern>
+    <url-pattern>/file/save</url-pattern>
   </servlet-mapping>
 </web-app>

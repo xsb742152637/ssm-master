@@ -1,5 +1,6 @@
 package util.io.file;
 
+import net.sf.json.JSONArray;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -15,9 +16,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 @MultipartConfig
 public class SaveServlet extends javax.servlet.http.HttpServlet {
@@ -39,7 +38,7 @@ public class SaveServlet extends javax.servlet.http.HttpServlet {
             //解决上传文件名的中文乱码
             fileUpload.setHeaderEncoding("UTF-8");
             //3、判断提交上来的数据是否是上传表单的数据
-            if(!fileUpload.isMultipartContent(request)){
+            if(!ServletFileUpload.isMultipartContent(request)){
                 //按照传统方式获取数据
                 return;
             }
@@ -105,7 +104,16 @@ public class SaveServlet extends javax.servlet.http.HttpServlet {
         if (attachments.size() == 0) {
             response.getWriter().print("上传失败，因为文件内容为空。");
         } else {
-            response.getWriter().print(AttachmentUtils.getJsonByAttach(attachments));
+            List<Map<String,Object>> list = new ArrayList<>();
+            for(Attachment atta : attachments){
+                Map<String,Object> map = new HashMap<>();
+                map.put("relativePath", atta.getRelativePath());
+                map.put("path", atta.getPath().toString());
+                map.put("name", atta.getName());
+                map.put("size", atta.getSize());
+                list.add(map);
+            }
+            response.getWriter().print(JSONArray.fromObject(list).toString());
         }
     }
 }

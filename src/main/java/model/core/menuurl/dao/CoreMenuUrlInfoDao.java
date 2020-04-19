@@ -13,6 +13,7 @@ public interface CoreMenuUrlInfoDao {
     Integer getMainCount(@Param("primaryId") String primaryId,@Param("searchKey") String searchKey);
 
     CoreMenuUrlInfoEntity findOne(@Param("primaryId") String primaryId);
+    CoreMenuUrlInfoEntity findOneByCode(@Param("code") String code);
 
     int insert(@Param("map") Map<String,Object> map);
 

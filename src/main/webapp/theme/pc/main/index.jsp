@@ -1,5 +1,9 @@
 <%@ page import="util.context.Context" %>
-<%@ page import="model.core.basesetting.CoreBaseSetting" %><%--
+<%@ page import="model.core.basesetting.CoreBaseSetting" %>
+<%@ page import="model.core.menutree.service.impl.CoreMenuTreeServiceImpl" %>
+<%@ page import="model.core.menutree.entity.CoreMenuTreeInfoEntity" %>
+<%@ page import="model.core.menuurl.service.impl.CoreMenuUrlServiceImpl" %>
+<%@ page import="model.core.menuurl.entity.CoreMenuUrlInfoEntity" %><%--
   Created by IntelliJ IDEA.
   User: Administrator
   Date: 2020/1/1
@@ -10,7 +14,11 @@
 <%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-
+    CoreMenuUrlInfoEntity entity = CoreMenuUrlServiceImpl.getInstance().findOneByCode("memberarchives");
+    String memberarchives_url = "";
+    if(entity != null){
+        memberarchives_url = entity.getUrl() + "?menuCode=memberarchives";
+    }
 %>
 <html>
 <head>
@@ -55,7 +63,7 @@
                             </shiro:user>
                         </a>
                         <dl class="layui-nav-child">
-                            <dd><a href="">基本资料</a></dd>
+                            <dd><a href="<%=memberarchives_url%>">基本资料</a></dd>
                             <dd><a href="">安全设置</a></dd>
                         </dl>
                     </li>

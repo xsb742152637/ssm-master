@@ -40,6 +40,11 @@ public class CoreMenuUrlServiceImpl extends GenericService<CoreMenuUrlInfoEntity
     }
 
     @Override
+    public CoreMenuUrlInfoEntity findOneByCode(String code) {
+        return dao.findOneByCode(code);
+    }
+
+    @Override
     @Transactional
     public int insert(CoreMenuUrlInfoEntity entity){
         return dao.insert(convertList(entity));
