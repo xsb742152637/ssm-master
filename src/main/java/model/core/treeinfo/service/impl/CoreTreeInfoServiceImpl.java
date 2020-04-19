@@ -1,5 +1,6 @@
 package model.core.treeinfo.service.impl;
 
+import model.core.guide.service.CoreGuideFileService;
 import model.core.memberinfo.MemberType;
 import model.core.memberinfo.entity.CoreMemberInfoEntity;
 import model.core.memberinfo.service.CoreMemberInfoService;
@@ -10,6 +11,7 @@ import model.core.treeinfo.entity.CoreTreeInfoEntity;
 import model.core.treeinfo.service.CoreTreeInfoService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import util.context.ApplicationContext;
@@ -27,8 +29,13 @@ public class CoreTreeInfoServiceImpl extends GenericService implements CoreTreeI
 
     @Autowired
     private CoreTreeInfoDao dao;
+    @Lazy
     @Autowired
     private CoreMemberInfoService memberService;
+
+    @Lazy
+    @Autowired
+    private CoreGuideFileService guideFileService;
 
     public static CoreTreeInfoServiceImpl getInstance() {
         return ApplicationContext.getCurrent().getBean(CoreTreeInfoServiceImpl.class);
@@ -125,6 +132,9 @@ public class CoreTreeInfoServiceImpl extends GenericService implements CoreTreeI
         }if(addMemList.size() > 0){
             memberService.insert(addMemList);
         }
+
+        //授权xml同步成员
+        guideFileService.createMemberXml("add",ADMINI_MEMBER_ID,"admini");
     }
     public void insert(List<CoreTreeInfoEntity> list){
         dao.insert(convertList(list));

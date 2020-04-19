@@ -8,6 +8,7 @@ import model.core.memberinfo.entity.CoreMemberInfoEntity;
 import model.core.memberinfo.service.CoreMemberInfoService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import util.context.ApplicationContext;
@@ -28,6 +29,7 @@ import java.util.List;
 public class CoreMemberArchivesServiceImpl extends GenericService<CoreMemberArchivesEntity> implements CoreMemberArchivesService {
     @Autowired
     private CoreMemberArchivesDao dao;
+    @Lazy
     @Autowired
     private CoreMemberInfoService memberInfoService;
 

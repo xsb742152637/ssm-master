@@ -15,6 +15,7 @@ import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import util.context.ApplicationContext;
@@ -32,8 +33,10 @@ public class CoreGuideFileServiceImpl extends GenericService<CoreGuideFileEntity
 
     @Autowired
     private CoreGuideFileDao dao;
+    @Lazy
     @Autowired
     private CoreTreeInfoService treeService;
+    @Lazy
     @Autowired
     private CoreMenuTreeService menuTreeService;
     /**

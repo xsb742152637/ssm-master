@@ -91,7 +91,7 @@
     </div>
 
     <script type="text/javascript">
-        const isAdmini = <%=Context.getCurrent().isAdmini()%>;
+        var isAdmini = <%=Context.getCurrent().isAdmini()%>;
         const thisMenuId = "<%=Context.getCurrent().getMenuTree() == null ? "" : Context.getCurrent().getMenuTree().getMenuId()%>";
     </script>
     <script type="text/javascript" src="/theme/pc/main/res/index.js"></script>

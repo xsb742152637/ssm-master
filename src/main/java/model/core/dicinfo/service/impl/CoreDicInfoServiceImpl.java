@@ -5,6 +5,7 @@ import model.core.dicinfo.entity.CoreDicInfoEntity;
 import model.core.dicinfo.service.CoreDicDetailService;
 import model.core.dicinfo.service.CoreDicInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import util.datamanage.GenericService;
@@ -22,6 +23,7 @@ import java.util.List;
 public class CoreDicInfoServiceImpl extends GenericService implements CoreDicInfoService {
     @Autowired
     CoreDicInfoDao dao;
+    @Lazy
     @Autowired
     CoreDicDetailService detailService;
 
