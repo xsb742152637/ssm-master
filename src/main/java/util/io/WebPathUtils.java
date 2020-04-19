@@ -47,7 +47,7 @@ public class WebPathUtils {
                     e.printStackTrace();
                 }
                 if(clasPath != null){
-                    rootPath = clasPath.resolveSibling(tempRootPath);
+                    rootPath = clasPath.resolve(tempRootPath);
                 }
             }else{
                 rootPath = tempRootPath;
