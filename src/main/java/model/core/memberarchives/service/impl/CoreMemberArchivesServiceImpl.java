@@ -74,7 +74,7 @@ public class CoreMemberArchivesServiceImpl extends GenericService<CoreMemberArch
                     CoreMemberInfoEntity mem = memberInfoService.findOne(memberId);
                     //名称
                     if(mem != null && mem.getMemberName() != null){
-                        text = getStr(mem.getMemberName().toString(),6);//处理字符串超长问题
+                        text = mem.getMemberName().toString().substring(0,1);//处理字符串超长问题
                     }else{
                         text="空";
                     }
@@ -91,7 +91,7 @@ public class CoreMemberArchivesServiceImpl extends GenericService<CoreMemberArch
                     }
                 }
             }else if(StringUtils.isNotBlank(text)){
-                image=createPhoto(text.trim());
+                image = createPhoto(text.trim().substring(0,1));
                 Blob blob = BlobAndImageConverter.getBlobByBufferedImage(image);
 
                 inputimage = new BufferedInputStream(blob.getBinaryStream());
@@ -112,12 +112,13 @@ public class CoreMemberArchivesServiceImpl extends GenericService<CoreMemberArch
     }
 
     private BufferedImage createPhoto(String name){
+        name = name.toUpperCase();
         //备选背景色
         int[] rC={45,90,70,80,200,200,220,140,110,80,180};
         int[] gC={204,200,140,80,120,120,150,200,150,15,200};
         int[] bC={112,200,200,180,200,120,40,100,160,10,160};
         int i=(int)(Math.random()*10);
-        int width=100,height=100;
+        int width=200,height=200;
 
         BufferedImage image= new BufferedImage(width,height, BufferedImage.TYPE_INT_RGB);
         Graphics2D g = image.createGraphics();
@@ -128,7 +129,7 @@ public class CoreMemberArchivesServiceImpl extends GenericService<CoreMemberArch
         g.fillRect(0, 0, width, height);
 
         g.setColor(new Color(255,255,255));//字体颜色 白色
-        Font font = new Font("微软雅黑", Font.CENTER_BASELINE, 25);
+        Font font = new Font("微软雅黑", Font.CENTER_BASELINE, 100);
         g.setFont(font);
 
         //字体居中
