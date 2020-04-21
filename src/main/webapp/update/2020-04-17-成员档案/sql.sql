@@ -12,3 +12,5 @@ ALTER TABLE `core_member_info`
 	DROP COLUMN `PHOTO`;
 
 INSERT INTO `core_menu_url_info` VALUES ('260c7fad-94fa-4e41-a389-89a6b0946054', '个人信息', 'memberarchives', '/model/core/memberarchives/index.jsp', NULL, '2020-04-19 20:47:01');
+
+INSERT INTO `core_menu_url_info` VALUES ('260c7fad-94fa-4e41-a389-89a6b0946053', '节日汇', 'markdate', '/model/app/markdate/index.jsp', NULL, '2020-04-19 20:47:01');

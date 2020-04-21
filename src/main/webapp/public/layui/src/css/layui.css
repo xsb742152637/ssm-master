@@ -1311,6 +1311,66 @@ body .layui-util-face  .layui-layer-content{padding:0; background-color:#fff; co
 .layui-tree-editInput{position: relative; display: inline-block; vertical-align: middle; height: 20px; line-height: 20px; padding: 0 3px; border: none; background-color: rgba(0,0,0,0.05);}
 .layui-tree-emptyText{text-align: center; color: #999;}
 
+/*月历组件*/
+.layui-month{
+  margin: 0 !important;
+}
+.layui-month th,.layui-month td{
+  padding: 0px !important;
+  text-align: center;
+}
+.layui-month .layui-month-td{
+  position: relative;
+  font-weight: bolder;
+}
+.layui-month .layui-month-td>div{
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  cursor: pointer;
+  position: absolute;
+  align-items: center;
+  justify-content: center;
+}
+.layui-month .layui-month-item{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.layui-month tbody tr:hover{background-color: #fff !important;}
+.layui-month .layui-month-head{
+  display: flex;
+  padding: 10px 5px;
+}
+.layui-month .layui-month-defbut{
+  display: flex;
+}
+.layui-month .layui-month-defbut>i{
+  padding: 0px 5px;
+  cursor: pointer;
+}
+.layui-month .layui-month-defbut>div{
+  padding: 0px 5px;
+  cursor: default;
+}
+.layui-month .layui-month-toolbar{
+  text-align: right;
+  flex: 1;
+}
+.layui-month .layui-month-null{
+  background-color: #f9f9f9;
+}
+.layui-month .layui-month-jin{
+  background-color: #FF5722;
+  color: #fff;
+}
+
+.layui-month .layui-month-act{
+  border: 3px solid #5FB878;
+  border-radius: 50%;
+}
 
 
 

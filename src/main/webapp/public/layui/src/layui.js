@@ -58,6 +58,7 @@
     ,upload: 'modules/upload' //上传
     ,transfer: 'modules/transfer' //上传
     ,tree: 'modules/tree' //树结构
+    ,month: 'modules/month' //月历
     ,table: 'modules/table' //表格
     ,element: 'modules/element' //常用元素操作
     ,rate: 'modules/rate'  //评分组件
