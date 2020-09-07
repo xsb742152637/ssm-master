@@ -105,7 +105,7 @@ public class CoreGuideFileController extends GenericController {
         }
 
         if(entity != null){
-            isHave = SecurityUtils.getSubject().isPermitted(entity.getMenuId() + ":" + GuideType.ReadSelf.getCode());
+            isHave = SecurityUtils.getSubject().isPermitted(entity.getMenuId() + ":" + GuideType.Update.getCode());
         }
         return isHave;
     }

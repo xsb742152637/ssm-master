@@ -1,6 +1,7 @@
 package util.context;
 
 import model.core.guide.service.core.Member;
+import model.core.guide.service.core.MenuEx;
 import model.core.memberinfo.entity.CoreMemberInfoEntity;
 import model.core.menutree.entity.CoreMenuTreeInfoEntity;
 import model.core.menutree.service.impl.CoreMenuTreeServiceImpl;
@@ -17,6 +18,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.nio.charset.Charset;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 public class Context {
@@ -26,6 +29,15 @@ public class Context {
         return SecurityUtils.getSubject();
     }
 
+    public static void loadGuide(){
+        Map<String,Set<String>> mapAuth = new MenuEx().getGuides();
+        Set<String> set = mapAuth.get(getMember().getMemberId());
+
+        Context.getSession().setAttribute("guides", set);
+    }
+    public static Set<String> getGuide(){
+        return (Set<String>) getSession().getAttribute("guides");
+    }
     //-------------------成员相关------------------------------
     public static CoreMemberInfoEntity getMember(){
         if (getCurrent().isAuthenticated()) {

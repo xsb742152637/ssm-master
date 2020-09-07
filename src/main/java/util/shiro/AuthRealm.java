@@ -9,6 +9,7 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
+import util.context.Context;
 
 import java.util.Map;
 import java.util.Set;
@@ -23,31 +24,22 @@ public class AuthRealm extends AuthorizingRealm {
         System.out.println("授权方法");
         //获取当前登录的用户
         CoreMemberInfoEntity member = (CoreMemberInfoEntity) arg0.getPrimaryPrincipal();
-        //Set<Role> roles = user.getRoles();//当前用户拥有的角色，根据自己的entity
-        ////指示当前用户能访问的资源
-        //授权类
-        if(member != null){
-            Map<String,Set<String>> mapAuth = new MenuEx().getGuides();
-            Set<String> set = mapAuth.get(member.getMemberId());
-            if(set != null && set.size() > 0){
 
-            }
-
-        }
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-        //if ("谢世兵".equals(member.getMemberName())) {
-            //获取所有权限集合，循环添加
-            //info.addStringPermission("/core/*");
-            //info.addStringPermission("user:add");
-            //获取所有角色集合，循环添加
-            //info.addRole("admin");
-            //info.addRole("经理");
-        //} else {
-            //根据用户去查找用户所有的权限，循环添加
-            // authorizationInfo.addStringPermission("customer:add");
-            //根据用户去查找用户所用有的角色，循环添加
-            //authorizationInfo.addRole("创始人");
-        //}
+        if(info.getStringPermissions() == null || info.getStringPermissions().size() == 0){
+            ////指示当前用户能访问的资源
+            Set<String> set = Context.getGuide();
+            for(String s : set){
+                info.addStringPermission(s);
+            }
+        }
+
+        //获取所有权限集合，循环添加
+        //info.addStringPermission("/core/*");
+        //info.addStringPermission("user:add");
+        //获取所有角色集合，循环添加
+        //info.addRole("admin");
+        //info.addRole("经理");
         return info;
     }
 

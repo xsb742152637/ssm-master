@@ -30,10 +30,13 @@ public class CoreMenuTreeServiceImpl extends GenericService<CoreMenuTreeInfoEnti
     @Override
     public List<Map<String,Object>> getMenuTree(Boolean needGuide,Boolean isTop,Boolean isShow) {
         //得到权限
-        Set<String> set = null;
+        Set<String> set = new HashSet<>();
         if(needGuide){
             Map<String,Set<String>> mapAuth = new MenuEx().getGuides();
-            set = mapAuth.get(Context.getMember().getMemberId());
+            Set<String> set1 = mapAuth.get(Context.getMember().getMemberId());
+            for(String s : set1){
+                set.add(s.split(":")[0]);
+            }
         }
 
         //1. 得到全部显示的菜单树的列表

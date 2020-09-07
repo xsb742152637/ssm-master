@@ -1,6 +1,8 @@
 package model.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import model.core.guide.service.core.MenuEx;
+import model.core.memberinfo.entity.CoreMemberInfoEntity;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
@@ -11,6 +13,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Map;
+import java.util.Set;
 
 
 public class LoginServlet extends HttpServlet {
@@ -57,7 +61,7 @@ public class LoginServlet extends HttpServlet {
         if (StringUtils.isBlank(username) || StringUtils.isBlank(password)) {
             lm.msg = "用户名或密码不能为空.";
         } else {
-            if ( SecurityUtils.getSubject().isAuthenticated() && SecurityUtils.getSubject().getPrincipal().equals(username)) {
+            if (SecurityUtils.getSubject().isAuthenticated() && ((CoreMemberInfoEntity) SecurityUtils.getSubject().getPrincipal()).getMemberName().equals(username)) {
                 lm.msg = "当前会话已经是验证通过了的.";
                 lm.error = false;
             } else {
@@ -67,6 +71,9 @@ public class LoginServlet extends HttpServlet {
                     if(StringUtils.isNotBlank(savePas) && Boolean.parseBoolean(savePas)){
                         token.setRememberMe(true);//记住我
                     }
+
+                    //初始化当前登录人员的权限
+                    Context.loadGuide();
                     lm.error = false;
                 } catch (AuthenticationException e) {
                     if(e instanceof IncorrectCredentialsException){

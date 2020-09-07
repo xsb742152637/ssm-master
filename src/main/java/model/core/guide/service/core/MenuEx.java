@@ -20,6 +20,11 @@ public class MenuEx extends Comm{
         mapAuth = null;
     }
 
+    /**
+     *
+     * @param guide 查询出来的菜单是否带上权限类型
+     * @return
+     */
     public Map<String,Set<String>> getGuides(){
         //mapAuth = null;
         if(mapAuth == null){
@@ -47,14 +52,12 @@ public class MenuEx extends Comm{
                                 //得到当前菜单的所有上级菜单
                                 List<Element> liMenus = menuEntity.getAncestor(menu);
                                 for(Element m2 : liMenus){
-                                    set.add(menuEntity.getIdByItem(m2));
-                                    set.add(menuEntity.getIdByItem(m2) + ";" + guideType);
+                                    set.add(menuEntity.getIdByItem(m2) + ":" + guideType);
                                 }
                                 //得到当前菜单的所有下级菜单与自己
                                 liMenus = menuEntity.getDescendantAndSelf(menu,Menu.MENU_TAG);
                                 for(Element m2 : liMenus){
-                                    set.add(menuEntity.getIdByItem(m2));
-                                    set.add(menuEntity.getIdByItem(m2) + ";" + guideType);
+                                    set.add(menuEntity.getIdByItem(m2) + ":" + guideType);
                                     System.out.println(menuEntity.getNameByItem(m2) + " 拥有权限：" + guideType);
                                     if(m2.elements().size() == 0){
                                         //set.add(menuEntity.getIdByItem(m2) + ":" + guideType);
@@ -70,14 +73,12 @@ public class MenuEx extends Comm{
                         //得到当前菜单的所有上级菜单
                         List<Element> liMenus = menuEntity.getAncestor(mem.getParent());
                         for(Element m2 : liMenus){
-                            set.add(menuEntity.getIdByItem(m2));
-                            set.add(menuEntity.getIdByItem(m2) + ";" + guideType);
+                            set.add(menuEntity.getIdByItem(m2) + ":" + guideType);
                         }
                         //得到当前菜单的所有下级菜单与自己
                         liMenus = menuEntity.getDescendantAndSelf(mem.getParent(),Menu.MENU_TAG);
                         for(Element m2 : liMenus){
-                            set.add(menuEntity.getIdByItem(m2));
-                            set.add(menuEntity.getIdByItem(m2) + ";" + guideType);
+                            set.add(menuEntity.getIdByItem(m2) + ":" + guideType);
                             System.out.println(menuEntity.getNameByItem(m2) + " 拥有权限：" + guideType);
                             if(m2.elements().size() == 0){
                                 //set.add(menuEntity.getIdByItem(m2) + ":" + guideType);
