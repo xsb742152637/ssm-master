@@ -52,6 +52,7 @@ public class LoginServlet extends HttpServlet {
 
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+        String savePas = request.getParameter("savePas");
         lm.error = true;
         if (StringUtils.isBlank(username) || StringUtils.isBlank(password)) {
             lm.msg = "用户名或密码不能为空.";
@@ -62,9 +63,10 @@ public class LoginServlet extends HttpServlet {
             } else {
                 UsernamePasswordToken token = new UsernamePasswordToken(username, password);
                 try {
-                    token.setRememberMe(true);
                     SecurityUtils.getSubject().login(token);
-                    //SecurityUtils.getSubject().checkPermission("user:add");
+                    if(StringUtils.isNotBlank(savePas) && Boolean.parseBoolean(savePas)){
+                        token.setRememberMe(true);//记住我
+                    }
                     lm.error = false;
                 } catch (AuthenticationException e) {
                     if(e instanceof IncorrectCredentialsException){

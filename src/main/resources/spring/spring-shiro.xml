@@ -124,7 +124,7 @@
     <bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
         <constructor-arg value="rememberMe"/>
         <property name="httpOnly" value="true"/>
-        <property name="maxAge" value="60"/><!-- 单位：秒，-1表示浏览器关闭时失效此Cookie -->
+        <property name="maxAge" value="3600"/><!-- 单位：秒，-1表示浏览器关闭时失效此Cookie -->
     </bean>
 
     <!-- 产生shiro核心控制器的方式，使用cglib生成代理 -->
