@@ -11,8 +11,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%
-    String menuCode = request.getParameter("menuCode");
-    CoreMenuTreeInfoEntity menuTree = Context.getMenuTree(menuCode);
+    CoreMenuTreeInfoEntity menuTree = Context.getMenuTree();
+    String menuCode = Context.getMenuCode();
     String title = menuTree.getTitle();
 %>
 

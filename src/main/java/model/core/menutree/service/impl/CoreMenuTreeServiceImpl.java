@@ -33,7 +33,7 @@ public class CoreMenuTreeServiceImpl extends GenericService<CoreMenuTreeInfoEnti
         Set<String> set = null;
         if(needGuide){
             Map<String,Set<String>> mapAuth = new MenuEx().getGuides();
-            set = mapAuth.get(Context.getCurrent().getMember().getMemberId());
+            set = mapAuth.get(Context.getMember().getMemberId());
         }
 
         //1. 得到全部显示的菜单树的列表

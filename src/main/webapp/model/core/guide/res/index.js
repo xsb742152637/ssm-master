@@ -80,7 +80,7 @@ var menu_init = function(){
     let doc = Menu.transform();
     $("#guide_menu_tree").html(doc);
     $("#guide_menu_tree .layui-tree-other").each(function(i,o){
-        let id = $(this).parent().attr("id");
+        let id = $(this).parent().find('.layui-tree-txt>div').attr("id");
 
         $(this).append('<div class="check-div"><span id="img_'+codeUpdate+'_'+id+'" class="checkImg layui-icon layui-icon-circle" onclick="checkbox_action(this,\''+codeUpdate+'\')" title="'+titleUpdate+'"></span></div>');
         $(this).append('<div class="check-div"><span id="img_'+codeRead+'_'+id+'" class="checkImg layui-icon layui-icon-circle" onclick="checkbox_action(this,\''+codeRead+'\')" title="'+titleRead+'"></span></div>');

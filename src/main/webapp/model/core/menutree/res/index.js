@@ -1,6 +1,19 @@
 layui.use(['tree','layer','form'], function(){
     let tree = layui.tree, form = layui.form,layer = layui.layer;
 
+    //是否有编辑权限
+    $.ajax({
+        url: "/core/guide/canUpdate.do",
+        dataType: 'text',
+        type: "POST",
+        success: function (rs) {
+            console.log(rs);
+        },
+        error: function (jqXHR) {
+            console.log(jqXHR);
+        }
+    });
+
     let selData = null;//菜单树选中的信息
     let treeId = 'myTree';
 

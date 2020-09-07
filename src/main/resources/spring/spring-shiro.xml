@@ -14,6 +14,8 @@
         <property name="realm" ref="authRealm" />
         <!--给shiro添加缓存机制-->
         <property name="cacheManager" ref="shiroCacheManager"></property>
+        <!-- 定义RememberMe的管理器 -->
+        <property name="rememberMeManager" ref="rememberMeManager"/>
     </bean>
 
     <!-- 编写realm类 -->
@@ -107,6 +109,23 @@
         <property name="cacheManager" ref="ehCacheManager"/>
     </bean>
 
+    <!-- rememberMe管理器 -->
+    <bean id="rememberMeManager"
+          class="org.apache.shiro.web.mgt.CookieRememberMeManager">
+        <property name="cipherKey" value="#{T(org.apache.shiro.codec.Base64).decode('4AvVhmFLUs0KTA3Kprsdag==')}"/>
+        <property name="cookie" ref="rememberMeCookie"/>
+    </bean>
+    <!-- 会话Cookie模板 -->
+    <bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+        <constructor-arg value="sid"/>
+        <property name="httpOnly" value="true"/>
+        <property name="maxAge" value="-1"/>
+    </bean>
+    <bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+        <constructor-arg value="rememberMe"/>
+        <property name="httpOnly" value="true"/>
+        <property name="maxAge" value="60"/><!-- 单位：秒，-1表示浏览器关闭时失效此Cookie -->
+    </bean>
 
     <!-- 产生shiro核心控制器的方式，使用cglib生成代理 -->
     <aop:aspectj-autoproxy proxy-target-class="true"/>

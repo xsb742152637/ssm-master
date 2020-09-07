@@ -15,8 +15,8 @@
  Date: 2020/3/27 14:04
 --%>
 <%
-    String menuCode = request.getParameter("menuCode");
-    CoreMenuTreeInfoEntity menuTree = Context.getMenuTree(menuCode);
+    CoreMenuTreeInfoEntity menuTree = Context.getMenuTree();
+    String menuCode = Context.getMenuCode();
     String title = menuTree.getTitle();
 %>
 

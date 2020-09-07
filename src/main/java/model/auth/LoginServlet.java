@@ -62,6 +62,7 @@ public class LoginServlet extends HttpServlet {
             } else {
                 UsernamePasswordToken token = new UsernamePasswordToken(username, password);
                 try {
+                    token.setRememberMe(true);
                     SecurityUtils.getSubject().login(token);
                     //SecurityUtils.getSubject().checkPermission("user:add");
                     lm.error = false;

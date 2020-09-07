@@ -4,21 +4,18 @@ import model.core.menuurl.entity.CoreMenuUrlInfoEntity;
 import model.core.menuurl.service.CoreMenuUrlService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import util.datamanage.GenericController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-@Controller
+@RestController
 @RequestMapping("/core/menuurl")
 public class CoreMenuUrlController extends GenericController{
 
@@ -28,7 +25,6 @@ public class CoreMenuUrlController extends GenericController{
     //注解式：通过在执行的Java方法上放置相应的注解完成：
     //@RequiresRoles("admin")
     @RequestMapping("getMainInfo")
-    @ResponseBody
     public String getMainInfo(HttpServletRequest request, HttpServletResponse response, @RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10") Integer rows)throws Exception{
         String primaryId = request.getParameter("primaryId");
         String searchKey = request.getParameter("searchKey");
@@ -43,7 +39,6 @@ public class CoreMenuUrlController extends GenericController{
     }
 
     @RequestMapping("getMenuUrl")
-    @ResponseBody
     public String getMenuUrl(HttpServletRequest request, HttpServletResponse response)throws Exception{
         try {
             List<CoreMenuUrlInfoEntity> list = mainService.getMainInfo(null,null,1,-1);
@@ -55,7 +50,6 @@ public class CoreMenuUrlController extends GenericController{
     }
 
     @RequestMapping("saveMain")
-    @ResponseBody
     public String saveMain(HttpServletRequest request, HttpServletResponse response)throws Exception{
         String primaryId = request.getParameter("urlId");
         String title = request.getParameter("title");
@@ -88,7 +82,6 @@ public class CoreMenuUrlController extends GenericController{
     }
 
     @RequestMapping("deleteMain")
-    @ResponseBody
     public String deleteMain(HttpServletRequest request, HttpServletResponse response)throws Exception{
         String primaryId = request.getParameter("primaryId");
         try {

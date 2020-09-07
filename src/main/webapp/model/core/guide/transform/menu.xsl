@@ -11,9 +11,6 @@
     <xsl:template match="a">
         <xsl:element name="div">
             <xsl:attribute name="class">layui-tree-entry</xsl:attribute>
-            <xsl:attribute name="id">
-                <xsl:value-of select="@id" />
-            </xsl:attribute>
             <xsl:element name="div">
                 <xsl:attribute name="class">layui-tree-main</xsl:attribute>
                 <xsl:if test="count(a)>0">

@@ -9,7 +9,8 @@ public class MyListener implements ServletContextListener {
         System.out.println("\n\n容器关闭时执行\n\n");
     }
     @Override
-    public void contextInitialized(ServletContextEvent arg0) {
+    public void contextInitialized(ServletContextEvent servletContextEvent) {
+
         System.out.println("\n\n容器启动时执行\n\n");
     }
 }

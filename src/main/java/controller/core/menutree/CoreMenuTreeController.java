@@ -5,9 +5,8 @@ import model.core.menutree.entity.CoreMenuTreeInfoEntity;
 import model.core.menutree.service.CoreMenuTreeService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import util.datamanage.GenericController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-@Controller
+@RestController
 @RequestMapping("/core/menuTree")
 public class CoreMenuTreeController extends GenericController {
     @Autowired
@@ -27,7 +26,6 @@ public class CoreMenuTreeController extends GenericController {
     //注解式：通过在执行的Java方法上放置相应的注解完成：
     //@RequiresRoles("admin")
     @RequestMapping("getMenuTree")
-    @ResponseBody
     public String getMenuTree(HttpServletRequest request, HttpServletResponse response)throws Exception{
         String needGuide = request.getParameter("needGuide");
         String isTop = request.getParameter("isTop");
@@ -49,7 +47,6 @@ public class CoreMenuTreeController extends GenericController {
 
 
     @RequestMapping("moveMain")
-    @ResponseBody
     public String moveTree(HttpServletRequest request) throws Exception {
         String primaryId = request.getParameter("primaryId");
         String type = request.getParameter("type");
@@ -63,7 +60,6 @@ public class CoreMenuTreeController extends GenericController {
     }
 
     @RequestMapping("deleteMain")
-    @ResponseBody
     public String deleteMain(HttpServletRequest request){
         String primaryId = request.getParameter("primaryId");
         try{
@@ -77,7 +73,6 @@ public class CoreMenuTreeController extends GenericController {
     }
 
     @RequestMapping("saveMain")
-    @ResponseBody
     public String saveMain(HttpServletRequest request){
         String parentId = request.getParameter("parentId");
         String primaryId = request.getParameter("menuId");

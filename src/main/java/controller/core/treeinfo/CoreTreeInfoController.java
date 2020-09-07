@@ -1,27 +1,24 @@
 package controller.core.treeinfo;
 
-import model.core.treeinfo.TreeType;
 import model.core.treeinfo.entity.CoreTreeInfoEntity;
 import model.core.treeinfo.service.CoreTreeInfoService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import util.datamanage.GenericController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
-@Controller
+@RestController
 @RequestMapping("/core/treeinfo")
 public class CoreTreeInfoController extends GenericController {
     @Autowired
     private CoreTreeInfoService mainService;
 
     @RequestMapping("getMainInfo")
-    @ResponseBody
     public String getMainInfo(HttpServletRequest request){
         String treeType = request.getParameter("treeType");
         String parentId = request.getParameter("parentId");
@@ -39,7 +36,6 @@ public class CoreTreeInfoController extends GenericController {
     }
 
     @RequestMapping("saveMain")
-    @ResponseBody
     public String saveMainInfo(CoreTreeInfoEntity entity){
         if(StringUtils.isBlank(entity.getTreeName())){
             return returnFaild("没有得到名称");
@@ -58,7 +54,6 @@ public class CoreTreeInfoController extends GenericController {
     }
 
     @RequestMapping("deleteMain")
-    @ResponseBody
     public String deleteMain(HttpServletRequest request){
         String primaryId = request.getParameter("primaryId");
         try {
@@ -71,7 +66,6 @@ public class CoreTreeInfoController extends GenericController {
     }
 
     @RequestMapping("moveMain")
-    @ResponseBody
     public String move(HttpServletRequest request){
         boolean moveOn = Boolean.parseBoolean(request.getParameter("type"));
         String primaryId = request.getParameter("primaryId");

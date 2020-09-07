@@ -1,5 +1,6 @@
 <%@ page import="model.core.menutree.entity.CoreMenuTreeInfoEntity" %>
 <%@ page import="util.context.Context" %>
+<%@ page import="org.apache.shiro.SecurityUtils" %>
 <%@ taglib prefix="master" uri="util.masterpage" %>
 <%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -10,8 +11,8 @@
  Date: 2020/3/27 14:04
 --%>
 <%
-    String menuCode = request.getParameter("menuCode");
-    CoreMenuTreeInfoEntity menuTree = Context.getMenuTree(menuCode);
+    CoreMenuTreeInfoEntity menuTree = Context.getMenuTree();
+    String menuCode = Context.getMenuCode();
     String title = menuTree.getTitle();
 %>
 

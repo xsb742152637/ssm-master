@@ -21,6 +21,7 @@ public class MenuEx extends Comm{
     }
 
     public Map<String,Set<String>> getGuides(){
+        //mapAuth = null;
         if(mapAuth == null){
             mapAuth = new HashMap<>();
             List<CoreGuideFileEntity> guideFileList = fileService.findAll();
@@ -34,7 +35,7 @@ public class MenuEx extends Comm{
                 for(Element mem : listMem){
                     String guideType = mem.getName().toString();
                     String menuId = menuEntity.getIdByItem(mem.getParent());
-                    String memberId = memberEntity.getIdByItem(mem).split(" ")[0];
+                    String memberId = memberEntity.getIdByItem(mem).split(";")[0];
                     if("root".equalsIgnoreCase(menuId)){
                         List<Element> listM = menuEntity.getRoot().elements();
                         Set<String> set = mapAuth.get(memberId);
@@ -47,11 +48,13 @@ public class MenuEx extends Comm{
                                 List<Element> liMenus = menuEntity.getAncestor(menu);
                                 for(Element m2 : liMenus){
                                     set.add(menuEntity.getIdByItem(m2));
+                                    set.add(menuEntity.getIdByItem(m2) + ";" + guideType);
                                 }
                                 //得到当前菜单的所有下级菜单与自己
                                 liMenus = menuEntity.getDescendantAndSelf(menu,Menu.MENU_TAG);
                                 for(Element m2 : liMenus){
                                     set.add(menuEntity.getIdByItem(m2));
+                                    set.add(menuEntity.getIdByItem(m2) + ";" + guideType);
                                     System.out.println(menuEntity.getNameByItem(m2) + " 拥有权限：" + guideType);
                                     if(m2.elements().size() == 0){
                                         //set.add(menuEntity.getIdByItem(m2) + ":" + guideType);
@@ -68,11 +71,13 @@ public class MenuEx extends Comm{
                         List<Element> liMenus = menuEntity.getAncestor(mem.getParent());
                         for(Element m2 : liMenus){
                             set.add(menuEntity.getIdByItem(m2));
+                            set.add(menuEntity.getIdByItem(m2) + ";" + guideType);
                         }
                         //得到当前菜单的所有下级菜单与自己
                         liMenus = menuEntity.getDescendantAndSelf(mem.getParent(),Menu.MENU_TAG);
                         for(Element m2 : liMenus){
                             set.add(menuEntity.getIdByItem(m2));
+                            set.add(menuEntity.getIdByItem(m2) + ";" + guideType);
                             System.out.println(menuEntity.getNameByItem(m2) + " 拥有权限：" + guideType);
                             if(m2.elements().size() == 0){
                                 //set.add(menuEntity.getIdByItem(m2) + ":" + guideType);
@@ -85,6 +90,7 @@ public class MenuEx extends Comm{
 
             for(String memberId : mapAuth.keySet()){
                 Element mem = memberEntity.getMemItem(memberId);
+                //如果下面有成员，说明其本身是岗位，将权限下发到每一个人
                 if(mem.elements().size() > 0){
                     List<Element> liP = memberEntity.getDescendantPerson(mem);
                     for(Element m : liP){

@@ -14,8 +14,8 @@
 <%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 
 <%
-    String menuCode = request.getParameter("menuCode");
-    CoreMenuTreeInfoEntity menuTree = Context.getMenuTree(menuCode);
+    CoreMenuTreeInfoEntity menuTree = Context.getMenuTree();
+    String menuCode = Context.getMenuCode();
     String title = menuTree.getTitle();
     String memberType = MemberType.getNames();
 %>

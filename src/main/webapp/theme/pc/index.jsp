@@ -9,14 +9,14 @@
 <%@ taglib prefix="master" uri="util.masterpage" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    String menuCode = request.getParameter("menuCode");
 //    if(true){
 //        TypeSelectEntity pse = AppTypeDetailService.getInstance().getTypeSelect(menuCode,"");
 //        List<AppTypeDetailEntity> doingList = pse.getDoingList();
 //        request.getRequestDispatcher(doingList.get(0).getDetailValue()).forward(request,response);
 //        return;
 //    }
-    CoreMenuTreeInfoEntity menuTree = Context.getCurrent().getMenuTree(menuCode);
+    CoreMenuTreeInfoEntity menuTree = Context.getMenuTree();
+    String menuCode = Context.getMenuCode();
     String title = menuTree.getTitle();
 %>
 

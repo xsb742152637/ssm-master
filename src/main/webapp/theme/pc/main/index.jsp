@@ -56,7 +56,7 @@
                 <ul class="layui-nav layui-layout-right">
                     <li class="layui-nav-item">
                         <a href="javascript:;">
-                            <img src="/core/memberArchives/getPhoto.do?memberId=<%=Context.getCurrent().getMember().getMemberId()%>" class="layui-nav-img">
+                            <img src="/core/memberArchives/getPhoto.do?memberId=<%=Context.getMember().getMemberId()%>" class="layui-nav-img">
                             <%--<i class="layui-icon layui-icon-username"></i>--%>
                             <shiro:user>
                                 <shiro:principal property="memberName"/>
@@ -99,8 +99,8 @@
     </div>
 
     <script type="text/javascript">
-        var isAdmini = <%=Context.getCurrent().isAdmini()%>;
-        const thisMenuId = "<%=Context.getCurrent().getMenuTree() == null ? "" : Context.getCurrent().getMenuTree().getMenuId()%>";
+        var isAdmini = <%=Context.isAdmini()%>;
+        const thisMenuId = "<%=Context.getMenuTree() == null ? "" : Context.getMenuTree().getMenuId()%>";
     </script>
     <script type="text/javascript" src="/theme/pc/main/res/index.js"></script>
 </body>

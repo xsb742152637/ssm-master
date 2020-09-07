@@ -1,6 +1,7 @@
 package model.core.memberinfo.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -13,7 +14,8 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "core_member_info")
-public class CoreMemberInfoEntity {
+public class CoreMemberInfoEntity  implements Serializable {
+    private static final long serialVersionUID = 1L;
     private String memberId;
     private String memberName;
     private int memberType;

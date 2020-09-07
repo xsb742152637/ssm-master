@@ -9,8 +9,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="maste" uri="util.masterpage"%>
 <%
-    String menuCode = request.getParameter("menuCode");
-    CoreMenuTreeInfoEntity menuTree = Context.getMenuTree(menuCode);
+    CoreMenuTreeInfoEntity menuTree = Context.getMenuTree();
+    String menuCode = Context.getMenuCode();
     String title = menuTree.getTitle();
 %>
 
