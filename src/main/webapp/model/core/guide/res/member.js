@@ -2,6 +2,8 @@
  * Created by xc on 2018/2/7.
  */
 let Mem = (function(){
+    let dataUrl = "/core/guide/getXmlTree.do";
+
     let context;//xml对象
     let ParentsExpression;
     let ParentsAndSelfExpression;
@@ -18,16 +20,42 @@ let Mem = (function(){
     let cache_mem_children = new Map();
     let cache_mem_childrenAndSelf = new Map();
 
+    //如果菜单上的成员发生改变，相应的要改变缓存中的值
+    function removeCache(){
+        cache_root = null;
+        cache_mem_item = new Map();
+        cache_mem_parents = new Map();
+        cache_mem_parentsAndSelf = new Map();
+        cache_mem_singleLevelChildren = new Map();
+        cache_mem_children = new Map();
+        cache_mem_childrenAndSelf = new Map();
+
+        // console.log("-------------清空缓存-----------------");
+    }
+
     //得到成员xml并转换成xsl
-    function transform(){
-        return Comm.getXsltProcessor(Config.getMemTransformPath()).transformToFragment(getContext(), document);
+    function transform(url,param){
+        if(!String.isNullOrWhiteSpace(url)){
+            dataUrl = url
+        }
+        context = null;
+        ParentsExpression = undefined;
+        ParentsAndSelfExpression = undefined;
+        SingleLevelChildrenExpression = undefined;
+        ChildrenExpression = undefined;
+        ChildrenAndSelfExpression = undefined;
+        removeCache();
+        return Comm.getXsltProcessor(Config.getMemTransformPath()).transformToFragment(getContext(param), document);
     }
 
     //得到成员xml
-    function getContext() {
-        if(context === undefined) {
-            let dataUrl = "/core/guide/getXmlTree.do";
-            context = Comm.load(dataUrl,{xmlType:"memberTree",projectId:"memberTree",random:Math.random()});
+    function getContext(param) {
+        if(context === undefined || context == null) {
+            let p = {xmlType:"memberTree",projectId:"memberTree"};
+            if(param){
+                p = $.extend({}, p, param);
+            }
+            context = Comm.load(dataUrl, p);
         }
         return context;
     }
@@ -148,6 +176,7 @@ let Mem = (function(){
     }
 
     return {
+        removeCache : removeCache,
         transform : transform,
         getContext : getContext,
         getRoot : getRoot,

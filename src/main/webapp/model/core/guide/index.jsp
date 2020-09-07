@@ -48,7 +48,7 @@
                     </div>
                     <div class="layui-card-body guide-tree">
                         <div class="layui-row layui-col-space10">
-                            <div id="guide_menu_tree" class="layui-col-xs12 layui-col-sm7 layui-col-md7"></div>
+                            <div id="guide_menu_tree" class="layui-col-xs12 layui-col-sm12 layui-col-md12"></div>
                             <div id="menuDebugTree" class="layui-col-xs12 layui-col-sm5 layui-col-md5" style="display: none;"></div>
                         </div>
                     </div>

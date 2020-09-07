@@ -88,9 +88,9 @@ var menu_init = function(){
     });
 
     let str = '<div style="width: 100%" class="tree-table"><div class="three-th">菜单名称</div>';
-    str += '<div class="two-th">'+titleUpdate+'</div>'
-    str += '<div class="first-th">'+titleRead+'</div>';
-    str += '<div class="first-th">'+titleReadSelf+'</div>';
+    str += '<div class="two-th" style="color: #eea236">'+titleUpdate+'</div>'
+    str += '<div class="first-th" style="color: blue">'+titleRead+'</div>';
+    str += '<div class="first-th" style="color: #7676f9">'+titleReadSelf+'</div>';
     str += '</div>';
     $("#guide_menu_tree").prepend(str);
     $('#guide_menu_tree .layui-tree-iconClick>i').off('click').on('click',function(){
@@ -106,7 +106,34 @@ var menu_init = function(){
         }
 
     });
+
+    setMenuTitle();
+
     $('#guide_menu_tree .layui-tree-iconClick:first-child>i').trigger('click');
+};
+
+var setMenuTitle = function(ids){
+    $("#guide_menu_tree .menu_mems").each(function(i,o){
+        var menuId = $(o).prev().attr('id');
+        if(ids == null || ids.length == 0 || ids.contains(menuId)){
+            var c = $(o).find('.menu_mems_s>span').length + $(o).find('.menu_mems_r>span').length + $(o).find('.menu_mems_u>span').length;
+
+            if(c > 0){
+                var str = '';
+                str += titleReadSelf + '：' + getText($(o).find('.menu_mems_s').text()) + '\n';
+                str += titleRead + '：' + getText($(o).find('.menu_mems_r').text()) + '\n';
+                str += titleUpdate + '：' + getText($(o).find('.menu_mems_u').text()) + '\n';
+                $(o).attr('title', str);
+                $(o).next().html('等共'+ c +'项')
+            }else{
+                $(o).attr('title', '');
+                $(o).next().html('')
+            }
+        }
+    });
+};
+var getText = function(t){
+    return t.replaceAll('\n','').replaceAll(' ','');
 };
 
 var member_init = function(){

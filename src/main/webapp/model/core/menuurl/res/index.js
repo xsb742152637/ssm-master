@@ -10,8 +10,8 @@ layui.use(['table','layer','form'], function(){
             {field: 'code', title: '应用编码', width: '20%',cellMinWidth: 100, sort: true},
             {field: 'title', title: '应用名称', width: '20%',cellMinWidth: 100},
             {field: 'url', title: '应用路径',cellMinWidth: 200},
-            {field: 'parameter', title: '参数', width: '15%',cellMinWidth: 100},
-            {field: 'sysTime', title: '编制时间', width: '10%',cellMinWidth: 100, sort: true,templet: function(d){
+            {field: 'parameter', title: '参数', width: '10%',cellMinWidth: 100},
+            {field: 'sysTime', title: '编制时间', width: '15%',cellMinWidth: 100, sort: true,templet: function(d){
                 return d.sysTime == null ? '' : Date.parseObj(d.sysTime).format('yyyy-MM-dd HH:mm');
             }}
         ]]

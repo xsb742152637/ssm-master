@@ -43,7 +43,39 @@
                 </xsl:element>
                 <xsl:element name="span">
                     <xsl:attribute name="class">layui-tree-txt layui-tree-color2</xsl:attribute>
-                    <xsl:value-of select="@n"/>
+                    <xsl:element name="div">
+                        <xsl:attribute name="id"><xsl:value-of select="@id" /></xsl:attribute>
+                        <xsl:value-of select="@n"/>
+                    </xsl:element>
+                    <xsl:element name="div">
+                        <xsl:attribute name="class">menu_mems</xsl:attribute>
+
+                        <xsl:element name="span">
+                            <xsl:attribute name="class">menu_mems_s</xsl:attribute>
+                            <xsl:attribute name="style">color: #7676f9</xsl:attribute>
+                            <xsl:for-each select="s">
+                                <xsl:element name="span"><xsl:attribute name="data-id"><xsl:value-of select="@id" /></xsl:attribute><xsl:value-of select="@n"/>,</xsl:element>
+                            </xsl:for-each>
+                        </xsl:element>
+                        <xsl:element name="span">
+                            <xsl:attribute name="class">menu_mems_r</xsl:attribute>
+                            <xsl:attribute name="style">color: blue</xsl:attribute>
+                            <xsl:for-each select="r">
+                                <xsl:element name="span"><xsl:attribute name="data-id"><xsl:value-of select="@id" /></xsl:attribute><xsl:value-of select="@n"/>,</xsl:element>
+                            </xsl:for-each>
+                        </xsl:element>
+                        <xsl:element name="span">
+                            <xsl:attribute name="class">menu_mems_u</xsl:attribute>
+                            <xsl:attribute name="style">color: #eea236</xsl:attribute>
+                            <xsl:for-each select="u">
+                                <xsl:element name="span"><xsl:attribute name="data-id"><xsl:value-of select="@id" /></xsl:attribute><xsl:value-of select="@n"/>,</xsl:element>
+                            </xsl:for-each>
+                        </xsl:element>
+                    </xsl:element>
+                    <xsl:element name="div">
+                        <xsl:attribute name="class">menu_mems_count</xsl:attribute>
+                        <xsl:attribute name="style">color:gray</xsl:attribute>
+                    </xsl:element>
                 </xsl:element>
             </xsl:element>
             <xsl:element name="div">

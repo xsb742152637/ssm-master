@@ -2,6 +2,7 @@
  * Created by xc on 2018/2/7.
  */
 let Menu = (function(){
+    let dataUrl = "/core/guide/getXmlTree.do";
 
     let context;//菜单xml对象
     let ParentsExpression;
@@ -55,7 +56,10 @@ let Menu = (function(){
     }
 
     //根据xml文件路径得到文件内容并转换成xsl文件格式
-    function transform() {
+    function transform(url,param){
+        if(!String.isNullOrWhiteSpace(url)){
+            dataUrl = url
+        }
         context = null;//每次切换项目时，需要重新请求，所有将此对象设置为空
         ParentsExpression = undefined;
         ParentsAndSelfExpression = undefined;
@@ -67,16 +71,18 @@ let Menu = (function(){
         AllMemsExpression_r = undefined;
         AllMemsExpression_u = undefined;
         AllMemsExpression_s = undefined;
-        return Comm.getXsltProcessor(Config.getMenuTransformPath()).transformToFragment(getContext(), document);
+        removeCache();
+        return Comm.getXsltProcessor(Config.getMenuTransformPath()).transformToFragment(getContext(param), document);
     }
 
-
     //根据xml文件路径得到文件内容
-    function getContext() {
+    function getContext(param) {
         if(context === undefined || context == null) {
-            let dataUrl = "/core/guide/getXmlTree.do";
-            let projectId = $("#projectId").val();
-            context = Comm.load(dataUrl,{xmlType:"caiDanTree",projectId: projectId,random:Math.random()});
+            let p = {xmlType:"caiDanTree",projectId:$("#projectId").val()};
+            if(param){
+                p = $.extend({}, p, param);
+            }
+            context = Comm.load(dataUrl, p);
         }
         return context;
     }
@@ -291,9 +297,16 @@ let Menu = (function(){
     function addMem(menu, mem,type) {
         removeMemChildren(menu, mem,type);
         let newMem = getContext().createElement(type);
-        newMem.setAttribute("id", mem.attributes.getNamedItem("id").nodeValue);
-        newMem.setAttribute("n", mem.attributes.getNamedItem("n").nodeValue);
+        newMem.setAttribute("id", Comm.getIdByItem(mem));
+        newMem.setAttribute("n", Comm.getNameByItem(mem));
         menu.appendChild(newMem);
+
+        try{
+            $('#'+ Comm.getIdByItem(menu)).parent().find('.menu_mems_'+ type).append('<span data-id="'+ Comm.getIdByItem(mem) +'">'+ Comm.getNameByItem(mem) +',</span>');
+            setMenuTitle([Comm.getIdByItem(menu)]);
+        }catch (e){
+            console.log(e);
+        }
         removeCache();
     }
 
@@ -311,14 +324,31 @@ let Menu = (function(){
         let memItem = findMem(menu, mem,type);
         if (memItem != null) {
             menu.removeChild(memItem);
+
+            try{
+
+                $('#'+ Comm.getIdByItem(menu)).parent().find('.menu_mems_'+ type).find('span[data-id="'+ Comm.getIdByItem(mem) +'"]').remove();
+                setMenuTitle([Comm.getIdByItem(menu)]);
+            }catch (e){
+                console.log(e);
+            }
         }
         removeCache();
     }
     //将一个mem节点从menu节点中移除
     function removeAllMem(menu, mems) {
         if (mems != null) {
+            let ids = [];
             for(let i = 0;i < mems.length;i++){
                 menu.removeChild(mems[i]);
+
+                $('#'+ Comm.getIdByItem(menu)).parent().find('.menu_mems_'+ type).find('span[data-id="'+ Comm.getIdByItem(mems[i]) +'"]').remove();
+                ids.push(Comm.getIdByItem(menu));
+            }
+            try{
+                setMenuTitle([Comm.getIdByItem(menu)]);
+            }catch (e){
+                console.log(e);
             }
         }
         removeCache();

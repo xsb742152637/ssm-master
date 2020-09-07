@@ -18,7 +18,7 @@
                 <prop key="fileStorage">fileStorage</prop>
 
                 <!--按钮大小：大型(bs-btn-lg) / 默认() / 小型(bs-btn-sm) / 迷你(bs-btn-xs) -->
-                <prop key="butSize"></prop>
+                <prop key="butSize">bs-btn-sm</prop>
 
                 <!-- 各模块主页面按钮颜色：原始(bs-btn-primary) / 默认() / 百搭(bs-btn-normal) / 暖色(bs-btn-warm) / 警告(bs-btn-danger) / 禁用(bs-btn-disabled) -->
                 <prop key="butColor">bs-btn-norma</prop>

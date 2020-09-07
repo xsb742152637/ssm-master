@@ -7,6 +7,9 @@
 #menu_tree{
     margin-top: 5px;
 }
+.layui-tree-txt{
+    display: inline-flex;
+}
 .tree-table{
     color: black;
     font-weight: bold;
@@ -26,4 +29,14 @@
 
 #menuDebugTree .layui-tree-pack{
     display: block !important;
+}
+
+.menu_mems{
+    max-width: 180px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-left: 10px;
+    font-size: 12px;
+    cursor: default;
 }
