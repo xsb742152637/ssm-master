@@ -1,5 +1,21 @@
 layui.use(['element','upload','layer','form'], function(){
     let element = layui.element, upload = layui.upload, form = layui.form, layer = layui.layer;
+
+    let canUpdate = true;
+    //是否有编辑权限
+    $.ajax({
+        url: "/core/guide/canUpdate.do",
+        dataType: 'text',
+        type: "POST",
+        async: false,
+        success: function (rs) {
+            if(!Boolean.parse(rs)){
+                canUpdate = false;
+                $('button,.update-photo').remove();
+            }
+        }
+    });
+
     //执行实例
     var uploadInst = upload.render({
         elem: '#test1' //绑定元素

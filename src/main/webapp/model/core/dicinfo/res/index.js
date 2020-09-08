@@ -1,10 +1,24 @@
 layui.use(['table','layer','form','element'],function () {
     let table = layui.table, form = layui.form,layer = layui.layer,element = layui.element;
 
+    let canUpdate = true;
+    //是否有编辑权限
+    $.ajax({
+        url: "/core/guide/canUpdate.do",
+        dataType: 'text',
+        type: "POST",
+        async: false,
+        success: function (rs) {
+            if(!Boolean.parse(rs)){
+                canUpdate = false;
+            }
+        }
+    });
+
     let mainTable = table.render({
         id: "mainTable"
         ,url:"/core/dicinfo/getMainInfo.do"
-        ,defaultToolbarLeft: ['add', 'update','delete']
+        ,defaultToolbarLeft: canUpdate ? ['add', 'update','delete'] : ''
         ,defaultToolbarRight:''//不要右边的按钮
         ,cols:[[
             {field: 'dicCode', title: '字典编码', sort: true}
@@ -20,13 +34,14 @@ layui.use(['table','layer','form','element'],function () {
         id:"detailTable"
         ,url:"/core/dicdetail/getDetailInfo.do"
         ,where:{"dicId":'-1'}
+        ,defaultToolbarLeft: canUpdate ? ['reset','search', 'add', 'update','delete'] : ['reset','search']
         ,defaultToolbarRight:''
         ,cols:[[
-            {field: 'detailCode', title: '编码',width:'20%',sort: true}
+            {field: 'detailCode', title: '编码',width:'15%',sort: true}
             ,{field: 'detailName', title: '标题', width:'20%',sort: true}
-            ,{field: 'detailValue', title: '值',width:'20%',sort: true}
-            ,{field: 'detailLevel', title: '顺序', width:'10%',sort: true}
-            ,{field: 'isValid', title: '状态',width:'10%',sort: true,templet: function(d){
+            ,{field: 'detailValue', title: '值',width:'15%',sort: true}
+            ,{field: 'detailLevel', title: '顺序', width:'15%',sort: true}
+            ,{field: 'isValid', title: '状态',width:'15%',sort: true,templet: function(d){
                     return Boolean.parse(d.isValid) ? '启用' : '停用';
                 }}
             ,{field: 'comment', title: '备注',width:'20%'}

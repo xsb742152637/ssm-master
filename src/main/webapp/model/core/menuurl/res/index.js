@@ -2,9 +2,24 @@
 layui.use(['table','layer','form'], function(){
     let table = layui.table, form = layui.form,layer = layui.layer;
 
+    let canUpdate = true;
+    //是否有编辑权限
+    $.ajax({
+        url: "/core/guide/canUpdate.do",
+        dataType: 'text',
+        type: "POST",
+        async: false,
+        success: function (rs) {
+            if(!Boolean.parse(rs)){
+                canUpdate = false;
+            }
+        }
+    });
+
     let mainTable = table.render({
         id: 'mainTable'
         ,url: '/core/menuurl/getMainInfo.do' //数据接口
+        ,defaultToolbarLeft: canUpdate ? ['reset','search', 'add', 'update','delete'] : ['reset','search']
         ,cols: [[ //表头
             {field: 'order', title: '序号',type: 'numbers', width:80},
             {field: 'code', title: '应用编码', width: '20%',cellMinWidth: 100, sort: true},

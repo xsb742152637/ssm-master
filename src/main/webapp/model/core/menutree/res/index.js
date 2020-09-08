@@ -1,16 +1,18 @@
 layui.use(['tree','layer','form'], function(){
     let tree = layui.tree, form = layui.form,layer = layui.layer;
 
+    let canUpdate = true;
     //是否有编辑权限
     $.ajax({
         url: "/core/guide/canUpdate.do",
         dataType: 'text',
         type: "POST",
+        async: false,
         success: function (rs) {
-            console.log(rs);
-        },
-        error: function (jqXHR) {
-            console.log(jqXHR);
+            if(!Boolean.parse(rs)){
+                canUpdate = false;
+                $('button').remove();
+            }
         }
     });
 

@@ -5,6 +5,21 @@ layui.use(['tree','layer','form'], function(){
     let tree = layui.tree, form = layui.form,layer = layui.layer;
     let treeId = 'myTree';
 
+    let canUpdate = true;
+    //是否有编辑权限
+    $.ajax({
+        url: "/core/guide/canUpdate.do",
+        dataType: 'text',
+        type: "POST",
+        async: false,
+        success: function (rs) {
+            if(!Boolean.parse(rs)){
+                canUpdate = false;
+                $('button').remove();
+            }
+        }
+    });
+
     tree.render({
         id: treeId,
         elem: '#my-tree',  //绑定元素
