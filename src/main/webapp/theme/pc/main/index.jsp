@@ -38,8 +38,8 @@
 </head>
 <body class="layui-layout-body <%=CoreBaseSetting.getBaseSetting()%>">
     <!-- 让IE8/9支持媒体查询，从而兼容栅格。需要放在body标签内 -->
-    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
-    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <%--<script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>--%>
+    <%--<script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>--%>
 
     <div class="layadmin-tabspage-none">
         <div class="layui-layout layui-layout-admin">
@@ -50,7 +50,7 @@
                     <div class="LAY_app_flexible" layadmin-event="flexible" title="侧边伸缩">
                         <i class="layui-icon layui-icon-shrink-right"></i>
                     </div>
-                    <div class="layui-breadcrumb"><a>首页</a><a>国际新闻</a></div>
+                    <div class="layui-breadcrumb"></div>
                 </div>
 
                 <ul class="layui-nav layui-layout-right">
@@ -64,7 +64,7 @@
                         </a>
                         <dl class="layui-nav-child">
                             <dd><a href="<%=memberarchives_url%>">基本资料</a></dd>
-                            <dd><a href="">安全设置</a></dd>
+                            <%--<dd><a href="">安全设置</a></dd>--%>
                         </dl>
                     </li>
                     <li class="layui-nav-item">

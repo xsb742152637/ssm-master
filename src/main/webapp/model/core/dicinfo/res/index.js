@@ -155,7 +155,7 @@ layui.use(['table','layer','form','element'],function () {
         layer.open({
             title: title,
             type: 1,
-            area: '35%',
+            area: '45%',
             content: $('.' + ele)
         });
     };

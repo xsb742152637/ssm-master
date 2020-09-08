@@ -23,8 +23,6 @@ layui.use(['element','upload','layer','form'], function(){
         ,exts: "jpg|jpeg|bmp"
         ,done: function(res){
             //上传完毕回调
-            console.log("执行上传请求后的回调");
-            console.log(res);
             layer.load("正在更新……");
             $.ajax({
                 url: "/core/memberArchives/saveMain.do",
@@ -33,7 +31,6 @@ layui.use(['element','upload','layer','form'], function(){
                 data: {memberId: memberId,photoUrl: res[0].relativePath},
                 success: function (rs) {
                     layer.close();
-
                     $('.member-photo').empty().append('<img src="/core/memberArchives/getPhoto.do?memberId='+ memberId +'">');
                 },
                 error: function (jqXHR) {

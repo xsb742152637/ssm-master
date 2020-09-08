@@ -31,32 +31,32 @@
                         </div>
                     </div>
                     <div class="layui-col-xs12 layui-col-sm12 layui-col-md4">
-                        <from class="layui-form">
-                            <input type="hidden" name="memberId"/>
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">名称：</label>
-                                <div class="layui-input-block">
-                                    <input type="text" name="memberName" required  lay-verify="required" placeholder="请输入名称" class="layui-input">
-                                </div>
-                            </div>
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">电话：</label>
-                                <div class="layui-input-block">
-                                    <input type="text" name="memberName" required  lay-verify="required" placeholder="请输入电话" class="layui-input">
-                                </div>
-                            </div>
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">性别：</label>
-                                <div class="layui-input-block">
-                                    <input type="checkbox" name="isShow" value="true" lay-skin="switch" lay-text="男|女">
-                                </div>
-                            </div>
-                            <div class="layui-form-item save-div">
-                                <div class="layui-input-block">
-                                    <button class="layui-btn" lay-submit lay-filter="formDemo"><i class="layui-icon layui-icon-ok"></i>保存</button>
-                                </div>
-                            </div>
-                        </from>
+                        <%--<from class="layui-form">--%>
+                            <%--<input type="hidden" name="memberId"/>--%>
+                            <%--<div class="layui-form-item">--%>
+                                <%--<label class="layui-form-label">名称：</label>--%>
+                                <%--<div class="layui-input-block">--%>
+                                    <%--<input type="text" name="memberName" required  lay-verify="required" placeholder="请输入名称" class="layui-input">--%>
+                                <%--</div>--%>
+                            <%--</div>--%>
+                            <%--<div class="layui-form-item">--%>
+                                <%--<label class="layui-form-label">电话：</label>--%>
+                                <%--<div class="layui-input-block">--%>
+                                    <%--<input type="text" name="memberName" required  lay-verify="required" placeholder="请输入电话" class="layui-input">--%>
+                                <%--</div>--%>
+                            <%--</div>--%>
+                            <%--<div class="layui-form-item">--%>
+                                <%--<label class="layui-form-label">性别：</label>--%>
+                                <%--<div class="layui-input-block">--%>
+                                    <%--<input type="checkbox" name="isShow" value="true" lay-skin="switch" lay-text="男|女">--%>
+                                <%--</div>--%>
+                            <%--</div>--%>
+                            <%--<div class="layui-form-item save-div">--%>
+                                <%--<div class="layui-input-block">--%>
+                                    <%--<button class="layui-btn" lay-submit lay-filter="formDemo"><i class="layui-icon layui-icon-ok"></i>保存</button>--%>
+                                <%--</div>--%>
+                            <%--</div>--%>
+                        <%--</from>--%>
                     </div>
                 </div>
             </div>

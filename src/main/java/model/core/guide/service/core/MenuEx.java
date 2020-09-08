@@ -20,15 +20,10 @@ public class MenuEx extends Comm{
         mapAuth = null;
     }
 
-    /**
-     *
-     * @param guide 查询出来的菜单是否带上权限类型
-     * @return
-     */
     public Map<String,Set<String>> getGuides(){
-        //mapAuth = null;
+        mapAuth = null;
         if(mapAuth == null){
-            mapAuth = new HashMap<>();
+            Map<String,Set<String>> mapAuth1 = new HashMap<>();
             List<CoreGuideFileEntity> guideFileList = fileService.findAll();
             //得到所有项目的权限
             for(CoreGuideFileEntity entity : guideFileList){
@@ -43,7 +38,7 @@ public class MenuEx extends Comm{
                     String memberId = memberEntity.getIdByItem(mem).split(";")[0];
                     if("root".equalsIgnoreCase(menuId)){
                         List<Element> listM = menuEntity.getRoot().elements();
-                        Set<String> set = mapAuth.get(memberId);
+                        Set<String> set = mapAuth1.get(memberId);
                         if(set == null)
                             set = new HashSet<>();
                         for(Element menu : listM){
@@ -65,9 +60,9 @@ public class MenuEx extends Comm{
                                 }
                             }
                         }
-                        mapAuth.put(memberId,set);
+                        mapAuth1.put(memberId,set);
                     }else{
-                        Set<String> set = mapAuth.get(memberId);
+                        Set<String> set = mapAuth1.get(memberId);
                         if(set == null)
                             set = new HashSet<>();
                         //得到当前菜单的所有上级菜单
@@ -84,23 +79,25 @@ public class MenuEx extends Comm{
                                 //set.add(menuEntity.getIdByItem(m2) + ":" + guideType);
                             }
                         }
-                        mapAuth.put(memberId,set);
+                        mapAuth1.put(memberId,set);
                     }
                 }
             }
 
-            for(String memberId : mapAuth.keySet()){
+            mapAuth = new HashMap<>();
+            for(String memberId : mapAuth1.keySet()){
                 Element mem = memberEntity.getMemItem(memberId);
                 //如果下面有成员，说明其本身是岗位，将权限下发到每一个人
                 if(mem.elements().size() > 0){
                     List<Element> liP = memberEntity.getDescendantPerson(mem);
                     for(Element m : liP){
                         Set<String> set = new HashSet<>();
-                        set.addAll(mapAuth.get(memberId));
+                        set.addAll(mapAuth1.get(memberId));
                         mapAuth.put(memberEntity.getIdByItem(m).split(";")[0], set);
                         System.out.println(memberEntity.getNameByItem(m) +  " 继承到权限");
                     }
-                    mapAuth.remove(memberId);
+                }else{
+                    mapAuth.put(memberId, mapAuth1.get(memberId));
                 }
             }
         }
