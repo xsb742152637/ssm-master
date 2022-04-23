@@ -17,7 +17,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
-    <springframework.version>5.2.4.RELEASE</springframework.version>
+    <springframework.version>5.3.19</springframework.version>
     <shiro.version>1.5.0</shiro.version>
     <commons-lang3.version>3.4</commons-lang3.version>
   </properties>
